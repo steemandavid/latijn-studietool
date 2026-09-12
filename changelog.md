@@ -1,5 +1,44 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-12 (f) — Romeins panorama als paginabrede achtergrond (AI-gegenereerd, ligne claire)
+
+### Doel
+De wens uit entry (e) — een gedempte Romeinse stadsscène in Tintin-stijl (ligne
+claire) — opnieuw uitgevoerd, nu met een AI-gegenereerde afbeelding in plaats van
+een handgetekende SVG, en als achtergrond *achter* de hele pagina in plaats van
+een band bovenaan die de inhoud wegduwt.
+
+### Aanpak
+- **Afbeelding:** gratis generatie via Neural.love (ligne claire-model): Romeins
+  stadspanorama bij dag, Colosseum rechts, tempels/aquaduct/terracotta daken en
+  cipressen links, rustige lucht bovenin. Watermark (linksonder) eruit gesneden
+  (onderste 104 px), 2× ge-upscaled naar 2048 px, JPEG q80 — 370 kB, base64
+  ingebed zodat de single-file/offline-eis voor USB intact blijft.
+  `index.html` groeit daardoor van ±420 naar 897 kB.
+- **Plaatsing:** `.rome` zit direct onder `<body>` (niet meer in `#scr-home`),
+  `position:fixed;inset:0;z-index:-1` — een echte achtergrond achter *alle*
+  schermen, ook tijdens vragen en op de statspagina. Geen `padding-top` meer:
+  titel en inhoud beginnen gewoon bovenaan.
+- **Leesbaarheid:** dekking 38 % (mobiel 34 %) plus een donkere scrim van boven
+  naar beneden (`rgba(14,13,20,.42)→.78`) die de tekening zacht in het donkere
+  thema laat oplossen. `filter:saturate(.85) brightness(.9)` dempt de kleuren
+  verder; de terracotta/okertinten sluiten aan bij het goud/oranje van de app.
+- **Mobiel (<720px):** `background-position:72% 70%` zoomt in op het Colosseum,
+  zodat het sterkste element overblijft waar de linkerhelft op 390 px tot
+  dakenpakken verdampt.
+
+### Verificatie
+Beeldanalyse van Playwright-screenshots (1440×900 en 390×844): titel en tekst
+overal leesbaar, geen watermark zichtbaar, Colosseum herkenbaar op beide
+formaaten. Alle zeven smoketests groen (89/89 checks), waaronder de
+nul-netwerkrequests-check (de afbeelding is ingebed, geen extern bestand).
+`test/shots/*` vernieuwd door smoke-3.
+
+### Favicon (openstaand verzoek uit entry (e))
+Uitgevoerd in dezelfde release: een inline SVG-data-URI (1 kB, geen bestand,
+geen netwerkrequest) van een Romeinse tempelgevel — gulden fronton en basement,
+vier crèmekleurige kolommen, afgeronde tegel in de donkere paginakleur.
+
 ## 2026-09-12 (e) — Romeins panorama op het beginscherm (ligne claire)
 
 > **Teruggedraaid (zelfde dag):** het panorama is na twee herzieningen (vol panorama →
