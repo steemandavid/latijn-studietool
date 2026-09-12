@@ -108,7 +108,8 @@ h2::before{content:"";width:7px;height:7px;border-radius:2px;flex:none;transform
 .terug:hover{color:var(--goud);transform:translateX(-3px)}
 
 /* ---------------- knoppen ---------------- */
-.knop{background:linear-gradient(180deg,var(--bg3),var(--bg2));
+.knop{display:inline-block;text-align:center;text-decoration:none;color:inherit;
+  background:linear-gradient(180deg,var(--bg3),var(--bg2));
   border:1px solid var(--lijn);border-radius:12px;padding:12px 18px;
   box-shadow:var(--rand);
   transition:border-color var(--dur),transform var(--dur),box-shadow var(--dur)}
@@ -716,6 +717,13 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
       <span>Hoeveel zelf typen
         <span class="sub" style="display:block;margin:0">Ondergrens voor het aandeel typvragen; de rest is meerkeuze</span></span>
       <select id="inTyp"><option value="weinig">Weinig</option><option value="gemiddeld">Gemiddeld</option><option value="veel">Veel</option></select></label>
+    <div id="dlBlok" hidden>
+      <hr style="border:0;border-top:1px solid var(--lijn);margin:0 0 16px">
+      <p class="sub" style="margin:0 0 12px">Deze app is één enkel bestand. Bewaar het op je computer
+        of op een USB-stick: dubbelklikken volstaat, ook zonder internet.</p>
+      <a class="knop" id="btnDownload" href="index.html" download="verba.html"
+         style="align-self:flex-start">App downloaden</a>
+    </div>
     <hr style="border:0;border-top:1px solid var(--lijn);margin:0">
     <p class="sub" style="margin:0">Je voortgang zit in deze browser op deze pc. Werk je op een andere
       computer? Sla dan eerst een backup op en zet die daar terug.</p>
@@ -2738,6 +2746,12 @@ function renderStats(){
 }
 
 /* ======================= INSTELLINGEN ======================= */
+/* De downloadknop hoort alleen bij de webversie: draait de app al vanaf schijf of USB
+   (file://), dan is er niets te downloaden en zou de knop enkel verwarren. */
+function toonDownload(){
+  const blok = $("#dlBlok");
+  if(blok) blok.hidden = location.protocol === "file:";
+}
 function vulInstellingen(){
   $("#inToets").value  = S.settings.toetsdatum || "";
   $("#inGeluid").checked = S.settings.geluid;
@@ -2745,6 +2759,7 @@ function vulInstellingen(){
   $("#inRonde").value    = String(S.settings.rondelengte);
   $("#inStreng").value   = S.settings.strengheid;
   $("#inTyp").value      = S.settings.typAandeel;
+  toonDownload();
 }
 function pasAnimToe(){ document.documentElement.classList.toggle("geenanim", !S.settings.animaties); }
 function exporteer(){

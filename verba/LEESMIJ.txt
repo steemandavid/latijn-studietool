@@ -1,6 +1,9 @@
 VERBA — Latijnse woordenschat
 =============================
 
+0. Gebruik je de webversie (www.steeman.be/verba)? Ga dan naar
+   Instellingen (⚙) > "App downloaden" om dit bestand te bewaren.
+
 1. Kopieer deze volledige map naar je USB-stick.
 2. Dubbelklik op  index.html
 3. Klaar. Geen installatie, geen internet nodig.

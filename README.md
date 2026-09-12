@@ -4,6 +4,10 @@ Een offline studietool voor de Latijnse woordenlijst van Caput 1 t/m 7 (1051 woo
 Eén enkel HTML-bestand, `verba/index.html`: kopieer het naar een USB-stick, dubbelklik,
 klaar. Geen installatie, geen server, geen internet — en nul netwerkrequests.
 
+**Draait online op <https://www.steeman.be/verba/>** — met een knop in Instellingen ⚙ om
+het bestand zelf te downloaden. Achtergrond en ontwerpkeuzes staan in
+[deze blogpost](https://www.steeman.be/posts/verba-an-offline-latin-vocabulary-trainer/).
+
 ## Wat het doet
 
 - **Verder leren** — rondes van 10/15/20 vragen uit een Leitner-motor met zes boxen,

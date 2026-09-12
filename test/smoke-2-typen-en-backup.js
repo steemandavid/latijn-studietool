@@ -90,6 +90,17 @@ const check = (naam, ok, detail) => {
     check('streng: geen bijna, geen optioneel lidwoord',
           bijna.streng==='fout' && bijna.strengZonderLidwoord==='fout' && bijna.strengVolledig==='juist', bijna);
 
+    // downloadknop: alleen voor de webversie, nooit over file://
+    const dl = await p.evaluate(() => {
+      vulInstellingen();
+      const blok = document.querySelector('#dlBlok'), knop = document.querySelector('#btnDownload');
+      return {protocol:location.protocol, verborgen:blok.hidden,
+              href:knop.getAttribute('href'), naam:knop.getAttribute('download')};
+    });
+    console.log('DOWNLOAD', JSON.stringify(dl));
+    check('downloadblok is verborgen over file://', dl.protocol === 'file:' && dl.verborgen === true, dl);
+    check('downloadknop wijst naar het bestand zelf', dl.href === 'index.html' && dl.naam === 'verba.html', dl);
+
     // backup roundtrip
     const backup = await p.evaluate(() => {
       S.profiel.xp = 12345; S.badges["centum"] = "x"; bewaar();

@@ -496,6 +496,7 @@ Het overzichtsscherm toont de 7 caputs, elk uitklapbaar naar hun secties, met pe
 - Rondelengte: 10 / 15 / 20 (standaard 15).
 - Strengheid bij typen: "soepel" (standaard) of "streng" (§7.4).
 - Hoeveel zelf typen: "weinig" / "gemiddeld" (standaard) / "veel" (§4.6).
+- **App downloaden**: bewaart het bestand zelf (`verba.html`). Alleen zichtbaar wanneer de app van een webserver komt — draait ze al over `file://`, dan valt er niets te downloaden en blijft het blok verborgen. Het is een gewone downloadlink naar het eigen bestand, dus geen achtergrondverkeer: er gebeurt alleen iets als hij klikt.
 - **Backup opslaan** / **Backup laden** (§8.3).
 - **Alles wissen** met dubbele bevestiging.
 
@@ -787,7 +788,7 @@ latijn-studietool/
 ## 11. Aanvaardingscriteria
 
 1. `verba/index.html` opent met een dubbelklik vanaf een USB-stick, zonder server, zonder internet, en werkt volledig.
-2. De app doet **nul** netwerkrequests.
+2. De app doet **nul** netwerkrequests. (De downloadknop van §6.8 is de enige uitzondering: die haalt op klik het eigen bestand op, en bestaat alleen in de webversie.)
 3. Exact de **1051** woorden uit `woordenlijst.md` komen voor, met hun nummer, woord, vorm, vertaling, caput en sectie.
 4. Er zijn **1806 leeritems**: 1051 × `L2N` + 755 × `L2V`. Een woord met `soort = geen` krijgt nooit een vormvraag.
 5. Het leerpakket kan per caput en per sectie gekozen worden; de leermotor blijft binnen die selectie; van pakket wisselen verliest geen voortgang.

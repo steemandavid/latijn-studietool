@@ -1,5 +1,35 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-12 (c) — Downloadknop + gepubliceerd op steeman.be/verba
+
+### Gepubliceerd
+De app staat online op <https://www.steeman.be/verba/> als static asset van de Hugo-site
+(`static/verba/index.html` in `website-steeman.be`). Geverifieerd op de live URL met
+headless Chromium: 1051 woorden, ronde speelbaar, **nul externe requests, nul fouten**.
+De bijbehorende blogpost staat op
+<https://www.steeman.be/posts/verba-an-offline-latin-vocabulary-trainer/>.
+
+### Downloadknop (§6.8)
+Instellingen ⚙ → **App downloaden**: een gewone `<a href="index.html" download="verba.html">`
+naar het eigen bestand, zodat de webversie een kopie voor op de USB-stick kan afleveren.
+
+- Het blok is `hidden` en wordt in `toonDownload()` alleen getoond wanneer
+  `location.protocol !== "file:"` — draait de app al van schijf, dan valt er niets te halen.
+- Geen achtergrondverkeer: er gebeurt alleen iets als hij klikt. Criterium 2 (nul
+  netwerkrequests) is daarop genuanceerd in de spec.
+- `.knop` kreeg `display:inline-block`, `text-decoration:none` en `color:inherit`, zodat een
+  link er hetzelfde uitziet als een knop (anders stond er een blauwe browserlink).
+
+### Tests
+- `test/smoke-2` heeft er twee checks bij: het downloadblok is verborgen over `file://`,
+  en de knop wijst naar `index.html` met `download="verba.html"`. Alle suites: **89 checks**.
+- Handmatig geverifieerd op de live site: het gedownloade `verba.html` is byte-identiek aan
+  `verba/index.html`, draait vanaf schijf en verbergt daar zijn eigen downloadknop.
+
+### Documentatie
+`FUNCTIONELE-SPECIFICATIE.md` §6.8 en criterium 2, `verba/LEESMIJ.txt` (stap 0 voor wie van
+de webversie komt), `test/shots/7-instellingen.png` vernieuwd.
+
 ## 2026-09-12 (b) — Tikfouten tellen als juist, volgorde van betekenissen vrij
 
 ### Aanleiding
