@@ -388,6 +388,10 @@ Naast badges verzamelt hij **20 pixelfiguren** in Romeinse stijl ("tesserae"), e
   - Het **mozaïek** (§6.1) als centrale visual;
   - Kleinere ingangen naar Zwakke plekken, Ontdek, Blitz, Verover, Badges, Collectie, Statistieken.
 - Alle modi zijn altijd toegankelijk, niets zit achter een slot.
+- **Uitlegtekst bij aanwijzen** (`title`): elke klikbare ingang op het thuisscherm zegt in
+  één zin wat ze doet — Verder leren, Zwakke plekken, het mozaïek, Verover, Blitz, Ontdek,
+  Badges, Collectie en Statistieken. Bedoeld voor wie een knop niet herkent; de app blijft
+  ook zonder die tekst te bedienen (geen informatie zit er *alleen* in).
 - **Colofon** (voettekst, onder alle schermen, altijd zichtbaar): één regel in kleine,
   gedempte letters — `© 2026 Robbe en David Steeman`, de licentie **CC BY-NC-SA 4.0**
   met link naar de licentietekst, en een link naar de GitHub-repository. De links zijn
@@ -488,7 +492,7 @@ Het overzichtsscherm toont de 7 caputs, elk uitklapbaar naar hun secties, met pe
 ### 6.7 Scherm "Statistieken"
 
 - Aantal woorden per sterrenniveau (staafje).
-- Totaal juist/fout, accuratesse in %, apart voor `L2N` en `L2V`.
+- Totaal juist/fout, **accuraatheid** in %, apart voor `L2N` en `L2V`. (De term is bewust "accuraatheid", niet "accuratesse".)
 - De 8 woorden waar hij het vaakst op struikelt ("jouw valkuilen"), met foutpercentage.
 - Voortgang per caput als balkjes.
 - Totale oefentijd, aantal rondes, langste combo, Blitz-record.
@@ -526,6 +530,21 @@ Geen vraag maar een leermoment:
 ```
 
 Toont woord, tweede vorm (uitgeschreven), vertaling, caput/sectie en woordnummer. Na "Begrepen" gaat het item naar box 1 en komt het binnen dezelfde ronde terug als meerkeuze.
+
+### 7.1.1 De vraagkop (bij elke vraag)
+
+Boven het Latijnse woord staat de **vraagsoort als een duidelijk zichtbare badge**, niet
+als klein bijschrift. De twee richtingen zijn op drie manieren uit elkaar te houden:
+
+| Richting | Badge | Kleur |
+|---|---|---|
+| `L2N` | 💬 Wat **BETEKENT** | blauw (`#5b89ae`-familie) |
+| `L2V` | 🔤 Geef de **GENITIEF** van (resp. **OVERIGE VORMEN** / **STAMTIJDEN**) | goud (`--goud`) |
+
+Het kernwoord van de vraag staat vet, in hoofdletters en onderstreept. Reden: met een klein
+bijschrift in de caputkleur werd de vraag overgeslagen en antwoordde de leerling de
+vertaling op een vormvraag. De badge mag nooit de caput-accentkleur overnemen — dan valt het
+onderscheid tussen de richtingen weg.
 
 ### 7.2 Meerkeuzevraag
 

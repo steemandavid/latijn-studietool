@@ -201,8 +201,19 @@ input[type=checkbox]{accent-color:var(--goud2);width:17px;height:17px;cursor:poi
 .qtop .bar{flex:1}
 .qtel{font-size:.85rem;color:var(--tx2);white-space:nowrap;font-variant-numeric:tabular-nums}
 .vraag{text-align:center;margin:40px 0 30px;position:relative;--acc:var(--c1)}
-.vraag .lbl{font-size:.78rem;color:var(--acc);margin-bottom:14px;
-  text-transform:uppercase;letter-spacing:.2em;font-weight:600}
+/* §7.1: de vraagsoort is een opvallende badge met een eigen kleur per richting —
+   blauw = vertalen, goud = vorm — zodat de vraag niet over het hoofd te lezen is */
+.vraag .lbl{display:inline-block;margin-bottom:18px;
+  font-size:1rem;line-height:1;font-weight:600;letter-spacing:.02em;
+  padding:10px 18px;border-radius:999px;border:1px solid var(--qr);
+  background:var(--qb);color:var(--qt);box-shadow:0 0 0 4px var(--qh)}
+.vraag .lbl .em{margin-right:8px;font-size:1.05em;vertical-align:-1px}
+.vraag .lbl b{font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+  font-size:.95em;border-bottom:2px solid currentColor;padding-bottom:1px}
+.vraag .lbet{--qr:rgba(91,137,174,.65);--qb:rgba(91,137,174,.16);--qt:#bcd8ef;
+  --qh:rgba(91,137,174,.07)}
+.vraag .lvorm{--qr:var(--goud2);--qb:rgba(224,169,46,.15);--qt:var(--goud);
+  --qh:rgba(224,169,46,.08)}
 .vraag .wrd{font-family:var(--serif);font-size:3.1rem;line-height:1.12;word-break:break-word;
   letter-spacing:.005em;text-shadow:0 2px 30px rgba(0,0,0,.6)}
 .vraag .meta{font-size:.8rem;color:var(--tx3);margin-top:12px}
@@ -530,6 +541,7 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
 @media (max-width:700px){
   .opties{grid-template-columns:1fr}
   .vraag{margin:26px 0 22px}
+  .vraag .lbl{font-size:.88rem;padding:9px 14px;gap:7px;margin-bottom:14px}
   .vraag .wrd{font-size:2.15rem}
   .intro .w{font-size:2rem}
   .res .groot{font-size:2.7rem}
@@ -587,8 +599,8 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
   <p class="sub" id="homeSub">1051 woorden, 7 caputs.</p>
 
   <div class="rij" style="justify-content:flex-start;margin-bottom:8px">
-    <button class="knop prim" id="btnLeer">Verder leren →</button>
-    <button class="knop" id="btnZwak">Zwakke plekken</button>
+    <button class="knop prim" id="btnLeer" title="Rondes van 10/15/20 vragen uit een Leitner-motor met zes boxen, afwisselend meerkeuze en zelf typen.">Verder leren →</button>
+    <button class="knop" id="btnZwak" title="Een ronde die vooraf de zwakste woorden van het actieve pakket kiest.">Zwakke plekken</button>
   </div>
   <p class="sub" id="dagdoel" style="margin-top:10px"></p>
   <div id="pakLeeg"></div>
@@ -607,7 +619,7 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
 
   <div class="meander"></div>
   <h2>Jouw woordenlijst</h2>
-  <div class="mozwrap" id="moz"></div>
+  <div class="mozwrap" id="moz" title="Een mozaïek van alle 1051 woorden dat langzaam goud kleurt."></div>
   <div class="legenda">
     <span><i></i>nog niet gezien</span>
     <span><i style="border-color:var(--c1)"></i>bezig</span>
@@ -620,12 +632,12 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
   <div class="meander"></div>
   <h2>Meer</h2>
   <div class="tegels">
-    <button class="tegel" data-ga="verover"><b>Verover ⚔</b><span>Toets per sectie</span></button>
-    <button class="tegel" data-ga="blitz"><b>Blitz ⚡</b><span>60 seconden</span></button>
-    <button class="tegel" data-ga="ontdek"><b>Ontdek 📖</b><span>Bladeren &amp; flashcards</span></button>
-    <button class="tegel" data-ga="badges"><b>Badges 🏅</b><span id="tgBadges"></span></button>
-    <button class="tegel" data-ga="tess"><b>Collectie 🧩</b><span id="tgTess"></span></button>
-    <button class="tegel" data-ga="stats"><b>Statistieken 📊</b><span>Voortgang</span></button>
+    <button class="tegel" data-ga="verover" title="Per sectie alles typen tot je ze veroverd hebt; 59 toetsen ontgrendelen het examen."><b>Verover ⚔</b><span>Toets per sectie</span></button>
+    <button class="tegel" data-ga="blitz" title="60 seconden, zoveel mogelijk juiste antwoorden."><b>Blitz ⚡</b><span>60 seconden</span></button>
+    <button class="tegel" data-ga="ontdek" title="Vrij bladeren, zoeken en flashcards, zonder scoring."><b>Ontdek 📖</b><span>Bladeren &amp; flashcards</span></button>
+    <button class="tegel" data-ga="badges" title="Twintig onderscheidingen die je verdient met mijlpalen, reeksen en volgehouden dagen."><b>Badges 🏅</b><span id="tgBadges"></span></button>
+    <button class="tegel" data-ga="tess" title="Twintig Romeinse mozaïeksteentjes die je één voor één vrijspeelt door mijlpalen te halen."><b>Collectie 🧩</b><span id="tgTess"></span></button>
+    <button class="tegel" data-ga="stats" title="Je cijfers: accuraatheid per richting, langste combo, rondes, geoefende tijd en voortgang per caput."><b>Statistieken 📊</b><span>Voortgang</span></button>
   </div>
 </section>
 
@@ -837,6 +849,9 @@ const SOORTNAAM = {znw:"zelfstandig naamwoord", adj:"bijvoeglijk naamwoord",
                    ww:"werkwoord", geen:"onveranderlijk"};
 const VRAAGZIN  = {znw:"Geef de genitief van", adj:"Geef de overige vormen van",
                    ww:"Geef de stamtijden van"};
+/* §7.1: het kernwoord van de vraag krijgt nadruk in de kop — zonder dat wordt
+   "Geef de genitief van" als "Wat betekent" gelezen en volgt de vertaling. */
+const VRAAGKERN = {znw:"genitief", adj:"overige vormen", ww:"stamtijden"};
 
 /* ======================= LEVELS / BADGES / TESSERAE ======================= */
 const LEVELS = ["Discipulus","Puer","Scrība","Mercātor","Nauta","Mīles","Eques","Centuriō",
@@ -2330,9 +2345,12 @@ function volgendeVraag(){
   else { Q.typ++; toonTypen(w, v); }
 }
 function vraagKop(w, r){
-  const lbl = r === "L2N" ? "Wat betekent" : VRAAGZIN[w.soort];
+  const vorm = r === "L2V";
+  const lbl = vorm ? VRAAGZIN[w.soort].replace(VRAAGKERN[w.soort],
+                       `<b>${VRAAGKERN[w.soort]}</b>`)
+                   : "Wat <b>betekent</b>";
   return `<div class="vraag" style="--acc:${capKleur(w)}">
-    <div class="lbl">${lbl}</div>
+    <div class="lbl ${vorm ? "lvorm" : "lbet"}"><span class="em">${vorm ? "🔤" : "💬"}</span>${lbl}</div>
     <div class="wrd lat">${r === "L2N" ? w.w : w.kop}</div>
     <div class="meta">${w.c.split("·")[0].trim()} · woord ${w.nr}${
       r === "L2V" ? " · " + SOORTNAAM[w.soort] : ""}</div>
@@ -2427,7 +2445,7 @@ function verwerk(uit, w, v, ctx){
   it.laatstGezien = new Date().toISOString();
 
   let xp = 0;
-  /* §7.4: een tikfout telt als juist — box, combo, typ-streak en accuratesse lopen
+  /* §7.4: een tikfout telt als juist — box, combo, typ-streak en accuraatheid lopen
      gewoon door. Alleen de XP is iets lager, zodat spelling nog iets betekent. */
   const goed = uit === "juist" || uit === "tikfout";
   if(goed){
@@ -2897,7 +2915,7 @@ function renderStats(){
   const acc = tot ? Math.round(p.totaalJuist / tot * 100) : 0;
   const vtot = p.vormJuist + p.vormFout;
   const vacc = vtot ? Math.round(p.vormJuist / vtot * 100) : 0;
-  // §6.7: accuratesse apart per richting — L2N is wat overblijft na de vormvragen
+  // §6.7: accuraatheid apart per richting — L2N is wat overblijft na de vormvragen
   const nj = p.totaalJuist - p.vormJuist, nf = p.totaalFout - p.vormFout;
   const nacc = (nj + nf) ? Math.round(nj / (nj + nf) * 100) : 0;
 
@@ -2916,7 +2934,7 @@ function renderStats(){
   $("#stBody").innerHTML = `
     <div class="stat">
       <div><b>${goudAantal()}</b><span>op goud</span></div>
-      <div><b>${acc}%</b><span>accuratesse</span></div>
+      <div><b>${acc}%</b><span>accuraatheid</span></div>
       <div><b>${nacc}%</b><span>vertalen (L2N)</span></div>
       <div><b>${vacc}%</b><span>vormen (L2V)</span></div>
       <div><b>${p.besteCombo}</b><span>langste combo</span></div>

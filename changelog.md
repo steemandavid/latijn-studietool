@@ -1,5 +1,31 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-12 (h) — Uitleg bij de tegels, "accuraatheid", en een vraagkop die je niet mist
+
+### Doel
+Drie kleine dingen uit het gebruik: onduidelijk wat een tegel doet, een term die niet
+lekker lag, en — het echte probleem — vormvragen die als betekenisvragen beantwoord
+werden omdat de vraagzin niet gelezen werd.
+
+### Uitgevoerd
+- **`title`-uitleg (§6.0)** op alle klikbare ingangen van het thuisscherm: Verder leren,
+  Zwakke plekken, het mozaïek, Verover, Blitz, Ontdek, Badges, Collectie en Statistieken.
+  Teksten voor Badges/Collectie/Statistieken zelf geformuleerd in dezelfde toon.
+- **"accuratesse" → "accuraatheid"** in het statistiekenscherm, de spec (§6.7) en de
+  codecommentaar.
+- **Vraagkop als badge (§7.1.1)**: de vraagsoort staat nu in een pil met eigen kleur per
+  richting — blauw `💬 Wat BETEKENT` tegenover goud `🔤 Geef de GENITIEF van` — met het
+  kernwoord vet, in hoofdletters en onderstreept. Was: 0,78 rem kleinkapitaal in de
+  caputkleur, dus wisselend van kleur per caput en makkelijk over te slaan. De badge
+  gebruikt bewust *niet* de caput-accentkleur, anders verdwijnt het onderscheid tussen de
+  twee richtingen weer.
+
+### Verificatie
+Alle zeven smoketests groen (89/89), nul pageerrors. Aparte controle: de negen
+title-teksten staan op de juiste elementen, beide vraagkoppen renderen als één regel
+("💬 Wat BETEKENT" / "🔤 Geef de GENITIEF van") en het woord "accuratesse" komt nergens
+meer in de app voor.
+
 ## 2026-09-12 (g) — Colofon in de app + licentie op het project
 
 ### Doel
