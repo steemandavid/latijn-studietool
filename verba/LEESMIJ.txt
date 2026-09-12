@@ -1,0 +1,24 @@
+VERBA — Latijnse woordenschat
+=============================
+
+1. Kopieer deze volledige map naar je USB-stick.
+2. Dubbelklik op  index.html
+3. Klaar. Geen installatie, geen internet nodig.
+
+1051 woorden uit 7 caputs. Kies bovenaan eerst je LEERPAKKET
+(welke secties je nu moet kennen) en druk dan op "Verder leren".
+
+Macrons (de streepjes op ā ē ī ō ū) hoef je nooit te typen.
+"amici" is even goed als "amīcī".
+
+Krijg je te veel meerkeuze naar je zin, of juist te weinig? Ga naar
+Instellingen (⚙) > "Hoeveel zelf typen" en zet het op Veel (of Weinig).
+
+Je combo (het vlammetje bovenaan) loopt door van de ene ronde naar de
+volgende — alleen een fout antwoord zet hem terug op nul.
+
+Je voortgang wordt bewaard in de browser op die computer.
+Gebruik je een andere pc? Ga dan naar Instellingen (⚙) > Backup opslaan,
+neem het bestandje mee, en laad het daar opnieuw in.
+
+Toetsenbord:  1-4 = antwoord kiezen | Enter = bevestigen | Esc = stoppen

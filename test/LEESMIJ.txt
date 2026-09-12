@@ -1,0 +1,31 @@
+Smoketests voor verba/index.html (headless Chromium via Playwright).
+
+Eenmalig:   npm init -y && npm install playwright
+Draaien:    node test/smoke-1-data-en-ronde.js
+
+De scripts wijzen naar een chromium die al op deze pc stond:
+  /home/john/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome
+Pas executablePath aan als die er niet meer is.
+
+De belangrijkste test is de INVARIANT in smoke-1 en smoke-3: voor alle 1806
+leeritems moet het antwoord dat de app zelf toont ook door de app aanvaard
+worden, met en zonder macrons, in soepele en in strenge modus. Die test
+ving de "hoog; diep"-bug.
+
+smoke-4 speelt een blitz op een vers pakket na en controleert dat elk aangeraakt
+woord daarna gekleurd is in het mozaïek. smoke-5 legt de sterformule van spec
+§5.4 over alle 36 box-combinaties: goud alleen bij alles op 5, 0 alleen bij alles
+op 0, en nooit dalend.
+
+Sinds de review van 2026-09-11:
+- Elke suite heeft echte asserts en een exit-code: groen = exit 0, rood = exit 1.
+  Draai ze alle zes met:  for t in test/smoke-*.js; do node "$t" || break; done
+- smoke-3 schrijft zijn screenshots naar test/shots/ (automatisch aangemaakt),
+  niet meer naar een tijdelijk /tmp-pad.
+
+smoke-6 (2026-09-12) bewaakt de vraagmix en de herhalingsgrenzen: minstens de helft
+getypt op de standaardinstelling, hoogstens twee beurten per woord per ronde, en
+minstens twee andere woorden tussen twee beurten. Hij zet de klok virtueel vooruit
+(12 s per vraag, een dag tussen sessies) — zonder tijdsverloop is box 2 nooit due
+en meet je alleen maar meerkeuze. Hij speelt daarna drie echte rondes uit om te
+controleren dat de combo over de rondegrens doorloopt en alleen op een fout breekt.
