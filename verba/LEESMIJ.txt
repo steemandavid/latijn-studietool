@@ -28,6 +28,16 @@ Een tikfoutje telt als juist: je krijgt gewoon je punt, je combo loopt
 door, en de app laat je zien hoe het woord wel geschreven wordt. Staan er
 twee betekenissen? De volgorde maakt niet uit.
 
+De app past haar tempo aan jou aan: antwoord je vlot en juist, dan
+komen er sneller nieuwe woorden bij; gaat het moeizamer, dan krijg je meer
+herhaling van wat je al zag. Liever zelf kiezen? Instellingen (⚙) >
+"Leertempo" > Rustig, Normaal of Snel.
+
+Typ je per ongeluk de genitief terwijl er naar de betekenis gevraagd
+wordt (of omgekeerd)? Dan telt die beurt niet mee — geen fout, je combo
+blijft staan, en je mag de vraag gewoon opnieuw beantwoorden. Eén keer
+per vraag.
+
 Je voortgang wordt bewaard in de browser op die computer.
 Gebruik je een andere pc? Ga dan naar Instellingen (⚙) > Backup opslaan,
 neem het bestandje mee, en laad het daar opnieuw in.

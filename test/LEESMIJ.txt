@@ -19,7 +19,7 @@ op 0, en nooit dalend.
 
 Sinds de review van 2026-09-11:
 - Elke suite heeft echte asserts en een exit-code: groen = exit 0, rood = exit 1.
-  Draai ze alle zeven met:  for t in test/smoke-*.js; do node "$t" || break; done
+  Draai ze alle negen met:  for t in test/smoke-*.js; do node "$t" || break; done
 - smoke-3 schrijft zijn screenshots naar test/shots/ (automatisch aangemaakt),
   niet meer naar een tijdelijk /tmp-pad.
 
@@ -34,3 +34,15 @@ smoke-7 (2026-09-12) bewaakt de tikfout-beoordeling van §7.4: welke misser als 
 telt, welke "bijna" blijft en welke fout, dat de volgorde van meerdere betekenissen niet
 uitmaakt, en dat combo en typ-streak over een tikfout heen doorlopen. De kruiscontrole
 (185 897 woordparen) bewaakt dat geen antwoord van een ánder woord als tikfout passeert.
+
+smoke-8 (2026-09-12) bewaakt het adaptieve leertempo van §4.4: de grenswaarden van de
+tempo-index T (vlot -> plafond 14 en venster 6, worstelen -> 5 en 4), dat T nooit buiten
+0..1 komt, de lengtecorrectie bij typvragen (een lang antwoord mag niet als traag gelden),
+dat een vaste tempokeuze T negeert, dat "rustig" minder nieuwe woorden introduceert dan
+"snel", en een echte ronde door de UI die T omhoog en daarna weer omlaag duwt.
+
+smoke-9 (2026-09-12) bewaakt de gratis herkansing van §7.4a: een antwoord dat juist is voor
+de ándere richting van hetzelfde woord wordt herkend (in beide richtingen), onzin en lege
+invoer en woorden zonder tweede vorm vallen af, en een end-to-end rit vergelijkt box,
+combo, typ-streak, XP, juist/fout, tempo-index en de vraagteller vóór en ná — alles moet
+onveranderd blijven. De tweede fout telt wél.

@@ -16,8 +16,17 @@ het bestand zelf te downloaden. Achtergrond en ontwerpkeuzes staan in
 - **Ontdek** — vrij bladeren, zoeken en flashcards, zonder scoring.
 - **Blitz** — 60 seconden, zoveel mogelijk juiste antwoorden.
 - **Verover** — per sectie alles typen tot je ze veroverd hebt; 59 toetsen ontgrendelen het examen.
-- **Collectie** — een mozaïek van alle 1051 woorden dat langzaam goud kleurt.
+- **Collectie** — twintig Romeinse mozaïeksteentjes die je één voor één vrijspeelt.
+- **Het mozaïek** op het beginscherm — alle 1051 woorden als één cel per woord, dat
+  langzaam goud kleurt naarmate je ze beheerst.
 - XP, levels, combo's, dagstreak, 20 badges en 20 tesserae.
+- **Adaptief leertempo**: hoe juist én hoe snel je antwoordt bepaalt hoeveel nieuwe woorden
+  er tegelijk in behandeling zijn (5 tot 14, standaard automatisch) en hoe ver twee beurten
+  van hetzelfde woord uit elkaar liggen. Minder nieuw materiaal betekent vanzelf meer
+  herhaling. Vast te zetten op Rustig/Normaal/Snel in de instellingen (§4.4).
+- **Eén gratis herkansing bij een misgelezen vraag**: typ je de genitief terwijl de
+  betekenis gevraagd wordt (of omgekeerd), dan telt die beurt niet — geen box, combo,
+  streak of XP — en komt dezelfde vraag opnieuw (§7.4a).
 - Antwoordbeoordeling die macrons nooit verplicht, meerdere betekenissen in gelijk welke
   volgorde aanvaardt en een tikfout als juist rekent (met de juiste spelling in de
   feedback) — behalve wanneer het een geldig antwoord van een ánder woord is, of wanneer
@@ -57,9 +66,12 @@ al op de machine stond — pas `executablePath` aan als die er niet meer is.
 for t in test/smoke-*.js; do node "$t" || break; done
 ```
 
-Groen = exit 0. De belangrijkste test is de invariant in smoke-1 en smoke-3: voor alle
-1806 leeritems moet het antwoord dat de app zelf toont ook door de app aanvaard worden,
-met en zonder macrons, in soepele en in strenge modus.
+Negen suites, samen 110 checks; groen = exit 0. De belangrijkste test is de invariant in
+smoke-1 en smoke-3: voor alle 1806 leeritems moet het antwoord dat de app zelf toont ook
+door de app aanvaard worden, met en zonder macrons, in soepele en in strenge modus.
+Smoke-8 legt het adaptieve tempo vast (grenswaarden, lengtecorrectie bij typen, een echte
+ronde door de UI) en smoke-9 de herkansing bij een misgelezen vraag (alle tellers vóór en
+ná vergeleken).
 
 ## Herkomst van de woordenlijst
 

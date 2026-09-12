@@ -48,6 +48,29 @@ alles groen, nul pageerrors.
 Eén bug onderweg: `blitzVraag()` gebruikte de constante `VENSTER`, die een functie werd —
 Blitz gooide een `ReferenceError` tot dat meeging. Smoke-1 ving dat meteen.
 
+### 3. Documentatie, blogpost en publicatie (zelfde sessie)
+- `README.md`: adaptief tempo en de herkansing toegevoegd aan "Wat het doet"; de
+  testsectie noemt nu negen suites / 110 checks met smoke-8 en smoke-9. Ook een oude fout
+  rechtgezet: "Collectie" werd daar beschreven als *"een mozaïek van alle 1051 woorden dat
+  langzaam goud kleurt"* — dat is het mozaïek op het beginscherm; Collectie zijn de twintig
+  tesserae. Beide staan er nu apart in. (Die README-regel was de bron van de tooltiptekst
+  uit entry (h), vandaar dezelfde verwarring daar.)
+- `verba/LEESMIJ.txt` (gaat mee op de stick): twee alinea's in gewone taal over het
+  meebewegende tempo en over de gratis herkansing bij een misgelezen vraag.
+- `test/LEESMIJ.txt`: smoke-8 en smoke-9 beschreven, "alle zeven" → "alle negen".
+- **Blogpost** `verba-an-offline-latin-vocabulary-trainer.md` op steeman.be: twee nieuwe
+  secties — *Letting the pace find the learner* (waarom een vast plafond van tien voor
+  niemand klopt, de vlotheidsscore met zijn drempels, de tabel traag/midden/vlot, en dat de
+  extra herhaling vanzelf uit het bestaande algoritme volgt) en *The right answer to the
+  wrong question*. Cijfers bijgewerkt: spec 50 → 56 KB, 25 → 31 aanvaardingscriteria,
+  zeven suites/89 asserts → negen/110.
+- Eerder in dezelfde sessie: alle vijf de screenshots in die blogpost opnieuw genomen met
+  de panorama-achtergrond (smoke-3, daarna 1280×900 JPG + 760×534 thumbs, mobiel 360×760),
+  en de op steeman.be gepubliceerde `verba/index.html` liep nog achter op de repo — die is
+  meteen mee bijgewerkt.
+- Alles via Hugo + curl-FTP gepubliceerd en live geverifieerd (HTTP 200, bestandsgroottes
+  van de nieuwe versies, geen stale edge-cache).
+
 ## 2026-09-12 (h) — Uitleg bij de tegels, "accuraatheid", en een vraagkop die je niet mist
 
 ### Doel
