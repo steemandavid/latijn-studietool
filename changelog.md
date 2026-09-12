@@ -1,5 +1,46 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-12 (e) — Romeins panorama op het beginscherm (ligne claire)
+
+### Doel
+Een gedempte achtergrondtekening van een Romeinse scène op het beginscherm, in
+Tintin-stijl (ligne claire), zonder de leesbaarheid te storen.
+
+### Oplossing
+Een handgetekende inline SVG in `sjabloon.html` (geen externe bestanden, dus de
+single-file/offline-eis voor USB blijft intact): een **oorlogstrireem** (romp met
+ram, vierkant zeil aan de ra, pennant, geharkte riemen, stuurriem, krulsteven)
+op de voorgrond links, een **maan** met halo en vogels in het midden, en het
+**Colosseum** rechts (drie arcade-verdiepingen, gebroken ruïnekroon, binnenmuur,
+gezamenlijke plint) met cipressen en paraplu dennen. Het water verloopt onderin
+naar de paginakleur zodat de band zacht in de app overgaat.
+
+- Stijl: uniforme lijndikte (2,5 eenheden), platte vlakken, gedempte kleuren uit
+  het eigen nachtpalet (steen, terracotta, goud) op 60 % dekking (mobiel 55 %).
+- Plaatsing: de band krijgt een eigen zone bovenaan (`--romeH:clamp(230px,30vw,400px)`,
+  full-bleed via `left/right:calc(50% - 50vw)`); titel en knoppen beginnen eronder
+  (`#scr-home.on{padding-top:calc(var(--romeH) - 14px)}`), zodat geen tekst met de
+  tekening concurreert. Eerste poging was een vrij zwevende achtergrond, maar toen
+  viel het schip weg achter de Leerpakket-kaart.
+- Mobiel (<720px): het hele panorama van 1600 eenheden is op 390 px onleesbaar,
+  dus `transform:scale(1.9)` op de svg zoomt in op schip + maan + begin Colosseum;
+  `.rome{overflow:hidden}` voorkomt horizontale scroll (de 360px-check in smoke-1
+  ving dit).
+- Gewijzigd: `sjabloon.html` (CSS-blok + SVG in `#scr-home`), daarna
+  `python3 bouw.py` voor `verba/index.html`; `test/shots/*` vernieuwd door smoke-3.
+
+### Verificatie
+De tekening is iteratief bijgeslepen via screenshots + beeldanalyse (ram vast aan
+de romp, ra en mast zichtbaar, riemen geharkt tot de waterlijn, boot "in" het water
+door kabbellijnen tegen de kiel, bomen vrij van het Colosseum, unificerende plint).
+Alle zeven smoketests groen (85/85 checks), waaronder responsive en
+nul-netwerkrequests.
+
+### Notities
+- De SVG gebruikt `<use href="#boog">` voor de arcade-bogen (één symbool, 24×).
+- `package.json` (playwright-afhankelijkheid voor de smoketests) is nieuw in de
+  repo-root; `node_modules/` en `package-lock.json` staan in `.gitignore`.
+
 ## 2026-09-12 (d) — Meerkeuze bij vormvragen: variëren op de uitgang, niet op de stam (§7.2)
 
 ### Probleem
