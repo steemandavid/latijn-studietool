@@ -1,5 +1,53 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-12 (i) — Adaptief leertempo + gratis herkansing bij een misgelezen vraag
+
+### Doel
+Twee vragen uit het gebruik:
+1. snelle leerders zitten vast in herhalingen van woorden die ze al kennen, trage leerders
+   krijgen te veel nieuw materiaal tegelijk;
+2. een deel van de fouten zijn leesfouten — de genitief typen terwijl de betekenis
+   gevraagd wordt — en die kosten combo, streak en box zonder dat er iets geleerd is.
+
+### 1. Adaptief tempo (§4.4 herschreven, nieuw aanvaardingscriterium 30)
+- Elk antwoord in de leermodus levert een **vlotheidsscore** 0–1: fout = 0, bijna = 0,35,
+  juist = 1 bij snel en 0,5 bij traag (lineair ertussen), tikfout = juist × 0,9.
+- Grenzen per vraagvorm: meerkeuze 4 s / 10 s; typen `3 s + 0,22 s per teken` en
+  2,2× dat als traaggrens — zonder die lengtecorrectie geldt elke lange vertaling als traag.
+  Boven 60 s is het een pauze, niet traagheid.
+- **Tempo-index T** = voortschrijdend gemiddelde (`α = 0,15`, ruwweg de laatste twaalf
+  antwoorden), start 0,5, staat in het profiel en overleeft het afsluiten.
+- T stuurt twee dingen: het **plafond op items in de lucht** (`afronden(5 + 9·T)`, geklemd
+  op 5…14, was vast 10) en het **herhalingsvenster** (4, 5 of 6 woorden, was vast 5). Meer
+  herhaling volgt vanzelf: komt er minder nieuw bij, dan vult `kiesVraag()` de ronde met
+  due- en onderhoudsvragen.
+- Instelling **Leertempo**: Automatisch (standaard) of vast op Rustig (5) / Normaal (10) /
+  Snel (14). Bij een vaste keuze blijft het venster 5 en loopt T wel door, zodat
+  terugzetten op automatisch meteen een zinnig getal heeft.
+- Zichtbaar gemaakt: de instelling toont de huidige stand ("nu 10 woorden tegelijk") en
+  Statistieken heeft er een tegel bij. Een onzichtbaar mechanisme dat het gedrag van de app
+  verandert is verwarrend.
+
+### 2. Misgelezen vraag = één gratis herkansing (nieuw §7.4a, criterium 31)
+Is een getypt antwoord fout voor de gevraagde richting maar **exact juist voor de andere
+richting van hetzelfde woord**, dan is het een leesfout. Er wordt niets geteld — geen box,
+combo, typ-streak, XP, accuraatheid, tempo-index of vraagteller — en dezelfde vraag komt
+opnieuw, met een lege invoer en een blauwe kaart: *"↻ Lees de vraag nog eens — dat is de
+genitief van dit woord, er wordt naar de betekenis gevraagd."* Eén keer per vraagbeurt; de
+tweede fout telt gewoon. Alleen bij typvragen, en alleen bij woorden met twee richtingen.
+
+### Verificatie
+Twee nieuwe suites: **smoke-8** (13 checks: grenswaarden van T, de lengtecorrectie bij
+typen, vaste keuzes die T negeren, minder introducties bij "rustig" dan bij "snel", en een
+echte ronde door de UI die T omhoog en weer omlaag beweegt) en **smoke-9** (8 checks:
+herkenning in beide richtingen, onzin/leeg/eenrichtingswoorden vallen af, en een end-to-end
+rit die alle tellers vóór en ná vergelijkt). Totaal nu **110 checks over negen suites**,
+alles groen, nul pageerrors.
+
+### Notitie
+Eén bug onderweg: `blitzVraag()` gebruikte de constante `VENSTER`, die een functie werd —
+Blitz gooide een `ReferenceError` tot dat meeging. Smoke-1 ving dat meteen.
+
 ## 2026-09-12 (h) — Uitleg bij de tegels, "accuraatheid", en een vraagkop die je niet mist
 
 ### Doel

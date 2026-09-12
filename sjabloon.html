@@ -252,6 +252,8 @@ input[type=checkbox]{accent-color:var(--goud2);width:17px;height:17px;cursor:poi
 .fb.bijna{border-color:var(--bijna);box-shadow:0 0 0 1px rgba(255,180,67,.25),var(--schaduw)}
 .fb .kop{font-weight:650;margin-bottom:7px;letter-spacing:.02em}
 .fb.goed .kop{color:var(--goed)} .fb.fout .kop{color:var(--fout)} .fb.bijna .kop{color:var(--bijna)}
+.fb.tip{border-color:rgba(91,137,174,.7);box-shadow:0 0 0 1px rgba(91,137,174,.25),var(--schaduw)}
+.fb.tip .kop{color:#bcd8ef}
 .fb .antw{font-family:var(--serif);font-size:1.65rem;margin:8px 0;color:var(--tx)}
 .fb .extra{font-size:.87rem;color:var(--tx2)}
 .combo{position:fixed;right:18px;bottom:18px;z-index:20;display:none;font-weight:650;
@@ -752,6 +754,10 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
       <span>Hoeveel zelf typen
         <span class="sub" style="display:block;margin:0">Ondergrens voor het aandeel typvragen; de rest is meerkeuze</span></span>
       <select id="inTyp"><option value="weinig">Weinig</option><option value="gemiddeld">Gemiddeld</option><option value="veel">Veel</option></select></label>
+    <label class="rij" style="justify-content:space-between">
+      <span>Leertempo
+        <span class="sub" style="display:block;margin:0" id="tempoUitleg">Hoeveel nieuwe woorden er tegelijk in behandeling zijn</span></span>
+      <select id="inTempo"><option value="auto">Automatisch</option><option value="rustig">Rustig</option><option value="normaal">Normaal</option><option value="snel">Snel</option></select></label>
     <div id="dlBlok" hidden>
       <hr style="border:0;border-top:1px solid var(--lijn);margin:0 0 16px">
       <p class="sub" style="margin:0 0 12px">Deze app is één enkel bestand. Bewaar het op je computer
@@ -1362,11 +1368,11 @@ function leegProfiel(){
   return {
     app:"verba", version:1, createdAt:new Date().toISOString(),
     settings:{toetsdatum:null, geluid:true, animaties:true, rondelengte:15,
-              strengheid:"soepel", typAandeel:"gemiddeld",
+              strengheid:"soepel", typAandeel:"gemiddeld", tempo:"auto",
               pakket:CAPUTS[0].secties.map(s=>s.key)},
     profiel:{xp:0, level:1, streak:0, laatsteActieveDag:null, streakGeschiedenis:[],
              combo:0, besteCombo:0, blitzRecord:0, totaalJuist:0, totaalFout:0,
-             vormJuist:0, vormFout:0, typStreak:0, besteTypStreak:0,
+             vormJuist:0, vormFout:0, typStreak:0, besteTypStreak:0, tempo:0.5,
              totaalRondes:0, totaleTijdMs:0},
     items:{}, badges:{}, tesserae:{}, secties:{}, examen:{gehaald:false, besteScore:0}
   };
@@ -1395,8 +1401,11 @@ function zetSave(d, uitBestand){
   S.app = "verba"; S.version = 1;
   S.settings = Object.assign(leeg.settings, alsObject(d.settings) || {});
   if(!TYPDOEL[S.settings.typAandeel]) S.settings.typAandeel = "gemiddeld";
+  if(!(S.settings.tempo in TEMPOVAST) && S.settings.tempo !== "auto") S.settings.tempo = "auto";
   S.profiel  = Object.assign(leeg.profiel,  alsObject(d.profiel)  || {});
   S.profiel.combo = Math.max(0, S.profiel.combo|0);
+  // §4.4: een kapotte of ontbrekende tempo-index mag de vraagkeuze niet platleggen
+  S.profiel.tempo = klem01(+S.profiel.tempo, 0.5);
   S.items = {};
   const items = alsObject(d.items);
   if(items) for(const k of Object.keys(items)){
@@ -1530,6 +1539,46 @@ function pakketNrs(){
 let PAK = [];                       // cache van pakketNrs()
 function herbouwPak(){ PAK = pakketNrs(); }
 
+/* --- adaptief leertempo (§4.4) -----------------------------------------------
+   Het plafond op "items in de lucht" was een vast getal (10). Dat is te veel voor
+   wie worstelt en te weinig voor wie vlot gaat: de eerste krijgt een berg halve
+   kennis, de tweede zit vast in herhalingen van woorden die hij al kent. Elk
+   antwoord levert nu een vlotheidsscore 0..1 (juist én hoe snel), die via een
+   voortschrijdend gemiddelde T het plafond tussen 5 en 14 zet — en het
+   herhalingsvenster tussen 4 en 6. De herhaling volgt daar vanzelf uit: komt er
+   minder nieuw bij, dan vult kiesVraag() de ronde met due- en onderhoudsvragen. */
+const TEMPOVAST = {rustig:5, normaal:10, snel:14};
+const T_ALFA = 0.15;            // ≈ geheugen van de laatste twaalf antwoorden
+const MC_SNEL = 4000, MC_TRAAG = 10000;
+const TYP_BASIS = 3000, TYP_PER_TEKEN = 220, TYP_TRAAGFACTOR = 2.2;
+const TIJD_MAX = 60000;         // langer = pauze, geen traagheid
+const klem01 = (x, val) => (typeof x === "number" && isFinite(x)) ? Math.min(1, Math.max(0, x)) : val;
+
+function vlotheid(uit, ms, ctx, doelLengte){
+  if(uit === "fout") return 0;
+  if(uit === "bijna") return 0.35;
+  const t = Math.min(Math.max(ms|0, 0), TIJD_MAX);
+  const snel  = ctx.getypt ? TYP_BASIS + TYP_PER_TEKEN * (doelLengte|0) : MC_SNEL;
+  const traag = ctx.getypt ? snel * TYP_TRAAGFACTOR : MC_TRAAG;
+  const deel  = t <= snel ? 1 : t >= traag ? 0.5 : 1 - 0.5 * (t - snel) / (traag - snel);
+  return uit === "tikfout" ? deel * 0.9 : deel;
+}
+function tempoBij(uit, ms, ctx, doelLengte){
+  const v = vlotheid(uit, ms, ctx, doelLengte);
+  S.profiel.tempo = klem01(S.profiel.tempo + T_ALFA * (v - S.profiel.tempo), 0.5);
+}
+const tempoIndex = () => klem01(S.profiel.tempo, 0.5);
+function luchtMax(){
+  const vast = TEMPOVAST[S.settings.tempo];
+  if(vast) return vast;
+  return Math.min(14, Math.max(5, Math.round(5 + 9 * tempoIndex())));
+}
+function vensterNu(){
+  if(TEMPOVAST[S.settings.tempo]) return 5;
+  const T = tempoIndex();
+  return T < 0.4 ? 4 : T < 0.7 ? 5 : 6;
+}
+
 function inLucht(){
   let n = 0;
   for(const nr of PAK) for(const r of RICHTINGEN(BY_NR[nr])){
@@ -1557,11 +1606,11 @@ function volgendeIntro(mag){
    keer terug, wat ontmoedigend werkt. Een woord komt nu pas terug na VENSTER
    andere woorden, en hoogstens MAX_RONDE keer binnen dezelfde ronde. Liever een
    nieuw woord of een onderhoudsvraag dan dezelfde vraag nog eens. */
-const VENSTER = 5, MAX_RONDE = 2;
+const VENSTER_MAX = 6, MAX_RONDE = 2;   // §4.4 zet het werkelijke venster op 4, 5 of 6
 let recenteNrs = [];
 function noteerGesteld(nr){
   recenteNrs.push(nr);
-  while(recenteNrs.length > VENSTER) recenteNrs.shift();
+  while(recenteNrs.length > VENSTER_MAX) recenteNrs.shift();
 }
 const nietRecent = (nr, n) => recenteNrs.slice(-n).indexOf(nr) < 0;
 const rondeTel = nr => (Q && Q.telWoord) ? (Q.telWoord.get(nr) || 0) : 0;
@@ -1596,8 +1645,9 @@ function kiesVraag(){
     return n ? {nr:n.nr, r:n.r, it:item(n.nr, n.r)} : null;
   };
   let v;
+  const VENSTER = vensterNu();                                  // §4.4: 4, 5 of 6
   if((v = probeer(due, VENSTER, 1, true))) return v;            // 1. gewoon due
-  if(inLucht() < 10 && (v = intro(VENSTER))) return v;          // 2. vers materiaal
+  if(inLucht() < luchtMax() && (v = intro(VENSTER))) return v;  // 2. vers materiaal
   if((v = probeer(onderhoud, VENSTER, 1, false))) return v;     // 3. onderhoud uit box 4/5
   // 4. vervroegd: genoeg vragen ertussen, alleen de klok is nog niet rond — beter
   //    dan hetzelfde woord een tweede keer, en meteen een typvraag.
@@ -2418,7 +2468,7 @@ function toonMeerkeuze(w, v){
     };
     box.appendChild(b);
   });
-  Q.opts = opts; Q.beantwoord = false;
+  Q.opts = opts; Q.beantwoord = false; Q.vraagStart = Date.now();
 }
 function toonTypen(w, v){
   $("#qBody").innerHTML = vraagKop(w, v.r) + `<div class="typ">
@@ -2439,12 +2489,43 @@ function toonTypen(w, v){
     const val = inp.value.trim();
     if(!val) return;
     const r = beoordeel(val, w, v.r);
+    // §7.4a: verkeerde richting geantwoord — één gratis herkansing, niets telt mee
+    if(r.uit === "fout" && !v.herkanst && isAndereRichting(val, w, v.r)){
+      v.herkanst = true; toonHerkansing(w, v, val); return;
+    }
     verwerk(r.uit, w, v, {getypt:true, gegeven:val, bedoeld:r.bedoeld});
   };
   $("#tOk").onclick = ga;
   $("#tNiet").onclick = () => { if(!Q.beantwoord) verwerk("fout", w, v, {getypt:true, opgegeven:true}); };
   inp.onkeydown = e2 => { if(e2.key === "Enter"){ e2.preventDefault(); ga(); } };
-  Q.beantwoord = false;
+  Q.beantwoord = false; Q.vraagStart = Date.now();
+}
+
+/* §7.4a — de vraag verkeerd gelezen.
+   Een antwoord dat juist is voor de ándere richting van hetzelfde woord (de genitief
+   typen terwijl de betekenis gevraagd werd, of omgekeerd) is geen kennisfout maar een
+   leesfout. Dat kost één gratis herkansing: niets wordt geteld, geen box, geen combo,
+   geen XP, geen tempo — de vraag komt gewoon opnieuw. Eén keer per vraagbeurt; wie
+   daarna nog fout antwoordt, antwoordt gewoon fout. */
+function isAndereRichting(val, w, r){
+  const ander = r === "L2N" ? "L2V" : "L2N";
+  if(ander === "L2V" && w.soort === "geen") return false;
+  if(!val || !val.trim()) return false;
+  return beoordeel(val, w, ander).uit === "juist";
+}
+function toonHerkansing(w, v, val){
+  const vormnaam = VRAAGKERN[w.soort] || "vorm";
+  const uitleg = v.r === "L2N"
+    ? `Dat is de <b>${vormnaam}</b> van dit woord — er wordt naar de <b>betekenis</b> gevraagd.`
+    : `Dat is de <b>betekenis</b> van dit woord — er wordt naar de <b>${vormnaam}</b> gevraagd.`;
+  $("#qFb").innerHTML = `<div class="fb tip"><div class="kop">↻ Lees de vraag nog eens</div>
+    <div class="extra">${uitleg}</div>
+    <div class="extra" style="margin-top:5px;color:var(--tx3)">Je schreef
+      "${escapeHTML(val)}". Deze beurt telt niet mee — probeer het opnieuw.</div></div>`;
+  const inp = $("#tIn");
+  if(inp){ inp.value = ""; inp.focus(); }
+  Q.vraagStart = Date.now();   // §4.4: de tijd van de misgelezen poging telt niet mee
+  sfx("bijna");
 }
 
 function tikVragen(){
@@ -2459,6 +2540,10 @@ function verwerk(uit, w, v, ctx){
   // verse "laatstGezien" is een item met box >= 1 per definitie nooit meer due.
   const wasDue = it.box !== 0 && isDue(it);
   const stil = Q.modus === "verover" || Q.modus === "examen";   // §6.6: geen tussentijdse feedback
+  /* §4.4: het leertempo beweegt alleen mee op gewone leervragen — Blitz jaagt op
+     seconden en een veroveringstoets is een toets, geen maat voor het leertempo. */
+  if(Q.modus === "leer")
+    tempoBij(uit, Date.now() - (Q.vraagStart || Date.now()), ctx, juisteTekst(w, v.r).length);
   vraagTeller++; tikVragen();
   it.vragenSindsdien = 0;
   it.laatstGezien = new Date().toISOString();
@@ -2671,7 +2756,7 @@ function blitzTik(){
   $("#bBar").style.width = (B.tijd/60000*100) + "%";
 }
 function blitzVraag(){
-  let nrs = PAK.filter(n => nietRecent(n, VENSTER));
+  let nrs = PAK.filter(n => nietRecent(n, vensterNu()));
   if(!nrs.length) nrs = PAK.filter(n => nietRecent(n, 1));
   const nr = kies(nrs.length ? nrs : PAK);
   const w = BY_NR[nr];
@@ -2961,6 +3046,8 @@ function renderStats(){
       <div><b>${p.totaalRondes}</b><span>rondes</span></div>
       <div><b>${Math.round(p.totaleTijdMs/60000)}</b><span>minuten geoefend</span></div>
       <div><b>${veroverdAantal()}</b><span>delen veroverd</span></div>
+      <div><b>${luchtMax()}</b><span>nieuwe woorden tegelijk${
+        S.settings.tempo === "auto" ? " (automatisch)" : ""}</span></div>
     </div>
     <h2>Woorden per niveau</h2>
     ${perSter.map((n, i) => `<div class="balkrij"><span class="nm">${i} ${i===1?"ster":"sterren"}</span>
@@ -2995,7 +3082,18 @@ function vulInstellingen(){
   $("#inRonde").value    = String(S.settings.rondelengte);
   $("#inStreng").value   = S.settings.strengheid;
   $("#inTyp").value      = S.settings.typAandeel;
+  $("#inTempo").value    = S.settings.tempo;
+  toonTempoUitleg();
   toonDownload();
+}
+/* §4.4: laten zien wat het automatische tempo op dit moment doet — anders is het
+   een onzichtbaar mechanisme en lijkt de app zomaar van gedrag te veranderen. */
+function toonTempoUitleg(){
+  const e = $("#tempoUitleg"); if(!e) return;
+  const n = luchtMax();
+  e.textContent = S.settings.tempo === "auto"
+    ? `Volgt hoe vlot en juist je antwoordt — nu ${n} woorden tegelijk`
+    : `Vast op ${n} woorden tegelijk`;
 }
 function pasAnimToe(){ document.documentElement.classList.toggle("geenanim", !S.settings.animaties); }
 function exporteer(){
@@ -3068,6 +3166,7 @@ $("#inAnim").onchange   = e => { S.settings.animaties = e.target.checked; pasAni
 $("#inRonde").onchange  = e => { S.settings.rondelengte = +e.target.value; bewaar(); };
 $("#inStreng").onchange = e => { S.settings.strengheid = e.target.value; bewaar(); };
 $("#inTyp").onchange    = e => { S.settings.typAandeel = e.target.value; bewaar(); };
+$("#inTempo").onchange  = e => { S.settings.tempo = e.target.value; bewaar(); toonTempoUitleg(); };
 $("#btnExport").onclick = exporteer;
 $("#btnImport").onclick = importeer;
 $("#btnWis").onclick = () => {

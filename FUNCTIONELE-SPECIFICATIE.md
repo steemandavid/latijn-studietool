@@ -191,9 +191,55 @@ Identiek aan FLUO §4.2. Elk leeritem zit in box 0 t/m 5:
 - Een item is **due** als de wachttijd verstreken is; er gelden **beide** criteria (aantal vragen én tijd). Box 1 kent geen tijdgrens, alleen de vier tussenliggende vragen.
 - **Vervroegd** heet een item dat de vragendrempel wel haalt maar de tijdgrens nog niet. Zo'n item mag gesteld worden wanneer het alternatief een herhaling binnen dezelfde ronde is (§4.5), niet eerder.
 
-### 4.4 Introductietempo
+### 4.4 Introductietempo — adaptief
 
-- Maximaal **10 items tegelijk in de lucht** (box 1 of 2), geteld **binnen het actieve pakket**.
+Het tempo waarmee nieuwe woorden binnenkomen (en dus ook hoeveel er herhaald wordt) past
+zich aan het antwoordgedrag aan. Wie vlot en juist antwoordt krijgt sneller nieuw
+materiaal; wie worstelt krijgt minder nieuw en meer herhaling.
+
+**Vlotheidsscore per antwoord** (`v`, tussen 0 en 1), alleen in de modus "Verder leren" /
+"Zwakke plekken" en alleen op echte vragen (niet op de introductiekaart, niet in Blitz,
+Verover of het examen):
+
+| Uitkomst | `v` |
+|---|---|
+| Fout of "ik weet het niet" | `0` |
+| Bijna (alleen in strenge modus) | `0,35` |
+| Juist | `1` bij ≤ de snelgrens, `0,5` bij ≥ de traaggrens, lineair ertussen |
+| Tikfout | als "juist", maal `0,9` |
+
+De grenzen hangen af van de vraagvorm, want typen duurt nu eenmaal langer dan klikken:
+
+- **Meerkeuze**: snelgrens 4 s, traaggrens 10 s.
+- **Typen**: snelgrens `3 s + 0,22 s per teken` van het verwachte antwoord, traaggrens
+  `2,2 ×` de snelgrens. (Zonder die lengtecorrectie wordt een lange vertaling altijd als
+  "traag" gelezen.)
+- Antwoordtijden boven 60 s tellen als 60 s: dat is geen traagheid meer maar een pauze.
+
+**Tempo-index `T`**: een voortschrijdend gemiddelde van `v`, `T ← T + 0,15·(v − T)`,
+startwaarde `0,5`. Dat is een geheugen van ruwweg de laatste twaalf antwoorden — traag
+genoeg om niet op één misser te schrikken, snel genoeg om binnen een ronde te reageren.
+`T` staat in het profiel en overleeft dus het afsluiten (§8.2).
+
+**Wat `T` stuurt:**
+
+| | Traag (`T` laag) | Gemiddeld | Vlot (`T` hoog) |
+|---|---|---|---|
+| Items tegelijk in de lucht | 5 | 10 | 14 |
+| Herhalingsvenster (§4.5) | 4 woorden | 5 | 6 |
+
+- Plafond: `L = afronden(5 + 9·T)`, geklemd op **5 … 14**.
+- Venster: `T < 0,4` → 4; `0,4 ≤ T < 0,7` → 5; `T ≥ 0,7` → 6.
+- Het plafond stuurt alleen hoeveel nieuw materiaal erbij mag. De herhaling volgt
+  vanzelf: komt er minder nieuw bij, dan vult het algoritme (§4.5) de ronde met due- en
+  onderhoudsvragen.
+
+**Instelling** (§6.8) `tempo`: `auto` (standaard, het bovenstaande), of een vaste keuze
+`rustig` (5), `normaal` (10), `snel` (14). Bij een vaste keuze blijft het venster 5 en
+wordt `T` nog wel bijgehouden (alleen niet gebruikt), zodat terugzetten op `auto` meteen
+een zinnig getal heeft.
+
+- Maximaal **`L` items tegelijk in de lucht** (box 1 of 2), geteld **binnen het actieve pakket**.
 - Nieuwe items worden geïntroduceerd op **woordnummer**, oplopend: dat is de volgorde van het boek en dus de volgorde waarin de leerkracht de leerstof gaf.
 - Per woord altijd eerst `L2N`, daarna pas `L2V` (§4.1).
 
@@ -201,7 +247,7 @@ Identiek aan FLUO §4.2. Elk leeritem zit in box 0 t/m 5:
 
 Twee begrippen sturen het geheel:
 
-- **Herhalingsvenster**: een woord komt pas terug nadat er **5 andere woorden** gesteld zijn.
+- **Herhalingsvenster**: een woord komt pas terug nadat er **`V` andere woorden** gesteld zijn; `V` is 4, 5 of 6 en volgt het tempo (§4.4).
 - **Rondecap**: binnen één ronde komt hetzelfde woord **hoogstens 2 keer** aan bod, in welke richting ook.
 
 ```
@@ -210,7 +256,7 @@ Twee begrippen sturen het geheel:
 3. Probeer in deze volgorde, telkens alleen woorden die deze ronde nog niet
    gesteld zijn en buiten het herhalingsvenster liggen:
      a. een due item, gewogen willekeurig, gewicht = (6 - box);
-     b. een introductie uit box 0 op woordnummer, als er < 10 items in de lucht zijn;
+     b. een introductie uit box 0 op woordnummer, als er < `L` items in de lucht zijn (§4.4);
      c. een onderhoudsvraag uit box 4 of 5;
      d. een vervroegd item, gewogen als in (a).
 4. Pas als dat alles niets oplevert mag herhaald worden: opnieuw (a), (d), (c),
@@ -506,7 +552,9 @@ Het overzichtsscherm toont de 7 caputs, elk uitklapbaar naar hun secties, met pe
 - Rondelengte: 10 / 15 / 20 (standaard 15).
 - Strengheid bij typen: "soepel" (standaard) of "streng" (§7.4).
 - Hoeveel zelf typen: "weinig" / "gemiddeld" (standaard) / "veel" (§4.6).
+- **Leertempo**: `auto` / `rustig` / `normaal` / `snel` (§4.4), met de huidige stand eronder.
 - **App downloaden**: bewaart het bestand zelf (`verba.html`). Alleen zichtbaar wanneer de app van een webserver komt — draait ze al over `file://`, dan valt er niets te downloaden en blijft het blok verborgen. Het is een gewone downloadlink naar het eigen bestand, dus geen achtergrondverkeer: er gebeurt alleen iets als hij klikt.
+- **Leertempo**: het huidige plafond uit §4.4 als getal ("nieuwe woorden tegelijk"), zodat zichtbaar is dat de app meebeweegt.
 - **Backup opslaan** / **Backup laden** (§8.3).
 - **Alles wissen** met dubbele bevestiging.
 
@@ -651,6 +699,29 @@ In **strenge** modus: alleen exacte match na trim en macron-verwijdering; geen t
 
 > Macrons worden **nooit** vereist. Ze staan wel altijd in de weergave, want hij moet ze kunnen lezen, maar ze op een gewoon toetsenbord typen is onwerkbaar.
 
+### 7.4a De vraag verkeerd gelezen — één gratis herkansing
+
+Komt alleen voor bij **typvragen**. Is het getypte antwoord fout voor de gevraagde
+richting, maar **exact juist voor de andere richting van hetzelfde woord** — de genitief
+getypt terwijl de betekenis gevraagd werd, of de vertaling terwijl de vorm gevraagd werd —
+dan is dat geen kennisfout maar een leesfout.
+
+- Er wordt **niets** geteld: geen box-verandering, geen combo-breuk, geen typ-streak, geen
+  XP, geen accuraatheid, geen tempo-index (§4.4), en de vraagteller van de ronde blijft staan.
+- In beeld komt een neutrale kaart (blauw, niet rood): *"↻ Lees de vraag nog eens — dat is
+  de genitief van dit woord, er wordt naar de betekenis gevraagd. Je schreef "…". Deze beurt
+  telt niet mee — probeer het opnieuw."*
+- Het invoerveld wordt leeggemaakt, de cursor staat er weer in, en de antwoordklok van §4.4
+  begint opnieuw te lopen.
+- **Eén keer per vraagbeurt.** Wie daarna nog een fout antwoord geeft, heeft gewoon fout —
+  anders wordt het een gratis hint.
+- Woorden zonder tweede vorm (`soort = geen`) hebben maar één richting en dus nooit een
+  herkansing.
+
+> Waarom: bij het leren viel op dat een deel van de fouten geen kennisfouten waren maar
+> leesfouten — het juiste antwoord op de verkeerde vraag. Dat afstraffen leert niets en
+> breekt wel een combo van tien.
+
 ### 7.5 Feedback per vraag
 
 - **Juist:** groene flits, vinkje, kort geluidje, opstijgend XP-getal, combo pulseert. Automatisch door na **600 ms**.
@@ -679,6 +750,8 @@ In **strenge** modus: alleen exacte match na trim en macron-verwijdering; geen t
     "animaties": true,
     "rondelengte": 15,
     "strengheid": "soepel",           // "soepel" | "streng"
+    "typAandeel": "gemiddeld",        // "weinig" | "gemiddeld" | "veel" (§4.6)
+    "tempo": "auto",                  // "auto" | "rustig" | "normaal" | "snel" (§4.4)
     "pakket": ["1.0", "1.1", "1.2"]   // sectiesleutels; leeg = niets geselecteerd
   },
   "profiel": {
@@ -686,6 +759,7 @@ In **strenge** modus: alleen exacte match na trim en macron-verwijdering; geen t
     "laatsteActieveDag": "2026-09-10",
     "streakGeschiedenis": ["2026-09-08", "2026-09-09"],
     "besteCombo": 17, "blitzRecord": 23,
+    "tempo": 0.62,                    // tempo-index T uit §4.4, 0..1; start 0.5
     "totaalJuist": 412, "totaalFout": 88,
     "vormJuist": 130, "vormFout": 40,
     "totaalRondes": 34, "totaleTijdMs": 4820000
@@ -876,6 +950,14 @@ latijn-studietool/
     zowel de juist als de fout beantwoorde.
 29. De sterformule van §5.4 voldoet aan de drie eigenschappen daar: goud alleen bij alle
     richtingen op 5, 0 alleen bij alle richtingen op 0, en monotoon.
+30. Het adaptieve tempo van §4.4 werkt beide kanten op en blijft binnen zijn grenzen: een
+    reeks snelle juiste antwoorden brengt het plafond naar 14 en het venster naar 6, een
+    reeks foute of trage antwoorden naar 5 en 4, en `T` verlaat nooit het bereik 0–1. Een
+    vaste tempokeuze negeert `T`; op `auto` is het plafond exact `afronden(5 + 9·T)`.
+31. De herkansing van §7.4a laat álle tellers ongemoeid: na een antwoord in de verkeerde
+    richting zijn box, combo, typ-streak, XP, accuraatheid, tempo-index en de vraagteller
+    van de ronde onveranderd, en dezelfde vraag staat opnieuw op het scherm. De tweede
+    fout telt wel gewoon.
 
 ---
 
