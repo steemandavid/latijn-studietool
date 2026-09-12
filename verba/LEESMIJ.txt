@@ -17,6 +17,10 @@ Macrons (de streepjes op ā ē ī ō ū) hoef je nooit te typen.
 Krijg je te veel meerkeuze naar je zin, of juist te weinig? Ga naar
 Instellingen (⚙) > "Hoeveel zelf typen" en zet het op Veel (of Weinig).
 
+Bij een vormvraag (genitief, overige vormen, stamtijden) lijken de vier
+keuzes op elkaar: het zijn vormen van hetzelfde woord. Je moet dus de
+uitgang kennen — de stam herkennen volstaat niet.
+
 Je combo (het vlammetje bovenaan) loopt door van de ene ronde naar de
 volgende — alleen een fout antwoord zet hem terug op nul.
 

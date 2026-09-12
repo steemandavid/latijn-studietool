@@ -1,5 +1,68 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-12 (d) — Meerkeuze bij vormvragen: variëren op de uitgang, niet op de stam (§7.2)
+
+### Probleem
+Bij een vormvraag kwamen de drie afleiders van *andere* woorden. Bij `lītus` stond er dan
+maar één optie met de stam `lītor-` tussen drie vreemde stammen (`amīcī`, `fāmae`, `ducis`)
+— te raden zonder de uitgang te kennen. Hetzelfde gold voor de overige vormen van een
+adjectief en voor de stamtijden van een werkwoord.
+
+### Oplossing
+Drie bouwers (`genAfleiders`, `adjAfleiders`, `wwAfleiders`) maken de afleiders uit het
+gevraagde woord zelf; `afleiderTeksten()` kiest de juiste en valt terug op de oude
+selectie wanneer een woord niet te ontleden valt.
+
+- **Zelfstandige naamwoorden** — dezelfde stam, een andere genitiefuitgang: enkelvoud
+  `-ae / -ī / -is / -ūs` (met `-ēī` pas als vierde keuze, de vijfde declinatie is te
+  zeldzaam), meervoud `-ārum / -ōrum / -ium / -um`. Bij een stamverandering
+  (`lītus → lītoris`) krijgt **één** afleider de nominatiefstam (`lītī`): anders verklapt
+  de stamwissel het antwoord, en met vier keer dezelfde stam zou hij die gratis krijgen.
+  Het geslachtsachtervoegsel (`, m.`, `, v. mv.`) gaat mee naar élke optie.
+- **Bijvoeglijke naamwoorden** — zeven paradigma's herkend aan het juiste antwoord
+  (`bona, bonum`, `gravis, grave; gravis`, `atrōx, atrōx; atrōcis`, `nūlla, nūllum; nūllīus`,
+  `multae, multa`, `omnēs, omnia; omnium`, `māior, māius; māiōris`); de afleiders zetten
+  dezelfde stam in een ander paradigma. Waar de stam wisselt (`sacer → sacra`,
+  `atrōx → atrōcis`) staat er altijd één afleider bij die die wissel niet maakt.
+- **Werkwoorden** — de afleiders regulariseren de stamtijden volgens de vervoeging van de
+  infinitief (`vidēre → viduī, viditum`) en vormen de ene stamtijd uit de andere
+  (`vīsī, vīsum`, `vīdī, vīditum`). Deponentia variëren op het participium, werkwoorden
+  zonder supinum houden hun `-`.
+- **Geloofwaardigheidsfilter**: een kandidaat met een medeklinkergroep of een dubbele
+  letter die niet in het woord zelf voorkomt (`movsī`, `expellsī`, `horttus`) valt af —
+  alleen `ii` mag altijd (`fīliī`, `glōriī`). Zonder dat filter stonden er opties tussen
+  die niemand voor Latijn aanziet, en dat is óók een gratis hint.
+- Een afleider is nooit gelijk aan het juiste antwoord, ook niet in een andere aanvaarde
+  spelling of zonder macrons.
+- Terugval op de oude afleiderselectie voor **19 van de 755** verbuigbare woorden: `vīs`,
+  `rēs pūblica`, `alter`, `plērīque`, `ūnus`, `duo`, `trēs`, `alius`, `meus`/`tuus`/`suus`/`reus`
+  (stam te kort voor een geloofwaardig paradigma), `esse`, `velle`, `mālle`, `nōlle`, `īre`,
+  `accidere`, `contingere`.
+- Beide oproepplaatsen (leerronde en blitz) gaan via `afleiderTeksten(w, r, n)`.
+
+### Tests
+Alle zeven smoketests groen (`npm install playwright` was op deze pc opnieuw nodig; de
+`node_modules/` staat in `.gitignore`). Extra gecontroleerd in de browser op
+`verba/index.html`: 4530 trekkingen over alle 755 verbuigbare woorden, telkens vier opties,
+**nul** afleiders die gelijk zijn aan het juiste antwoord of aan een aanvaarde spelling
+ervan, nul JS-fouten.
+
+### Gepubliceerd
+`verba/index.html` (421 KB) en `verba/LEESMIJ.txt` gekopieerd naar
+`website-steeman.be/static/verba/`, `hugo --gc --minify`, en per curl over FTP geüpload
+naar `/verba/` (lftp-mirror niet nodig voor twee bestanden). Geverifieerd op
+<https://www.steeman.be/verba/>: HTTP 200, byte-identiek aan het gebouwde bestand, en in
+headless Chromium **nul JS-fouten, nul externe requests**; de afleiders komen daar
+morfologisch binnen (`sequī → sequītus sum / sequātus sum / sequtus sum`).
+
+### Documentatie
+- `FUNCTIONELE-SPECIFICATIE.md` §7.2 herschreven: de morfologische afleiderselectie per
+  woordsoort staat nu vóór de oude (algemene) prioriteitslijst, met het
+  geloofwaardigheidsfilter en de lijst terugvalwoorden.
+- `README.md`: bullet over meerkeuze die op de uitgang varieert.
+- `verba/LEESMIJ.txt`: uitleg voor de leerling dat de vier keuzes bij een vormvraag op
+  elkaar lijken (ook live gezet).
+
 ## 2026-09-12 (c) — Downloadknop + gepubliceerd op steeman.be/verba
 
 ### Gepubliceerd

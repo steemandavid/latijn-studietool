@@ -22,6 +22,9 @@ het bestand zelf te downloaden. Achtergrond en ontwerpkeuzes staan in
   volgorde aanvaardt en een tikfout als juist rekent (met de juiste spelling in de
   feedback) — behalve wanneer het een geldig antwoord van een ánder woord is, of wanneer
   bij een vormvraag de uitgang niet klopt.
+- Meerkeuze bij een vormvraag varieert op de **uitgang**, niet op de stam: de vier opties
+  zijn vormen van hetzelfde woord (`amīcī / amīcae / amīcis / amīcūs`), zodat de juiste
+  stam herkennen niet meer volstaat.
 - Voortgang in `localStorage`, met backup opslaan/laden over `file://`.
 
 ## Repo-inhoud

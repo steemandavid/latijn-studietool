@@ -530,7 +530,28 @@ Wat betekent  amīcus ?
 ```
 
 - 4 opties, 1 juist, willekeurige volgorde, bedienbaar met **1–4** en met de muis.
-- **Afleiderselectie**, in deze prioriteit:
+
+**Morfologische afleiders bij een vormvraag (`L2V`)** — die komen *niet* van andere woorden, maar van het gevraagde woord zelf: dezelfde stam, andere maar plausibele uitgangen. Vormen van vreemde woorden maakten de vraag te makkelijk — bij `lītus` stond er één optie met de stam `lītor-` tussen drie vreemde stammen, en die herkende hij zonder de uitgang te kennen. Zo is de **uitgang** de leerstof en niet de stam.
+
+```
+Geef de genitief van      amīcus ?    [ amīcī ]  [ amīcae ]  [ amīcis ]  [ amīcūs ]
+Geef de overige vormen van  gravis ?  [ gravis, grave; gravis ]  [ grava, gravum ]
+                                      [ gravēs, gravia; gravium ]  [ gravior, gravius; graviōris ]
+Geef de stamtijden van    vidēre ?    [ vīdī, vīsum ]  [ viduī, viditum ]
+                                      [ vidēvī, vidētum ]  [ vīsī, vīsum ]
+```
+
+- **Zelfstandige naamwoorden** — de uitgang van het juiste antwoord bepaalt de tegenkandidaten: enkelvoud `-ae / -ī / -is / -ūs` (en `-ēī` pas als vierde keuze), meervoud `-ārum / -ōrum / -ium / -um`. De eigen uitgang valt weg.
+  Bij een **stamverandering** (`lītus → lītoris`, `ōrdō → ōrdinis`) krijgt hoogstens één afleider de nominatiefstam (`lītī`, `ōrdae`); anders zou de stamwissel zelf het antwoord verklappen, terwijl de rest op de genitiefstam blijft staan.
+  Het geslachtsachtervoegsel (`, m.` / `, v. mv.`) staat bij élke optie, nooit alleen bij het juiste antwoord.
+- **Bijvoeglijke naamwoorden** — het juiste antwoord verraadt het paradigma, dus de afleiders zetten dezelfde stam in een ánder paradigma dat hij kent: `bona, bonum` ↔ `bonis, bone; bonis` ↔ `bonae, bona` ↔ `bonum, bona` (omgekeerde volgorde) ↔ `bona, bonum; bonīus` (type `nūllus`) ↔ `bonēs, bona; bonium` (meervoud) ↔ `bonior, bonius; boniōris` (vergrotende trap).
+  Waar de stam van de nominatief verschilt (`sacer → sacra`, `atrōx → atrōcis`) staat er altijd één afleider bij die die wissel *niet* maakt: `sacera, sacerum`, `atrōx, atrōx; atrōxis`.
+- **Werkwoorden** — de onregelmatige perfectumstam ís de leerstof, dus de afleiders regulariseren precies dat: de stamtijden zoals ze eruit zouden zien als het werkwoord braaf zijn vervoeging volgde (`vidēre → viduī, viditum`, `vidēvī, vidētum`), plus de ene stamtijd gevormd uit de andere (`vīsī, vīsum`, `vīdī, vīditum`). Deponentia variëren op het participium (`secūtus sum → sequītus sum`, `sequtus sum`), werkwoorden zonder supinum houden de `-` (`ārsī, - → ārduī, -`).
+- Een afleider moet als Latijn kúnnen klinken: een medeklinkergroep of een dubbele letter die niet in het woord zelf voorkomt (`movsī`, `expellsī`, `horttus`) wordt verworpen — wat hij nooit voor een echte vorm houdt, is geen afleider.
+- Een afleider is nooit gelijk aan het juiste antwoord, ook niet in een andere aanvaarde spelling of zonder macrons.
+- Wat niet te ontleden valt, valt terug op de gewone afleiderselectie hieronder: 19 van de 755 verbuigbare woorden, onder meer `vīs` (geen gen.), `rēs pūblica`, `alter`, `ūnus`, `duo`, `trēs`, `meus`/`tuus`/`suus` (stam te kort), `esse`, `velle`, `īre`, `accidere`.
+
+- **Afleiderselectie** in alle andere gevallen, in deze prioriteit:
   1. Woorden met een **gelijkaardige vorm** (kleine Levenshtein-afstand op het lemma zonder macrons): `amīcus`/`inimīcus`, `pater`/`patria`, `mors`/`mōs`, `lībertās`/`lībertus`;
   2. Woorden uit **dezelfde sectie** (die leert hij samen, dus die verwart hij);
   3. Bij `L2V`: vormen van **dezelfde `soort`** met een gelijkaardige uitgang — een genitief mag nooit als afleider bij een werkwoord staan;
