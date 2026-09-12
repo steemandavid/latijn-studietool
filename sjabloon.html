@@ -96,18 +96,6 @@ header{position:sticky;top:0;z-index:30;
 .screen{display:none;padding-block:26px 72px}
 .screen.on{display:block;animation:opkomst 320ms var(--ease) both}
 
-/* ---- Romeins panorama op het beginscherm (ligne claire, gedempt) ---- */
-:root{--romeH:clamp(230px,30vw,400px)}
-#scr-home{position:relative}
-.rome{position:absolute;left:calc(50% - 50vw);right:calc(50% - 50vw);top:0;
-  height:var(--romeH);pointer-events:none;opacity:.6;z-index:0;overflow:hidden}
-.rome svg{width:100%;height:100%;display:block}
-#scr-home>*:not(.rome){position:relative;z-index:1}
-#scr-home.on{padding-top:calc(var(--romeH) - 14px)}
-@media (max-width:720px){:root{--romeH:200px}
-  .rome{opacity:.55}
-  /* heel panorama past niet op smal scherm: zoom in op schip + maan + begin Colosseum */
-  .rome svg{transform:scale(1.9);transform-origin:50% 100%}}
 @keyframes opkomst{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 h1{font-size:1.75rem;margin:0 0 6px;letter-spacing:-.015em;font-weight:650}
 h1::after{content:"";display:block;width:72px;height:3px;margin-top:11px;border-radius:2px;
@@ -574,79 +562,7 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
 
 <!-- ===== HOME ===== -->
 <section class="screen on" id="scr-home">
-  <!-- Romeins panorama in ligne claire (Colosseum + oorlogstrireem bij maanlicht),
-       gedempt van kleur zodat het de tekst niet stoort -->
-  <div class="rome" aria-hidden="true"><svg viewBox="0 0 1600 400" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <path id="boog" d="M0 36 V16 A10 10 0 0 1 20 16 V36 Z"/>
-      <linearGradient id="romeWater" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#141221"/><stop offset="1" stop-color="#0e0d14"/>
-      </linearGradient>
-    </defs>
-    <g stroke="#5f5779" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <!-- maan -->
-      <circle cx="760" cy="140" r="56" fill="#6e5722" stroke="#a8842e"/>
-      <circle cx="760" cy="140" r="70" fill="none" stroke="#a8842e" opacity=".45"/>
-      <!-- vogels -->
-      <path d="M846 112 q8 -9 16 0 q8 -9 16 0 M890 88 q8 -9 16 0 q8 -9 16 0 M928 120 q8 -9 16 0 q8 -9 16 0" fill="none" stroke="#6d6590"/>
-      <!-- water -->
-      <rect x="0" y="356" width="1600" height="44" fill="url(#romeWater)" stroke="none"/>
-      <path d="M0 359 q40 -5 80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0" fill="none" stroke="#4a4363"/>
-      <!-- oeverlijn rechts -->
-      <path d="M615 356 C660 328 750 316 860 312 C1000 308 1140 314 1280 310 C1380 307 1480 312 1600 308 L1600 356 Z" fill="#1a1826"/>
-      <!-- golven -->
-      <path d="M40 372 q22 -5 44 0 t44 0 M240 370 q22 -5 44 0 t44 0 M470 372 q22 -5 44 0 t44 0 M880 370 q22 -5 44 0 t44 0 M1080 372 q22 -5 44 0 t44 0 M1300 370 q22 -5 44 0 t44 0 M1480 372 q22 -5 44 0 t44 0 M140 384 q22 -5 44 0 t44 0 M360 382 q22 -5 44 0 t44 0 M580 384 q22 -5 44 0 t44 0 M780 382 q22 -5 44 0 t44 0 M1000 384 q22 -5 44 0 t44 0 M1220 382 q22 -5 44 0 t44 0 M1420 384 q22 -5 44 0 t44 0" fill="none" stroke="#453f5e"/>
-      <!-- colosseum: hoge binnenmuur (zichtbaar boven de lage trappen) -->
-      <path d="M1206 258 V198 l12 6 10 -10 14 4 12 -12 12 6 16 -8 12 6 14 -10 10 6 16 -8 12 6 10 -8 16 6 V258 Z" fill="#242033"/>
-      <!-- colosseum: rechtertrap -->
-      <path d="M1310 314 V252 l12 -6 10 6 14 -8 10 8 14 -6 12 6 12 -8 10 6 V314 Z" fill="#292537"/>
-      <g fill="#13111c">
-        <use href="#boog" x="1316" y="266"/><use href="#boog" x="1339" y="266"/><use href="#boog" x="1362" y="266"/><use href="#boog" x="1385" y="266"/>
-      </g>
-      <!-- colosseum: middentrap -->
-      <path d="M1210 314 V196 l10 8 14 -6 12 6 12 -8 10 6 14 -4 8 6 20 -6 V314 Z" fill="#292537"/>
-      <g fill="#13111c">
-        <use href="#boog" x="1214" y="210"/><use href="#boog" x="1239" y="210"/><use href="#boog" x="1264" y="210"/><use href="#boog" x="1289" y="210"/>
-        <use href="#boog" x="1214" y="258"/><use href="#boog" x="1239" y="258"/><use href="#boog" x="1264" y="258"/><use href="#boog" x="1289" y="258"/>
-      </g>
-      <path d="M1210 252 H1310" fill="none"/>
-      <!-- colosseum: hoge buitenmuur met gebroken kroonlijst -->
-      <path d="M980 314 V146 l12 -12 8 8 14 -10 10 6 16 -8 8 8 18 -6 10 8 16 -10 10 6 14 -6 8 8 18 -8 10 6 16 -4 8 6 14 -8 10 4 12 -6 6 6 V314 Z" fill="#2e2a3e"/>
-      <g fill="#13111c">
-        <use href="#boog" x="986" y="142"/><use href="#boog" x="1014" y="142"/><use href="#boog" x="1042" y="142"/><use href="#boog" x="1070" y="142"/><use href="#boog" x="1098" y="142"/><use href="#boog" x="1126" y="142"/><use href="#boog" x="1154" y="142"/><use href="#boog" x="1182" y="142"/>
-        <use href="#boog" x="986" y="190"/><use href="#boog" x="1014" y="190"/><use href="#boog" x="1042" y="190"/><use href="#boog" x="1070" y="190"/><use href="#boog" x="1098" y="190"/><use href="#boog" x="1126" y="190"/><use href="#boog" x="1154" y="190"/><use href="#boog" x="1182" y="190"/>
-        <use href="#boog" x="986" y="238"/><use href="#boog" x="1014" y="238"/><use href="#boog" x="1042" y="238"/><use href="#boog" x="1070" y="238"/><use href="#boog" x="1098" y="238"/><use href="#boog" x="1126" y="238"/><use href="#boog" x="1154" y="238"/><use href="#boog" x="1182" y="238"/>
-      </g>
-      <path d="M980 184 H1210 M980 232 H1210 M980 280 H1210" fill="none"/>
-      <g fill="#13111c" stroke="none">
-        <rect x="990" y="286" width="9" height="12"/><rect x="1024" y="286" width="9" height="12"/><rect x="1058" y="286" width="9" height="12"/><rect x="1092" y="286" width="9" height="12"/><rect x="1126" y="286" width="9" height="12"/><rect x="1160" y="286" width="9" height="12"/><rect x="1194" y="286" width="9" height="12"/>
-      </g>
-      <!-- gezamenlijke plint onder de ruïne -->
-      <path d="M974 316 V300 H1410 V316 Z" fill="#262234"/>
-      <!-- cipressen en paraplu dennen -->
-      <path d="M748 314 C738 292 740 260 748 246 C756 260 758 292 748 314 Z" fill="#232031"/>
-      <path d="M770 314 C762 296 764 270 770 258 C776 270 778 296 770 314 Z" fill="#232031"/>
-      <path d="M882 314 C878 290 884 268 878 250" fill="none"/>
-      <path d="M814 252 Q822 228 850 226 Q844 214 872 212 Q904 210 920 227 Q938 223 940 242 Q940 254 922 257 L832 257 Q816 257 814 252 Z" fill="#333d2e"/>
-      <path d="M1462 312 C1459 296 1463 282 1459 270" fill="none"/>
-      <path d="M1418 271 Q1424 255 1443 254 Q1439 246 1458 245 Q1479 244 1490 256 Q1502 253 1503 266 Q1503 274 1491 276 L1432 276 Q1419 276 1418 271 Z" fill="#2e3629"/>
-      <!-- oorlogstrireem -->
-      <path d="M314 322 C356 334 470 338 534 330 L542 336 C534 346 518 352 498 355 C440 362 356 359 328 350 C316 346 308 334 306 326 Z" fill="#6e4237"/>
-      <path d="M528 330 L600 345 L532 354 Z" fill="#6e4237"/>
-      <path d="M318 331 C360 341 460 345 528 337 M314 340 C352 350 448 353 516 347" fill="none"/>
-      <path d="M316 324 C302 318 294 308 293 296 C292 289 296 284 302 284 C307 284 310 288 308 292 C306 295 302 295 301 292" fill="none"/>
-      <path d="M536 328 C542 322 548 314 550 306" fill="none"/>
-      <circle cx="518" cy="337" r="3.5" fill="#c9a84e" stroke="none"/>
-      <path d="M432 330 L427 218" fill="none"/>
-      <path d="M427 218 L462 227 L427 236 Z" fill="#8f4a48"/>
-      <path d="M352 241 L506 241" fill="none"/>
-      <path d="M370 245 L488 245 C485 271 483 293 479 313 Q429 327 383 314 C381 292 377 268 370 245 Z" fill="#cfc19c"/>
-      <path d="M407 247 C406 271 405 293 403 313 M447 247 C447 269 447 291 447 311" fill="none" stroke-width="2"/>
-      <path d="M340 338 L326 358 M372 340 L358 359 M436 341 L422 360 M468 341 L454 360 M500 339 L486 358" fill="none"/>
-      <path d="M310 326 L276 352 L266 360" fill="none" stroke-width="3"/>
-      <path d="M292 358 q34 -5 68 0 M468 359 q34 -5 68 0" fill="none" stroke="#453f5e"/>
-    </g>
-  </svg></div>
+
   <div id="opslagWaarsch"></div>
   <h1>Latijnse woordenschat</h1>
   <p class="sub" id="homeSub">1051 woorden, 7 caputs.</p>

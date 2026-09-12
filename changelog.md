@@ -2,6 +2,10 @@
 
 ## 2026-09-12 (e) — Romeins panorama op het beginscherm (ligne claire)
 
+> **Teruggedraaid (zelfde dag):** het panorama is na twee herzieningen (vol panorama →
+> Colosseum-dominante scène) toch verwijderd — het voldeed niet. SVG en CSS zijn
+> volledig uit `sjabloon.html` weggehaald; deze entry dient alleen als archivedaad.
+
 ### Doel
 Een gedempte achtergrondtekening van een Romeinse scène op het beginscherm, in
 Tintin-stijl (ligne claire), zonder de leesbaarheid te storen.
