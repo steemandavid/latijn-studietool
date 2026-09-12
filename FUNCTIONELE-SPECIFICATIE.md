@@ -538,13 +538,17 @@ als klein bijschrift. De twee richtingen zijn op drie manieren uit elkaar te hou
 
 | Richting | Badge | Kleur |
 |---|---|---|
-| `L2N` | 💬 Wat **BETEKENT** | blauw (`#5b89ae`-familie) |
-| `L2V` | 🔤 Geef de **GENITIEF** van (resp. **OVERIGE VORMEN** / **STAMTIJDEN**) | goud (`--goud`) |
+| `L2N` | 📜-icoon (volumen, papyrusrol) + Wat **BETEKENT** | blauw (`#5b89ae`-familie) |
+| `L2V` | zuil-icoon (Romeinse kolom) + Geef de **GENITIEF** van (resp. **OVERIGE VORMEN** / **STAMTIJDEN**) | goud (`--goud`) |
 
 Het kernwoord van de vraag staat vet, in hoofdletters en onderstreept. Reden: met een klein
 bijschrift in de caputkleur werd de vraag overgeslagen en antwoordde de leerling de
 vertaling op een vormvraag. De badge mag nooit de caput-accentkleur overnemen — dan valt het
 onderscheid tussen de richtingen weg.
+
+De iconen zijn **inline SVG in de lijnstijl van de app** (`stroke:currentColor`, geen
+emoji): emoji vallen buiten het Romeinse thema en renderen per platform anders. Ze erven
+de kleur van de badge, dus ze hoeven niet apart gethematiseerd te worden.
 
 ### 7.2 Meerkeuzevraag
 

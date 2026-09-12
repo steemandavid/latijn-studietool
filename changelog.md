@@ -14,14 +14,21 @@ werden omdat de vraagzin niet gelezen werd.
 - **"accuratesse" → "accuraatheid"** in het statistiekenscherm, de spec (§6.7) en de
   codecommentaar.
 - **Vraagkop als badge (§7.1.1)**: de vraagsoort staat nu in een pil met eigen kleur per
-  richting — blauw `💬 Wat BETEKENT` tegenover goud `🔤 Geef de GENITIEF van` — met het
+  richting — blauw "Wat BETEKENT" tegenover goud "Geef de GENITIEF van" — met het
   kernwoord vet, in hoofdletters en onderstreept. Was: 0,78 rem kleinkapitaal in de
   caputkleur, dus wisselend van kleur per caput en makkelijk over te slaan. De badge
   gebruikt bewust *niet* de caput-accentkleur, anders verdwijnt het onderscheid tussen de
   twee richtingen weer.
 
+- **Iconen in de vraagkop**: eerst emoji (💬/🔤), maar die passen niet bij het Romeinse
+  thema — vervangen door inline SVG in de lijnstijl van de app: een **volumen**
+  (papyrusrol met golvende randen en twee tekstregels) voor de betekenis en een
+  **Romeinse zuil** (kapiteel, drie schachten, basement — familie van de tempel-favicon)
+  voor de vorm. `stroke:currentColor`, dus ze nemen automatisch de badgekleur over.
+
 ### Verificatie
-Alle zeven smoketests groen (89/89), nul pageerrors. Aparte controle: de negen
+Alle zeven smoketests groen (89/89), nul pageerrors. Iconen op 4× ingezoomd beoordeeld
+(twee tussenversies verworpen: een notitieblok en iets dat op een sleutel leek). Aparte controle: de negen
 title-teksten staan op de juiste elementen, beide vraagkoppen renderen als één regel
 ("💬 Wat BETEKENT" / "🔤 Geef de GENITIEF van") en het woord "accuratesse" komt nergens
 meer in de app voor.
