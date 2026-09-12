@@ -14,8 +14,10 @@ klaar. Geen installatie, geen server, geen internet — en nul netwerkrequests.
 - **Verover** — per sectie alles typen tot je ze veroverd hebt; 59 toetsen ontgrendelen het examen.
 - **Collectie** — een mozaïek van alle 1051 woorden dat langzaam goud kleurt.
 - XP, levels, combo's, dagstreak, 20 badges en 20 tesserae.
-- Antwoordbeoordeling die macrons nooit verplicht, meerdere betekenissen aanvaardt en
-  een typfout van één teken als "bijna" behandelt.
+- Antwoordbeoordeling die macrons nooit verplicht, meerdere betekenissen in gelijk welke
+  volgorde aanvaardt en een tikfout als juist rekent (met de juiste spelling in de
+  feedback) — behalve wanneer het een geldig antwoord van een ánder woord is, of wanneer
+  bij een vormvraag de uitgang niet klopt.
 - Voortgang in `localStorage`, met backup opslaan/laden over `file://`.
 
 ## Repo-inhoud

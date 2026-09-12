@@ -710,7 +710,7 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
       <select id="inRonde"><option>10</option><option>15</option><option>20</option></select></label>
     <label class="rij" style="justify-content:space-between">
       <span>Strengheid bij typen
-        <span class="sub" style="display:block;margin:0">Soepel: typfout van één letter telt als "bijna"</span></span>
+        <span class="sub" style="display:block;margin:0">Soepel: een tikfout telt als juist; streng eist de exacte spelling</span></span>
       <select id="inStreng"><option value="soepel">Soepel</option><option value="streng">Streng</option></select></label>
     <label class="rij" style="justify-content:space-between">
       <span>Hoeveel zelf typen
@@ -1580,19 +1580,105 @@ function aanvaard(w, r, streng){
   return (r === "L2N" ? w.ta : w.a) || [];
 }
 
+/* ======================= TIKFOUTEN (§7.4) ======================= */
+/* Een tikfout is een motorische misser (verwisselde letters, een dubbele letter, een
+   letter te veel of te weinig), geen kennisfout. Ze telt daarom als juist, met een
+   kleine XP-korting. Drie grenzen houden dat eerlijk:
+   - de tolerantie schaalt mee met de lengte: < 4 tekens nul, tot 9 één, daarboven twee;
+   - wat hij typte mag niet het antwoord van een ánder woord zijn — dat is verwarring;
+   - bij een vormvraag (L2V) moeten de laatste twee tekens kloppen, want de uitgang ís
+     de leerstof: `ducem` voor `ducis` blijft "bijna", niet "tikfout". */
+const ontdubbel  = s => s.replace(/(.)\1+/g, "$1");
+const tolerantie = a => a.length >= 10 ? 2 : a.length >= 4 ? 1 : 0;
+const deelLijst  = s => s.split(", ").map(x => x.trim()).filter(Boolean);
+function deelSet(lijst){
+  const uit = new Set();
+  for(const a of lijst) for(const d of deelLijst(a)) uit.add(d);
+  return uit;
+}
+function staart(a, b){                     // lengte van het gemeenschappelijke einde
+  let n = 0;
+  while(n < a.length && n < b.length && a[a.length-1-n] === b[b.length-1-n]) n++;
+  return n;
+}
+function isVerwisseling(a, b){          // exact twee buren omgewisseld: amcii <-> amici
+  if(a.length !== b.length) return false;
+  const p = [];
+  for(let i = 0; i < a.length; i++) if(a[i] !== b[i]){ p.push(i); if(p.length > 2) return false; }
+  return p.length === 2 && p[1] === p[0] + 1 && a[p[0]] === b[p[1]] && a[p[1]] === b[p[0]];
+}
+function damLev(a, b){                     // Levenshtein + verwisseling van twee buren
+  if(a === b) return 0;
+  if(Math.abs(a.length - b.length) > 2) return 9;
+  const m = a.length, n = b.length, d = [];
+  for(let i = 0; i <= m; i++) d[i] = [i];
+  for(let j = 0; j <= n; j++) d[0][j] = j;
+  for(let i = 1; i <= m; i++) for(let j = 1; j <= n; j++){
+    d[i][j] = Math.min(d[i-1][j] + 1, d[i][j-1] + 1,
+                       d[i-1][j-1] + (a[i-1] === b[j-1] ? 0 : 1));
+    if(i > 1 && j > 1 && a[i-1] === b[j-2] && a[i-2] === b[j-1])
+      d[i][j] = Math.min(d[i][j], d[i-2][j-2] + 1);
+  }
+  return d[m][n];
+}
+let ANTW = null;                           // alle antwoorden van de hele woordenlijst
+function antwIndex(r){
+  if(!ANTW){
+    ANTW = {L2N:new Set(), L2V:new Set()};
+    for(const k of W){
+      for(const t of (k.ta || [])) for(const d of deelLijst(t)) ANTW.L2N.add(d);
+      for(const t of (k.a  || [])) ANTW.L2V.add(t);
+    }
+  }
+  return ANTW[r];
+}
+function tikfout(g, kandidaten, r){
+  if(antwIndex(r).has(g)) return null;     // een geldig antwoord van een ánder woord
+  let best = null, bijna = null;
+  for(const a of kandidaten){
+    const tol = tolerantie(a);
+    if(!tol) continue;
+    const d = damLev(g, a);
+    if(!d || d > tol) continue;
+    /* Bij een vormvraag telt alleen een fout in de stam als tikfout. Een dubbele letter
+       en een verwisseling van twee buren kunnen geen geldige andere uitgang opleveren en
+       mogen dus overal; een substitutie of een ontbrekende letter in de laatste twee
+       tekens wel (amicō voor amicī) en blijft daarom "bijna". */
+    if(r === "L2V" && ontdubbel(g) !== ontdubbel(a) && !isVerwisseling(g, a) && staart(g, a) < 2){
+      if(!bijna) bijna = {uit:"bijna", bedoeld:a};   // uitgangsfout: kennis, geen tik
+      continue;
+    }
+    if(!best || d < best.d) best = {uit:"tikfout", bedoeld:a, d};
+  }
+  return best || bijna;
+}
+
 function beoordeel(invoer, w, r){
   const streng = S.settings.strengheid === "streng";
   const g = streng ? normStreng(invoer) : norm(invoer);
   if(!g) return {uit:"fout"};
   const lijst = aanvaard(w, r, streng);
   if(lijst.includes(g)) return {uit:"juist"};
-  if(!streng){
-    // meerdere betekenissen: één ervan volstaat (zit al in de lijst),
-    // hier alleen nog de typfout-tolerantie
-    for(const a of lijst)
-      if(a.length >= 5 && lev(g, a) === 1) return {uit:"bijna", bedoeld:a};
+  if(streng) return {uit:"fout"};
+
+  if(r === "L2V"){                         // een vorm is één geheel, geen opsomming
+    const k = tikfout(g, lijst, r);
+    return k ? {uit:k.uit, bedoeld:k.bedoeld} : {uit:"fout"};
   }
-  return {uit:"fout"};
+  /* Betekenissen zijn een verzameling, geen rij: "verzorgen, zorgen voor" is even juist
+     als "zorgen voor, verzorgen", en één betekenis volstaat nog altijd. Elk deel dat hij
+     geeft moet wel kloppen, anders is een verkeerde betekenis er gratis bij. */
+  const delen = deelLijst(g);
+  if(new Set(delen).size !== delen.length) return {uit:"fout"};
+  const set = deelSet(lijst);
+  let tik = null;
+  for(const d of delen){
+    if(set.has(d)) continue;
+    const k = tikfout(d, set, r);
+    if(!k || k.uit !== "tikfout") return {uit:"fout"};
+    tik = tik || k;
+  }
+  return tik ? {uit:"tikfout", bedoeld:tik.bedoeld} : {uit:"juist"};
 }
 
 /* --- afleiders voor meerkeuze --- */
@@ -2003,7 +2089,7 @@ function startRonde(opties){
     toast("Kies eerst een leerpakket."); return;
   }
   Q = {id:++rondeId, modus:o.modus, lengte:o.lengte, i:0, goed:0, fout:0, bijna:0, xp:0, besteCombo:0,
-       start:Date.now(), telWoord:new Map(), foutRonde:new Set(), typ:0, mc:0,
+       start:Date.now(), telWoord:new Map(), foutRonde:new Set(), typ:0, mc:0, tik:0,
        lijst:o.lijst, omhoog:[], missers:[], sectie:o.sectie || null, titel:o.titel || null};
   recenteNrs = [];
   /* §5.2: de combo hoort bij de leerling, niet bij de ronde. Hij loopt door van de
@@ -2134,7 +2220,10 @@ function verwerk(uit, w, v, ctx){
   it.laatstGezien = new Date().toISOString();
 
   let xp = 0;
-  if(uit === "juist"){
+  /* §7.4: een tikfout telt als juist — box, combo, typ-streak en accuratesse lopen
+     gewoon door. Alleen de XP is iets lager, zodat spelling nog iets betekent. */
+  const goed = uit === "juist" || uit === "tikfout";
+  if(goed){
     it.juist++; p.totaalJuist++;
     if(v.r === "L2V") p.vormJuist++;
     const oud = it.box;
@@ -2153,9 +2242,10 @@ function verwerk(uit, w, v, ctx){
       if(combo > p.besteCombo) p.besteCombo = combo;
       if(combo > Q.besteCombo) Q.besteCombo = combo;
     }
-    xp += (ctx.getypt ? 20 : 10) + (eerstNa ? 5 : 0);
+    xp += (ctx.getypt ? (uit === "tikfout" ? 16 : 20) : 10) + (eerstNa ? 5 : 0);
     xp = Math.round(xp * comboMult(combo));
     Q.goed++;
+    if(uit === "tikfout") Q.tik++;
     if(ctx.getypt){ p.typStreak++; if(p.typStreak > p.besteTypStreak) p.besteTypStreak = p.typStreak; }
     if(!stil){ sfx("goed"); flits("var(--goed)"); }
   } else if(uit === "bijna"){
@@ -2190,7 +2280,14 @@ function toonFeedback(uit, w, v, ctx){
   const id = Q.id;
   if(stil){ Q.i++; setTimeout(() => { if(zelfdeRonde(id)) volgendeVraag(); }, 120); return; }
 
-  if(uit === "juist"){
+  if(uit === "tikfout"){
+    fb.innerHTML = `<div class="fb goed"><div class="kop">✓ Juist</div>
+      <div class="extra">Tikfoutje — je schreef "${escapeHTML(ctx.gegeven)}".
+        Je schrijft het als <b class="${v.r === "L2V" ? "lat" : ""}">${ctx.bedoeld || goed}</b>.</div></div>`;
+    Q.i++;
+    const t = setTimeout(() => { if(zelfdeRonde(id)) volgendeVraag(); }, 1400);
+    Q.enter = () => { clearTimeout(t); if(zelfdeRonde(id)) volgendeVraag(); };
+  } else if(uit === "juist"){
     // §7.4: bij meerdere betekenissen toont de feedback de andere betekenissen
     // ("Ook juist: de gelegenheid."), niet de volledige vertaling nog eens.
     const delen = v.r === "L2N" && w.t.includes(";")
@@ -2256,15 +2353,18 @@ function eindRonde(){
   const doel = dagdoelStatus();
   $("#resBox").innerHTML = `
     <div class="groot">${Q.goed} / ${beantwoord}</div>
-    <div class="sub2">${Q.fout === 0 && Q.bijna === 0 ? "Vlekkeloos." : Q.goed >= beantwoord*.7 ? "Netjes." : "Volgende keer beter."}</div>
+    <div class="sub2">${Q.fout === 0 && Q.bijna === 0
+        ? (Q.tik ? "Vlekkeloos — op een tikfoutje na." : "Vlekkeloos.")
+        : Q.goed >= beantwoord*.7 ? "Netjes." : "Volgende keer beter."}</div>
     <div class="stat">
       <div><b>+${Q.xp}</b><span>XP</span></div>
       <div><b>${Q.besteCombo}</b><span>langste combo</span></div>
-      <div><b>${Q.bijna}</b><span>bijna juist</span></div>
+      <div><b>${Q.tik}</b><span>tikfout${Q.tik === 1 ? "" : "jes"}</span></div>
       <div><b>${omhoog.length}</b><span>woorden vooruit</span></div>
     </div>
     ${omhoog.length ? `<p class="sub">Omhoog: ${omhoog.slice(0,14).map((n,i) =>
         `<span class="omh" style="animation-delay:${Math.min(i*90, 900)}ms"><span class="lat">${BY_NR[n].kop}</span> ${"★".repeat(sterren(n))}</span>`).join(", ")}${omhoog.length>14?"…":""}</p>` : ""}
+    ${Q.bijna ? `<p class="sub">≈ ${Q.bijna}× bijna: de uitgang klopte niet helemaal.</p>` : ""}
     ${doel ? `<p class="sub">📅 ${doel}</p>` : ""}
     ${res.badges.length ? `<p class="sub">🏅 Nieuwe badge: ${res.badges.map(b=>b.n).join(", ")}</p>` : ""}
     <div class="rij" style="margin-top:18px">
@@ -2311,7 +2411,7 @@ function startBlitz(){
   if(!PAK.length){ toast("Kies eerst een leerpakket."); return; }
   B = {id:++rondeId, tijd:60000, score:0, start:Date.now(), laatst:Date.now()};
   recenteNrs = [];
-  Q = {modus:"blitz", i:0, goed:0, fout:0, bijna:0, xp:0, besteCombo:0, start:Date.now(),
+  Q = {modus:"blitz", i:0, goed:0, fout:0, bijna:0, tik:0, xp:0, besteCombo:0, start:Date.now(),
        gezien:new Set(), omhoog:[], missers:[]};
   rondeCtx = Q; combo = 0; updateCombo();
   toon("blitz"); blitzVraag();

@@ -564,20 +564,39 @@ Normalisatie vóór vergelijking (soepele modus, de standaard):
   volstaan met `forum`, en bij `(z.) wie?, wat?` is `wie` al juist.
 - Elk deel van een opsomming is apart juist: bij `deze, dit` volstaat `deze`.
 - Bij meerdere betekenissen (`de plaats; de gelegenheid`) is **één correcte betekenis genoeg**. De feedback toont dan wel de volledige vertaling, met de melding *"Ook juist: de gelegenheid."*
+- Betekenissen zijn een **verzameling, geen rij**: geeft hij er meerdere, dan maakt de volgorde niet uit (`verzorgen, zorgen voor` = `zorgen voor, verzorgen`). Elk deel dat hij geeft moet wel kloppen en elk deel mag maar één keer voorkomen — een verkeerde betekenis erbij is fout.
 
 **Bij `L2V` (vorm):**
 - Zowel de gedrukte (`~a, ~um`) als de uitgeschreven vorm (`bona, bonum`) is juist.
 - De geslachtsaanduiding is optioneel: `ducis` en `ducis, m.` zijn beide juist.
 
+**Tikfouten.** Een tikfout is een motorische misser, geen kennisfout: ze mag een reeks
+niet breken. Ze telt daarom **als juist**, met alleen een kleine XP-korting en de juiste
+spelling in de feedback. Herkenning:
+
+- Afstand volgens **Damerau-Levenshtein**, zodat een verwisseling van twee buren
+  (`amcii` voor `amici`) één fout kost en geen twee.
+- De tolerantie schaalt met de lengte van het aanvaarde antwoord: **< 4 tekens nul**,
+  **4–9 tekens één**, **≥ 10 tekens twee**. Korte antwoorden krijgen dus geen marge.
+- Wat hij typte mag **geen geldig antwoord van een ander woord** zijn — dat is verwarring,
+  geen tikfout, en blijft fout.
+- Bij `L2V` moet de **uitgang** kloppen: alleen een fout in de stam telt als tikfout. Een
+  dubbele letter of een verwisseling van twee buren mag overal (die leveren nooit een
+  geldige andere vorm op); een substitutie of een ontbrekende letter in de laatste twee
+  tekens niet — `amicō` voor `amicī` blijft "bijna".
+- Bij meerdere betekenissen geldt dit **per deel**: één tikfout in één deel maakt het
+  geheel een tikfout, niet fout.
+
 **Uitkomsten:**
 
 | Uitkomst | Voorwaarde | Gevolg |
 |---|---|---|
-| **Juist** | Genormaliseerd gelijk aan een aanvaard antwoord | Box +1, volle XP |
-| **Bijna** | Levenshtein-afstand 1 t.o.v. een aanvaard antwoord van ≥ 5 tekens | Box blijft, halve XP, combo blijft. *"Bijna! Je bedoelde* amīcī*. Let op de spelling."* |
-| **Fout** | Al de rest | Box → 1, 0 XP, combo → 0 |
+| **Juist** | Genormaliseerd gelijk aan een aanvaard antwoord, of dezelfde betekenissen in een andere volgorde | Box +1, volle XP (20 getypt) |
+| **Tikfout** | Binnen de tolerantie hierboven | **Als juist**: box +1, combo +1, typ-streak +1, telt in de accuratesse en behoudt de "Vlekkeloos"-bonus. XP 16 i.p.v. 20. *"✓ Juist — tikfoutje: je schreef* amicsu*. Je schrijft het als* amīcī*."* |
+| **Bijna** | Enkel nog bij `L2V`: dicht bij een aanvaarde vorm, maar de uitgang klopt niet | Box blijft, halve XP, combo blijft staan (groeit niet) |
+| **Fout** | Al de rest, inclusief een geldig antwoord van een ánder woord | Box → 1, 0 XP, combo → 0 |
 
-In **strenge** modus: alleen exacte match na trim en macron-verwijdering; geen "bijna", geen optioneel lidwoord.
+In **strenge** modus: alleen exacte match na trim en macron-verwijdering; geen tikfouten, geen "bijna", geen optioneel lidwoord, en de volgorde van de betekenissen ligt vast.
 
 > Macrons worden **nooit** vereist. Ze staan wel altijd in de weergave, want hij moet ze kunnen lezen, maar ze op een gewoon toetsenbord typen is onwerkbaar.
 
@@ -780,7 +799,8 @@ latijn-studietool/
 9. Macrons zijn nooit verplicht bij het typen; `amici` is juist voor `amīcī`.
 10. Bij een meervoudige vertaling volstaat één betekenis, en het lidwoord is optioneel.
 11. Bij een vormvraag is zowel `~a, ~um` als `bona, bonum` juist, en is de geslachtsaanduiding optioneel.
-12. Een typfout op één teken wordt als "bijna" behandeld (soepele modus).
+12. Een tikfout (soepele modus) telt als juist: box +1, combo en typ-streak lopen door, XP iets lager. Een andere naamvalsuitgang blijft "bijna", een geldig antwoord van een ander woord blijft fout.
+12a. De volgorde van meerdere betekenissen maakt niet uit; een verkeerde betekenis erbij blijft fout.
 13. Het mozaïek kleurt zichtbaar mee met de voortgang, van grijs over caputkleur naar goud, en dimt wat buiten het pakket valt.
 14. XP, levels, combo, dagstreak en de 20 badges uit §5.5 werken.
 14a. De combo loopt door van de ene ronde naar de volgende en overleeft het afsluiten; alleen een fout antwoord zet hem op 0 (§5.2).

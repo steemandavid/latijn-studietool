@@ -1,5 +1,79 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-12 (b) — Tikfouten tellen als juist, volgorde van betekenissen vrij
+
+### Aanleiding
+Twee klachten na het gebruik van de vorige ronde aanpassingen: een tikfout gaf "bijna",
+wat frustreert en de reeks stilzet; en wie twee juiste betekenissen in de andere volgorde
+typt, kreeg "fout" (`zorgen voor, verzorgen` ↔ `verzorgen, zorgen voor`).
+
+### Wat er mis was
+- **"Bijna" was een straf met korting.** De combo brak niet, maar groeide ook niet
+  (multiplier bevroor), de typ-streak stond stil, de box schoof niet op naar goud, het
+  antwoord telde in géén van beide accuratesse-tellers, en de "Vlekkeloos"-bonus (+50) en
+  de bijbehorende rondebadge waren weg omdat die `Q.bijna === 0` eisen.
+- **De herkenning was te smal.** `lev()` brak af bij een lengteverschil > 1 en eiste
+  afstand exact 1 op antwoorden van ≥ 5 tekens. Een verwisseling (`amicsu`) is in gewone
+  Levenshtein afstand 2 en werd dus gewoon **fout**, net als elke tikfout in een kort woord.
+- **Betekenissen werden als een rij vergeleken**, niet als een verzameling: alleen de
+  gedrukte volgorde stond in `ta`.
+
+### Wat er veranderd is (§7.4)
+1. **Nieuwe uitkomst `tikfout`, die als juist telt**: box +1, combo +1, typ-streak +1,
+   telt in de accuratesse, behoudt "Vlekkeloos" en is in Verover/examen geen misser.
+   Alleen de XP is 16 i.p.v. 20, en de feedback toont de juiste spelling
+   ("✓ Juist — tikfoutje: je schreef …").
+2. **Damerau-Levenshtein** (`damLev`): een verwisseling van twee buren kost één fout.
+   Tolerantie schaalt met de lengte: < 4 tekens 0, 4–9 tekens 1, ≥ 10 tekens 2.
+3. **Twee grenzen** houden het eerlijk:
+   - `antwIndex()` — een geïndexeerde verzameling van álle antwoorden uit de woordenlijst.
+     Is wat hij typte een geldig antwoord van een **ander** woord, dan is het verwarring
+     en blijft het fout (`de vijand` voor `de vriend`).
+   - Bij `L2V` moet de **uitgang** kloppen (`staart() >= 2`), want de uitgang ís de
+     leerstof. Uitzonderingen die nooit een geldige andere vorm opleveren en dus overal
+     mogen: een dubbele letter (`ontdubbel`) en een verwisseling van twee buren
+     (`isVerwisseling`). `amicō` voor `amicī` blijft daardoor "bijna".
+4. **Betekenissen zijn een verzameling**: bij `L2N` wordt het antwoord op `", "` gesplitst
+   en deel voor deel vergeleken met alle aanvaarde delen. Volgorde vrij, één betekenis
+   volstaat nog altijd, elk deel moet kloppen en mag maar één keer voorkomen. Bij `L2V`
+   blijft de vorm één geheel (anders zou `bonum` alleen volstaan voor `bona, bonum`).
+5. **"Bijna" bestaat nog** maar alleen nog voor uitgangsfouten bij vormvragen, met het
+   oude gevolg (halve XP, box blijft). Het rondeoverzicht toont nu "tikfoutjes" en meldt
+   eventuele bijna-antwoorden apart.
+
+### Voorbeelden (uit smoke-7)
+| invoer | woord/richting | uitkomst |
+|---|---|---|
+| `de vrind`, `de vriedn` | 2 amīcus · L2N | tikfout |
+| `de vijand` | 2 amīcus · L2N | fout (antwoord van een ander woord) |
+| `amcii`, `amicii` | 2 amīcus · L2V | tikfout (stam) |
+| `amico` | 2 amīcus · L2V | bijna (uitgang) |
+| `zorgen voor, verzorgen` | 263 cūrāre · L2N | juist |
+| `zorgen voor, verzrogen` | 263 cūrāre · L2N | tikfout |
+| `verzorgen, de vriend` | 263 cūrāre · L2N | fout |
+
+### Tests
+- Nieuw: `test/smoke-7-tikfouten.js` (16 checks), met een **kruiscontrole** over 185 897
+  woordparen: geen enkel antwoord van een ander woord glipt door als tikfout. Speelt ook
+  een echte ronde met een tikfout erin en controleert dat combo en typ-streak doorlopen.
+- `test/smoke-2` aangepast: de check "typfout = bijna" is nu "typfout = tikfout".
+- Alle suites groen: 37 + 13 + 4 + 3 + 5 + 9 + 16 = 87 checks.
+
+### Documentatie bijgewerkt
+| Bestand | Wat |
+|---|---|
+| `FUNCTIONELE-SPECIFICATIE.md` | §7.4 herschreven (tikfout-herkenning, de vier uitkomsten, betekenissen als verzameling), criteria 12 en 12a |
+| `README.md` | de regel over antwoordbeoordeling |
+| `verba/LEESMIJ.txt` | uitleg voor de gebruiker: een tikfoutje telt als juist, volgorde van betekenissen maakt niet uit |
+| `test/LEESMIJ.txt` | wat smoke-7 bewaakt, inclusief de kruiscontrole |
+| `test/shots/8-tikfout.png` | screenshot van de nieuwe feedbackkaart |
+
+### Aandachtspunt
+Een tikfout laat het item **wel** naar de volgende box gaan en telt in Verover/examen als
+juist. Dat is bewust (hij kent het woord), maar het betekent dat een sectie veroverd kan
+worden met een tikfout erin. Wie dat niet wil, zet Strengheid op "streng": daar bestaat
+geen tikfout en ligt ook de volgorde van de betekenissen vast.
+
 ## 2026-09-12 — Minder meerkeuze, minder herhaling (feedback van de gebruiker)
 
 ### Aanleiding

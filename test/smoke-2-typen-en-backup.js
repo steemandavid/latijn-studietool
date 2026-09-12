@@ -74,7 +74,7 @@ const check = (naam, ok, detail) => {
           && fouttest.volgendeKnop && !!fouttest.toontAntwoord, fouttest);
     check('fout antwoord breekt de combo (chip uit)', !fouttest.overgeslagen && fouttest.combo===0, fouttest);
 
-    // "bijna": één letter fout
+    // tikfout: één letter mis (sinds 2026-09-12 telt die als juist, §7.4)
     const bijna = await p.evaluate(async () => {
       const w = BY_NR[694];  // hōra / hōrae / het uur
       const r1 = beoordeel("het uue", w, "L2N");
@@ -85,8 +85,8 @@ const check = (naam, ok, detail) => {
       const r4 = (()=>{S.settings.strengheid="streng";const x=beoordeel("het uur",w,"L2N");S.settings.strengheid="soepel";return x;})();
       return {soepel:r1.uit, streng:r2.uit, strengZonderLidwoord:r3.uit, strengVolledig:r4.uit};
     });
-    console.log('BIJNA', JSON.stringify(bijna));
-    check('soepel: typfout = bijna', bijna.soepel==='bijna', bijna);
+    console.log('TIKFOUT', JSON.stringify(bijna));
+    check('soepel: typfout = tikfout (telt als juist)', bijna.soepel==='tikfout', bijna);
     check('streng: geen bijna, geen optioneel lidwoord',
           bijna.streng==='fout' && bijna.strengZonderLidwoord==='fout' && bijna.strengVolledig==='juist', bijna);
 

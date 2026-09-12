@@ -17,6 +17,10 @@ Instellingen (⚙) > "Hoeveel zelf typen" en zet het op Veel (of Weinig).
 Je combo (het vlammetje bovenaan) loopt door van de ene ronde naar de
 volgende — alleen een fout antwoord zet hem terug op nul.
 
+Een tikfoutje telt als juist: je krijgt gewoon je punt, je combo loopt
+door, en de app laat je zien hoe het woord wel geschreven wordt. Staan er
+twee betekenissen? De volgorde maakt niet uit.
+
 Je voortgang wordt bewaard in de browser op die computer.
 Gebruik je een andere pc? Ga dan naar Instellingen (⚙) > Backup opslaan,
 neem het bestandje mee, en laad het daar opnieuw in.

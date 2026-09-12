@@ -19,7 +19,7 @@ op 0, en nooit dalend.
 
 Sinds de review van 2026-09-11:
 - Elke suite heeft echte asserts en een exit-code: groen = exit 0, rood = exit 1.
-  Draai ze alle zes met:  for t in test/smoke-*.js; do node "$t" || break; done
+  Draai ze alle zeven met:  for t in test/smoke-*.js; do node "$t" || break; done
 - smoke-3 schrijft zijn screenshots naar test/shots/ (automatisch aangemaakt),
   niet meer naar een tijdelijk /tmp-pad.
 
@@ -29,3 +29,8 @@ minstens twee andere woorden tussen twee beurten. Hij zet de klok virtueel vooru
 (12 s per vraag, een dag tussen sessies) — zonder tijdsverloop is box 2 nooit due
 en meet je alleen maar meerkeuze. Hij speelt daarna drie echte rondes uit om te
 controleren dat de combo over de rondegrens doorloopt en alleen op een fout breekt.
+
+smoke-7 (2026-09-12) bewaakt de tikfout-beoordeling van §7.4: welke misser als tikfout
+telt, welke "bijna" blijft en welke fout, dat de volgorde van meerdere betekenissen niet
+uitmaakt, en dat combo en typ-streak over een tikfout heen doorlopen. De kruiscontrole
+(185 897 woordparen) bewaakt dat geen antwoord van een ánder woord als tikfout passeert.
