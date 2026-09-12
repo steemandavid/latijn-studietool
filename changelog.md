@@ -39,6 +39,14 @@ Uitgevoerd in dezelfde release: een inline SVG-data-URI (1 kB, geen bestand,
 geen netwerkrequest) van een Romeinse tempelgevel — gulden fronton en basement,
 vier crèmekleurige kolommen, afgeronde tegel in de donkere paginakleur.
 
+### Gepubliceerd
+Commit `4c532da` (sjabloon, build, changelog, screenshots) naar GitHub
+gepusht; `verba/index.html` (919 kB) via curl-FTP naar `steeman.be` geüpload
+en live geverifieerd: HTTP 200, panorama-markup én favicon-link aanwezig op
+https://www.steeman.be/verba/. De afbeelding is een gratis Neural.love-
+generatie met weggesneden watermark — wil dat ooit niet meer, dan is een
+betaalde schone regeneratie een base64-swap + `bouw.py`, geen codewijziging.
+
 ## 2026-09-12 (e) — Romeins panorama op het beginscherm (ligne claire)
 
 > **Teruggedraaid (zelfde dag):** het panorama is na twee herzieningen (vol panorama →
