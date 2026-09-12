@@ -388,6 +388,12 @@ Naast badges verzamelt hij **20 pixelfiguren** in Romeinse stijl ("tesserae"), e
   - Het **mozaïek** (§6.1) als centrale visual;
   - Kleinere ingangen naar Zwakke plekken, Ontdek, Blitz, Verover, Badges, Collectie, Statistieken.
 - Alle modi zijn altijd toegankelijk, niets zit achter een slot.
+- **Colofon** (voettekst, onder alle schermen, altijd zichtbaar): één regel in kleine,
+  gedempte letters — `© 2026 Robbe en David Steeman`, de licentie **CC BY-NC-SA 4.0**
+  met link naar de licentietekst, en een link naar de GitHub-repository. De links zijn
+  gewone `<a href>`-verwijzingen: ze doen niets uit zichzelf en breken de
+  nul-netwerkrequests-eis (§2) dus niet. De voettekst mag de inhoud nooit overlappen
+  en verdwijnt niet op mobiel.
 
 ### 6.1 Het mozaïek (kernvisual)
 

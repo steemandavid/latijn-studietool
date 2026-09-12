@@ -552,6 +552,14 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
 .rome::after{content:"";position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(14,13,20,.42),rgba(14,13,20,.78))}
 @media (max-width:720px){.rome{opacity:.34;background-position:72% 70%}}
+
+/* colofon (§6.0) — auteurs, licentie en bron, in kleine gedempte letters */
+.colofon{margin:34px 0 22px;padding-top:14px;border-top:1px solid var(--lijn);
+  font:400 12px/1.7 var(--sans);color:var(--tx3);text-align:center}
+.colofon a{color:var(--tx2);text-decoration:none;border-bottom:1px solid var(--lijn2)}
+.colofon a:hover{color:var(--goud);border-bottom-color:var(--goud2)}
+.colofon .sep{opacity:.5;margin:0 8px}
+@media (max-width:720px){.colofon .sep{display:block;height:0;overflow:hidden;margin:0}}
 </style>
 </head>
 <body>
@@ -751,6 +759,14 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
 </section>
 
 </main>
+
+<footer class="colofon"><div class="wrap">
+  © 2026 Robbe en David Steeman<span class="sep">·</span><a
+    href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener"
+    >CC BY-NC-SA 4.0</a><span class="sep">·</span><a
+    href="https://github.com/steemandavid/latijn-studietool" target="_blank" rel="noopener"
+    >broncode op GitHub</a>
+</div></footer>
 
 <div class="combo" id="combo"></div>
 <div class="flits" id="flits"></div>

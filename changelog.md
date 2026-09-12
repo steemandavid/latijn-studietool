@@ -1,5 +1,28 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-12 (g) — Colofon in de app + licentie op het project
+
+### Doel
+Auteurschap, licentie en bron zichtbaar maken in de app zelf, en het project van een
+echte licentie voorzien (de repo had er geen).
+
+### Uitgevoerd
+- **Colofon** (`sjabloon.html`, nieuw `<footer class="colofon">` onder `</main>`, dus
+  onder álle schermen): `© 2026 Robbe en David Steeman · CC BY-NC-SA 4.0 · broncode op
+  GitHub`. Kleine gedempte letters (`--tx3`, 12 px) boven een scheidingslijn; links
+  krijgen goudkleur bij hover. Op <720 px vallen de scheidingstekens weg en staat elk
+  deel op een eigen regel.
+- **Spec §6.0** uitgebreid met de colofon-regel (de spec loopt voorop, zoals afgesproken).
+- **`LICENSE`** toegevoegd: CC BY-NC-SA 4.0 (volledige legal code) met een Nederlandse
+  kop die vastlegt dat de licentie op de tool slaat en niet op de woordenlijst uit het
+  schoolboek. `README.md` heeft een Licentie-sectie.
+
+### Verificatie
+Alle zeven smoketests groen (89/89). Aparte controle op 1280×900 en 360×760: colofon
+zichtbaar en leesbaar, geen horizontale scroll (`scrollWidth == clientWidth`), beide
+links correct, en **nul externe requests** — de `<a href>`'s doen niets uit zichzelf,
+dus de offline/single-file-eis (§2) blijft intact.
+
 ## 2026-09-12 (f) — Romeins panorama als paginabrede achtergrond (AI-gegenereerd, ligne claire)
 
 ### Doel

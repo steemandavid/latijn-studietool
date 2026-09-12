@@ -65,3 +65,10 @@ met en zonder macrons, in soepele en in strenge modus.
 
 `woordenlijst.md` is overgetypt uit de woordenlijst achteraan een schoolboek, voor
 persoonlijk studiegebruik. De verantwoording en de conventies staan bovenaan dat bestand.
+
+## Licentie
+
+© 2026 Robbe en David Steeman. De app, de specificatie, de bouwscripts en de tests staan
+onder [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) — zie
+`LICENSE`. De woordenlijst zelf komt uit een schoolboek en valt daar niet onder; die
+rechten blijven bij de rechthebbende.
