@@ -5,6 +5,12 @@
 > **Teruggedraaid (zelfde dag):** het panorama is na twee herzieningen (vol panorama →
 > Colosseum-dominante scène) toch verwijderd — het voldeed niet. SVG en CSS zijn
 > volledig uit `sjabloon.html` weggehaald; deze entry dient alleen als archivedaad.
+> De kale versie is als `0b275a4` gecommit, naar GitHub gepusht en opnieuw
+> gepubliceerd op https://www.steeman.be/verba/ (website-repo `f1bd6f0`, FTP-upload,
+> live geverifieerd: HTTP 200, geen panorama-markup).
+>
+> **Openstaand verzoek:** de favicon vervangen door een Romeinse tempelgevel met
+> kolommen (later in de sessie gevraagd, nog niet uitgevoerd).
 
 ### Doel
 Een gedempte achtergrondtekening van een Romeinse scène op het beginscherm, in
