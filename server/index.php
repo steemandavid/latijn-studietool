@@ -11,6 +11,7 @@ require __DIR__ . '/db.php';
 require __DIR__ . '/logboek.php';
 require __DIR__ . '/auth.php';
 require __DIR__ . '/sync.php';
+require __DIR__ . '/mozaiek.php';
 require __DIR__ . '/beheer.php';
 
 set_exception_handler(function (Throwable $e): void {
@@ -42,6 +43,7 @@ switch ("$methode $pad") {
   case 'POST aanmelden': doeAanmelden($in);
   case 'POST inloggen':  doeInloggen($in);
   case 'GET woorden':    doeWoorden();
+  case 'GET klas':       doeKlas();
   case 'GET staat':      doeStaat();
   case 'POST sync':      doeSync($in, $ruw);
   default:               antwoordFout('onbekend endpoint', 404);

@@ -87,6 +87,24 @@ kb_w = schrijf(woorden_php,
                "<?php\n/* Gegenereerd door bouw.py — niet met de hand bewerken. */\n"
                "return <<<'VERBA_JSON'\n" + js + "\nVERBA_JSON;\n")
 
+# ---- woordmeta voor de server: welk caput, hoeveel leerrichtingen -------
+# De server moet kunnen zien of een woord "goud" is (alle richtingen op box 5) en bij
+# welk caput het hoort, zonder 275 KB woorddata te parsen bij elke sync (§13.10.4).
+meta, per_caput = {}, {}
+for w in data["woorden"]:
+    caput = int(str(w["c"]).split()[1])
+    richtingen = 2 if w.get("t") else 1
+    meta[str(w["nr"])] = [caput, richtingen]
+    per_caput[caput] = per_caput.get(caput, 0) + 1
+kb_m = schrijf(os.path.join(HIER, "server", "woordmeta.php"),
+               "<?php\n/* Gegenereerd door bouw.py — nr => [caput, aantal richtingen]. */\n"
+               "return " + json.dumps({"woorden": meta, "perCaput": per_caput},
+                                      ensure_ascii=False, separators=(",", ":")).replace("{", "[")
+                                                                               .replace("}", "]")
+                                                                               .replace(":", "=>")
+               + ";\n")
+
 print(f"verba/index.html         gebouwd — {len(data['woorden'])} woorden, {kb_off:.0f} KB (offline)")
 print(f"verba-online/index.html  gebouwd — {kb_on:.0f} KB (online, zonder woorddata, stempel {stempel})")
 print(f"server/woorden.php       gebouwd — {kb_w:.0f} KB (alleen met geldig token op te vragen)")
+print(f"server/woordmeta.php     gebouwd — {kb_m:.0f} KB ({len(per_caput)} caputs)")

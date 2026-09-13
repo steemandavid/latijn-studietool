@@ -395,8 +395,9 @@ ander kind op mag. Niets van fase 3 wordt gebouwd voor 1 en 2 stabiel draaien.
 
 ## 14. Openstaande punten
 
-- **Vorm van het gezamenlijke doel** — bewust uitgesteld tot na fase 2. Het klasmozaïek
-  ("samen 1051") is de voorzet; per klas, niet over klassen heen.
+- ~~**Vorm van het gezamenlijke doel**~~ — beslist op 13 september 2026: zeven Romeinse
+  mozaïeken, één per caput, samen te leggen door de klas. Uitgewerkt in §13.10 van de
+  specificatie; dit bestand is daarmee helemaal verwerkt.
 
 Beslist op 2026-09-13, hier bewaard omdat de redenering nuttig blijft:
 

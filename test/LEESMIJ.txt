@@ -62,6 +62,12 @@ aan en ruimen die achteraf weer op:
     VERBA_BEHEER=<beheersleutel> node test/api-test.js              (49 checks)
     VERBA_BEHEER=<beheersleutel> node test/smoke-10-online-sync.js  (23 checks)
     VERBA_BEHEER=<beheersleutel> node test/smoke-11-beheerpagina.js (17 checks)
+    VERBA_BEHEER=<beheersleutel> node test/smoke-12-klasmozaiek.js  (16 checks)
+
+smoke-12 draait tegen een LOKALE server (test/lokaal.js): die serveert de gebouwde
+verba-online/index.html van schijf en geeft alleen /verba/api/... door naar de echte
+server. Zo test je de echte API met de echte pagina, zonder dat de DDoS-bescherming van
+de hosting meetest. Wil je toch tegen de live-URL draaien: VERBA_URL=... ervoor zetten.
 
 smoke-11 test de beheerpagina op https://www.steeman.be/verba/beheer/. Hij klikt bewust
 op NAAM en nooit op rijvolgorde: tijdens het bouwen trof "de eerste rij" een echt account

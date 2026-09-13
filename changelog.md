@@ -184,9 +184,67 @@ nu met een gewone user-agent en herkent die 403 expliciet.
 - Nieuwe smoke-11 (17 checks): slot dicht zonder sleutel, klas aanmaken met zichtbare code,
   PIN-reset die echt werkt, logboek van déze klas, geen HTML-uitvoering, en klas wissen.
 
+### Fase 3 — Opus musivum, het klasmozaïek (zelfde dag)
+Zeven Romeinse mozaïeken van **96 × 64 = 6144 steentjes**, één per caput, plus een
+slotpaneel. Elk woord dat de klas gouden krijgt legt er een hoopje steentjes bij —
+verspreid over het vlak, nooit in blokken — en een mozaïek is af wanneer álle woorden van
+dat caput door iemand beheerst zijn. Ontworpen in overleg (§13.10): verschillende woorden
+in plaats van een optelsom, solo afmaken mag, en je ziet alleen je eigen aandeel.
+
+| Caput | Tafereel |
+|---|---|
+| 1 · Geluk | Cave canem, de waakhond van Pompeii |
+| 2 · Liefde | Amor op een dolfijn |
+| 3 · Helden | Gladiatoren, met hun namen erboven |
+| 4 · Magie | Medusa |
+| 5 · Dood | Het skelet met de wijnkruiken |
+| 6 · Afrika | Nijlscène met krokodil en nijlpaard |
+| 7 · Alexander | Het Alexandermozaïek |
+| alle zeven af | De wolvin met Romulus en Remus |
+
+- **Tekenpijplijn** in `mozaieken/`: de rand (meanderband) wordt gegenereerd, alleen het
+  middenstuk is tekenwerk — precies zoals een Romeins mozaïek een fijne *emblema* in een
+  grover veld zette. `schets.py` tekent met vormen en bevriest het raster in `rasters.py`
+  (de bron van waarheid), `contactblad.py` toont elk paneel compleet én halverwege,
+  `injecteer.py` schrijft ze in het sjabloon.
+- **Server**: één tabel `klaswoorden(klas, woord, wie, wanneer)` — wie een woord als eerste
+  gouden krijgt legt de steentjes, daarna telt het niet nog eens. `server/woordmeta.php`
+  (gegenereerd) zegt bij welk caput een woord hoort en hoeveel richtingen het heeft, zodat
+  een sync geen 275 KB woorddata hoeft te parsen. Daglimiet van 40 woorden per leerling.
+- **Scherm**: acht canvaspanelen met 1 tessera voegruimte tussen de steentjes; de
+  legvolgorde komt uit een vast zaad per mozaïek, dus dezelfde stand geeft overal hetzelfde
+  beeld zonder dat er iets voor verstuurd wordt.
+
+### Wat het tekenen leerde
+- Met de hand 40 × 24 tekens intypen gaf een berg waar een hond hoorde te staan. Vandaar
+  het schetsgereedschap — en vandaar dat de korrel naar 96 × 64 ging: op de kleine korrel
+  paste geen enkel detail dat een dier herkenbaar maakt.
+- Twee maten bepaalden de hele hond: de buiklijn en de grondlijn. Zonder daglicht daartussen
+  leest hij als een zwijn, hoeveel detail er verder ook in zit.
+- Figuren hebben een **donkere contour** nodig; zonder die lijn lopen huid, zand en brons in
+  elkaar over en staan er twee beige vlekken in het zand (de gladiatoren, eerste poging).
+- De lege voeg moest van zwart naar middengrijs: tegen zwart verdween een zwart onderwerp
+  volledig en zag je de eerste weken alleen losse lichte stipjes.
+
+### Twee testfouten die geen appfouten waren
+1. In `api-test.js` gebruikten de "gouden" items dezelfde tijdstempel als eerdere stappen;
+   bij gelijke stand wint de serverkant (§13.5), dus bleven twee woorden op hun oude box.
+   Dat leek een telfout in het mozaïek en was er geen.
+2. De spreidingscheck was te streng: bij 4 % raken de steentjes 12 van de 24 vakken, niet 20.
+   De juiste maat is het aantal **buren** per steentje (0,63 tegen ~3,5 voor een vlek); die
+   meting staat nu in smoke-12 en in criterium 45.
+
+Ook nieuw: `test/lokaal.js`, een testserver die de gebouwde pagina van schijf serveert en
+alleen de API doorgeeft. De DDoS-bescherming van de hosting stuurde de testbrowser met 403
+weg — dat is geen fout in de app, maar het legde de tests wel plat.
+
+### Tests
+9 offline suites (110 checks) ongewijzigd groen, 42 samenvoegen, 25 grenzen, 62 API,
+17 beheerpagina, 16 klasmozaïek — samen 272 checks.
+
 ### Nog niet gedaan
-Fase 3, het gezamenlijke doel: de vorm is nog niet gekozen (§14). Een leerling kan zijn
-eigen PIN nog altijd niet wijzigen; dat blijft een beheeractie.
+Nijlpaard en de tweeling onder de wolvin zijn de zwakste tekeningen; die mogen nog een
+ronde. Een leerling kan zijn eigen PIN nog altijd niet wijzigen; dat blijft een beheeractie.
 
 ## 2026-09-12 (i) — Adaptief leertempo + gratis herkansing bij een misgelezen vraag
 

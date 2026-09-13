@@ -161,9 +161,58 @@ try {
   check("8h één regel per gebeurtenis", platte.trim().split("\n").length >= 6, true);
   check("8i leerlingen zien het logboek niet", (await roep("beheer/logboek", {token: laptop})).code, 403);
 
-  /* ---- 9. klasscheiding (§11.41) ---- */
+  /* ---- 9. klasmozaïek (§13.10) ---- */
+  // Een staat met een handvol gouden woorden: box 5 in ALLE richtingen van dat woord.
+  // Let op de tijdstempel: bij een gelijke stand wint de serverkant (§13.5), dus moet
+  // deze ronde aantoonbaar nieuwer zijn dan alles wat er eerder in de test gebeurd is.
+  const goud = (nrs) => {
+    const items = {};
+    for (const nr of nrs) {
+      items[`${nr}:L2N`] = item(5, 9, 0, "2026-09-12T23:59:00.000Z");
+      items[`${nr}:L2V`] = item(5, 9, 0, "2026-09-12T23:59:00.000Z");
+    }
+    return items;
+  };
+  r = await roep("klas", {token: laptop});
+  check("9a het mozaïek begint leeg", r.json.totaal.klaar, 0);
+  check("9b met zeven caputs", r.json.caputs.length, 7);
+  check("9c caput 1 telt 259 woorden", r.json.caputs[0].woorden, 259);
+  check("9d en ~23 steentjes per woord", r.json.caputs[0].perWoord, 23);
+
+  r = await roep("sync", {methode: "POST", token: laptop, body: {basisRev: 2, wijziging: {
+    app: "verba", version: 1,
+    profiel: {xp: 5200, totaalJuist: 500, totaalFout: 90, totaalRondes: 40},
+    items: goud([1, 2, 3, 4, 5])}}});
+  check("9e de sync met gouden woorden lukt", r.code, 200);
+  r = await roep("klas", {token: laptop});
+  check("9f vijf woorden gelegd", r.json.totaal.klaar, 5);
+  check("9g allemaal op mijn naam", r.json.totaal.mijn, 5);
+  check("9h en ze staan in caput 1", r.json.caputs[0].klaar, 5);
+  check("9i de steentjes zijn geteld", r.json.caputs[0].steentjes, Math.floor(6144 * 5 / 259));
+
+  // Dezelfde woorden nog eens: die tellen niet dubbel (§13.10.2, verschillende woorden).
+  await roep("sync", {methode: "POST", token: tablet, body: {basisRev: 0, wijziging: {
+    app: "verba", version: 1,
+    profiel: {xp: 5300, totaalJuist: 520, totaalFout: 90, totaalRondes: 41},
+    items: goud([1, 2, 3, 4, 5])}}});
+  r = await roep("klas", {token: laptop});
+  check("9j hetzelfde woord telt niet twee keer", r.json.totaal.klaar, 5);
+
+  // Een klasgenoot die ándere woorden gouden krijgt, telt wel mee.
+  const derde = (await roep("aanmelden", {methode: "POST",
+    body: {joincode: klasA.joincode, naam: "lotte", pin: "2468"}})).json.token;
+  await roep("sync", {methode: "POST", token: derde, body: {basisRev: 0, wijziging: {
+    app: "verba", version: 1, profiel: {xp: 900, totaalJuist: 90, totaalFout: 5, totaalRondes: 6},
+    items: goud([300, 301, 302])}}});
+  r = await roep("klas", {token: derde});
+  check("9k de klas staat op acht woorden", r.json.totaal.klaar, 8);
+  check("9l maar mijn aandeel is er drie", r.json.totaal.mijn, 3);
+  check("9m en niemand ziet wie de rest deed",
+        Object.keys(r.json.caputs[0]).includes("wie"), false);
+
+  /* ---- 10. klasscheiding (§11.41) ---- */
   r = await roep(`beheer/logboek&klas=${klasB.klas}`, {beheer: true});
-  check("9a het logboek van klas B bevat niets van klas A",
+  check("10a het logboek van klas B bevat niets van klas A",
         r.json.logboek.every(x => !x.zin.includes("ronde afgerond")), true);
 
 } catch (e) {

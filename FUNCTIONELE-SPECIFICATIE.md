@@ -1006,6 +1006,8 @@ latijn-studietool/
 41. Meerdere klassen bestaan naast elkaar zonder elkaar te zien: een leerling haalt nooit gegevens van een andere klas op, en dezelfde naam mag in twee klassen bestaan.
 42. Zodra de app draait, is het aanmeldscherm niet zichtbaar — ook niet als een stijlregel het `hidden`-attribuut zou overschrijven (§13.8b). Smoke-10 controleert dit.
 43. De beheerpagina toont nooit gegevens zonder geldige beheersleutel, voert namen en logregels nooit als HTML uit, en toont bij een gekozen klas alleen die klas (§13.8c). Smoke-11 controleert dit.
+44. De mozaïeken van §13.10 komen vrij op gouden woorden van de hele klas: hetzelfde woord telt nooit twee keer, een leerling ziet zijn eigen aandeel en dat van niemand anders, en per leerling tellen er hoogstens 40 woorden per dag mee.
+45. De steentjes vallen verspreid: bij een stand van 4 % raken ze minstens tien van de vierentwintig vakken van het vlak en heeft een gelegd steentje gemiddeld minder dan anderhalve gelegde buur — een aaneengesloten vlek zit rond 3,5. Smoke-12 meet dit.
 
 ---
 
@@ -1224,6 +1226,101 @@ draait.** Een eigen `display`-regel wint van het `hidden`-attribuut, en dan staa
 dood formulier over een werkende app — zichtbaar voor de gebruiker, onzichtbaar in elke
 test die alleen naar de server kijkt. Aanvaardingscriterium 42.
 
+### 13.10 Opus musivum — het klasmozaïek (fase 3)
+
+Het gezamenlijke doel, en het enige scherm dat over de klas gaat in plaats van over de
+leerling. Alleen in de online build.
+
+**Zeven mozaïeken, één per caput**, in een eigen scherm naast Badges en Collectie. Elk
+mozaïek is een bestaand Romeins tafereel dat de klas samen legt; ontbrekende tegels zijn
+grauwe voegmortel, zodat het beeld langzaam tevoorschijn komt.
+
+| Caput | Tafereel | Herkomst |
+|---|---|---|
+| 1 · Geluk | **CAVE CANEM** — de waakhond op de drempel | Pompeii, Huis van de tragische dichter |
+| 2 · Liefde | **Amor op een dolfijn** | Romeins, veel voorkomend motief |
+| 3 · Helden | **Gladiatoren, met hun namen erboven** | Zliten, Libië |
+| 4 · Magie | **Medusa** — afwerend masker met slangenhaar | Romeins roundel |
+| 5 · Dood | **Het skelet met twee wijnkruiken** | Pompeii, *memento mori* |
+| 6 · Afrika | **Nijlscène met krokodil en nijlpaard** | Palestrina, Nijlmozaïek |
+| 7 · Alexander | **Het Alexandermozaïek** | Pompeii, Huis van de Faun |
+| alle zeven af | **De wolvin met Romulus en Remus** als slotpaneel | |
+
+#### 13.10.1 Vorm en formaat
+
+- Elk mozaïek is **96 × 64 tesserae**: **6144 steentjes**. Dat is de korrel waarop een
+  waakhond een waakhond blijft en geen zwijn wordt; grover kan niet zonder het onderwerp
+  te verliezen.
+- De **buitenrand** (meanderband, 6 tesserae dik) wordt **gegenereerd**, niet met de hand
+  getekend; alleen het middenstuk — de *emblema* van **84 × 52**, precies zoals een Romeins
+  mozaïek werkt — staat als raster in de bron. Zo blijft het tekenwerk behapbaar en is de
+  rand overal gelijk.
+- Bron van waarheid: `mozaieken/rasters.py`, hetzelfde tekenformaat als `tesserae/rasters.py`.
+  Daarnaast twee gereedschappen: `schets.py` tekent een emblema met vormen (veelhoeken,
+  ellipsen, lijnen, mozaïekletters) en bevriest het resultaat als raster, en `contactblad.py`
+  toont elk mozaïek compleet én halverwege. **Kijk daar echt naar** vóór het de app in gaat:
+  met de hand 84 × 52 tekens intypen levert een berg op waar een hond hoort te staan.
+
+#### 13.10.2 Wanneer komt een tegel vrij
+
+- Elk woord dat de klas **gouden** krijgt (goud = beide richtingen op box 5, de sterren-
+  formule van §5.4) legt een **hoopje steentjes** ineens: `6144 / woorden in dat caput`.
+  Dat is ongeveer 24 steentjes per woord in caput 1 en 57 in caput 7 — de kleinste caputs
+  gaan dus per woord het snelst vooruit, maar elk mozaïek komt precies af wanneer álle
+  woorden van dat caput gouden zijn.
+- Geteld worden **verschillende woorden**, niet de optelsom over leerlingen: elk woord telt
+  één keer voor de klas, wie het ook als eerste gouden krijgt. Een vol mozaïek betekent dus
+  dat *alle* woorden van dat caput door iemand beheerst zijn. Dat duwt de klas er vanzelf toe
+  de lijst te verdelen — allemaal dezelfde makkelijke woorden doen levert geen tegels op.
+- **Eén leerling mag een mozaïek alleen afmaken.** De klas kan uit één persoon bestaan
+  (dat is nu zo), en een doel dat dan onbereikbaar is, is geen doel.
+- **Grens tegen opblazen (§13.6):** per leerling tellen hoogstens **40 nieuwe woorden per
+  dag** mee voor het mozaïek. Wie meer instuurt, houdt ze gewoon persoonlijk; veertig gouden
+  woorden op één dag is al heldhaftig.
+
+#### 13.10.3 Onthullen en tonen
+
+- De steentjes vallen **verspreid** over het hele vlak, nooit als aaneengesloten blok: het
+  beeld komt op zoals een echte vloer gelegd wordt. De volgorde ligt vast per mozaïek
+  (iedereen in de klas ziet dus hetzelfde beeld) en is licht naar het midden gewogen, zodat
+  het onderwerp eerder herkenbaar wordt dan de rand — maar zonder ergens een blok te vormen.
+- De nog lege voeg is **middengrijs**, niet zwart. Tegen een zwarte voeg verdwijnt een zwart
+  onderwerp, en dan zie je de eerste weken alleen losse lichte stipjes.
+- Een leerling ziet **alleen zijn eigen aandeel** ("jij legde 34 tegels mee") naast de stand
+  van de klas. Geen namenlijst per tegel en geen rangschikking — zelfde lijn als §13.7 en
+  het besluit om geen klassement te tonen.
+- Per mozaïek: de stand (`124/259 woorden`, met het percentage steentjes), wat het volgende
+  woord oplevert, en bij een afgewerkt mozaïek
+  de herkomst van het tafereel — één droge zin, geen les.
+
+#### 13.10.4 Het scherm
+
+Een eigen scherm **Opus musivum**, bereikbaar via een tegel op het beginscherm naast
+Badges en Collectie. Acht panelen: zeven caputs plus het slotpaneel, dat pas iets toont
+als alle zeven af zijn.
+
+- Elk paneel is een `<canvas>` van 96 × 64 steentjes, getekend met 1 tessera voegruimte
+  ertussen — dat maakt het een mozaïek en geen plaatje.
+- Onder elk paneel: de stand in woorden, hoeveel steentjes één woord daar legt, en het
+  eigen aandeel. Een afgewerkt mozaïek toont in plaats daarvan de flavourtekst en de
+  herkomst van het origineel.
+- De legvolgorde wordt in de app berekend uit een vast zaad per mozaïek, niet op de server
+  bewaard: dezelfde stand geeft overal hetzelfde beeld, zonder er iets voor te versturen.
+- De stand komt van `/klas`, bij het opstarten en na elke geslaagde sync. Zonder verbinding
+  blijft het scherm gewoon staan met wat er het laatst bekend was.
+
+#### 13.10.5 Op de server
+
+Eén tabel `klaswoorden(klas_id, woord_nr, leerling_id, moment)` met `PRIMARY KEY
+(klas_id, woord_nr)`: wie een woord als eerste gouden kreeg, legt de rij aan. Hoogstens
+1051 rijen per klas, en meteen de basis voor het eigen aandeel. Bij elke sync worden de
+gouden woorden van die leerling toegevoegd, begrensd door de daglimiet. `/klas` geeft per
+caput de stand terug, plus het eigen aandeel — nooit iets over een andere leerling.
+
+Om te weten wélke woorden goud zijn en bij welk caput ze horen, leest de server
+`server/woordmeta.php` (`nr => [caput, aantal richtingen]`, 13 KB), gegenereerd door
+`bouw.py`. Dat scheelt het parsen van 275 KB woorddata bij elke sync.
+
 ### 13.9 Fasering
 
 | Fase | Inhoud |
@@ -1231,6 +1328,6 @@ test die alleen naar de server kijkt. Aanvaardingscriterium 42.
 | 0 | ✔ Hosting geverifieerd (PHP 8.4, MariaDB, cache), 13 september 2026 |
 | 1 | ✔ **klaar (13 september 2026)** — server, accounts, staat, sync, logboek, de online build, migratie van de bestaande save |
 | 2 | ✔ **klaar (13 september 2026)** — beheerpagina op `/verba/beheer/` (§13.8c), joincodes, PIN-reset, klas hernoemen/wissen, logboek met filter en download, privacytekst in de app, `OUDERBRIEF.md`, `noindex` |
-| 3 | Het gezamenlijke doel — per klas; het klasmozaïek ("samen 1051") is de voorzet. Vorm nog te kiezen (§14) |
+| 3 | ✔ **klaar (13 september 2026)** — acht mozaïeken (zeven caputs + slotpaneel), `klaswoorden` op de server, het scherm Opus musivum, smoke-12 |
 
 Niets van fase 3 wordt gebouwd voor fase 1 en 2 stabiel draaien.

@@ -74,6 +74,12 @@ function doeSync(array $in, string $ruw): never {
       ->execute([$id, json_encode($samen, JSON_UNESCAPED_UNICODE), $rev]);
   $pdo->prepare('UPDATE leerlingen SET rev = ?, laatste_sync = NOW() WHERE id = ?')->execute([$rev, $id]);
 
+  // Klasmozaïek (§13.10): de gouden woorden van deze leerling bijschrijven bij de klas.
+  // Faalt dat, dan mag de sync er niet op stuklopen — dezelfde regel als voor het logboek.
+  $gelegd = 0;
+  try { $gelegd = legSteentjes((int) $l['klas_id'], $id, $samen); }
+  catch (Throwable $e) { error_log('VERBA mozaiek: ' . $e->getMessage()); }
+
   $nieuweItems = count($samen['items']) - count($oud['items'] ?? []);
   $eerste = ($rij['rev'] === 0);
   logboek((int) $l['klas_id'], $id, $l['naam'], $eerste ? 'migratie' : 'sync',
@@ -82,7 +88,14 @@ function doeSync(array $in, string $ruw): never {
                       count($samen['items']), (int) ($samen['profiel']['xp'] ?? 0))
             : sprintf('gesynct — %d leeritems binnengekregen, %d nieuw, staat nu rev %d',
                       count($wijziging['items'] ?? []), max(0, $nieuweItems), $rev),
-          ['items' => count($samen['items']), 'xp' => (int) ($samen['profiel']['xp'] ?? 0)]);
+          ['items' => count($samen['items']), 'xp' => (int) ($samen['profiel']['xp'] ?? 0),
+           'mozaiek' => $gelegd]);
+  if ($gelegd > 0) {
+    logboek((int) $l['klas_id'], $id, $l['naam'], 'mozaiek',
+            sprintf('%d nieuw%s woord%s gouden — steentjes gelegd voor het klasmozaïek',
+                    $gelegd, $gelegd === 1 ? '' : 'e', $gelegd === 1 ? '' : 'en'),
+            ['woorden' => $gelegd]);
+  }
 
   // Gebeurtenissen van het toestel: alleen de soort en de cijfers tellen, de zin maakt
   // de server zelf (zie zinVoor() — anders schrijft een leerling zijn eigen logboek).

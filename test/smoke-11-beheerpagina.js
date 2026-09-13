@@ -33,6 +33,7 @@ const api = (pad, body) => fetch(API + pad, {
     const p = await (await browser.newContext({userAgent: UA})).newPage();
     p.on("dialog", async d => { await d.accept(d.type() === "prompt" ? (p.__antwoord || "") : undefined); });
     await p.goto(BASIS + "?v=" + Date.now(), {waitUntil: "domcontentloaded"});
+    await p.waitForSelector("#slot", {state: "visible", timeout: 20000});
 
     /* ---- 1. zonder sleutel geen gegevens ---- */
     check("1a het slot staat dicht", await p.isVisible("#slot"), true);

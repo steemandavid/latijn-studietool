@@ -42,6 +42,11 @@ builds uit dezelfde bron**:
   zijn vormen van hetzelfde woord (`amīcī / amīcae / amīcis / amīcūs`), zodat de juiste
   stam herkennen niet meer volstaat.
 - Voortgang in `localStorage`, met backup opslaan/laden over `file://`.
+- **Het klasmozaïek** (online): zeven Romeinse mozaïeken van 6144 steentjes, één per caput —
+  Cave canem, Amor op een dolfijn, gladiatoren, Medusa, het skelet met de wijnkruiken, een
+  Nijlscène en het Alexandermozaïek. Elk woord dat iemand in de klas gouden krijgt, legt er
+  verspreid steentjes bij; samen alle woorden van een caput = het mozaïek compleet. Wie alle
+  zeven legt, krijgt de wolvin met Romulus en Remus.
 - **Online**: aanmelden met een klascode, een naam en een PIN van 4 cijfers — geen
   e-mailadres, geen echte naam. Voortgang van twee toestellen wordt **samengevoegd**, nooit
   overschreven: wie 's avonds op de tablet verder leert, verliest zijn ochtend op de laptop
@@ -69,6 +74,7 @@ regels op het scherm, zonder devtools (§13.8b).
 | `ONLINE-PLAN.md` | waarom de online modus is zoals ze is, en het meetrapport van de hosting |
 | `test/` | smoketests (headless Chromium via Playwright) + de servertests |
 | `tesserae/` | de pixelrasters van de verzamelsteentjes |
+| `mozaieken/` | de acht klasmozaïeken: rasters, schetsgereedschap, contactblad, injectie |
 | `changelog.md` | wat er wanneer veranderd is, en waarom |
 
 ## Bouwen

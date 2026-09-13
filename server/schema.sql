@@ -62,3 +62,15 @@ CREATE TABLE IF NOT EXISTS pogingen (
   aantal  INT UNSIGNED NOT NULL DEFAULT 0,
   sinds   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Het klasmozaïek (§13.10): wie kreeg welk woord als eerste gouden voor deze klas.
+CREATE TABLE IF NOT EXISTS klaswoorden (
+  klas_id     INT UNSIGNED NOT NULL,
+  woord_nr    SMALLINT UNSIGNED NOT NULL,
+  leerling_id INT UNSIGNED NULL,
+  moment      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (klas_id, woord_nr),
+  KEY per_leerling (leerling_id, moment),
+  CONSTRAINT fk_kw_klas FOREIGN KEY (klas_id) REFERENCES klassen(id) ON DELETE CASCADE,
+  CONSTRAINT fk_kw_leerling FOREIGN KEY (leerling_id) REFERENCES leerlingen(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
