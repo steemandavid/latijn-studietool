@@ -52,7 +52,9 @@ const api = (pad, body) => fetch(API + pad, {
     check("2a het paneel gaat open", await p.isVisible("#paneel"), true);
 
     /* ---- 3. klas aanmaken, de code komt één keer in beeld ---- */
-    const klasNaam = "TEST beheer " + Date.now().toString().slice(-5);
+    const stempel = Date.now().toString().slice(-5);
+    const klasNaam = "TEST beheer " + stempel;
+    const leerlingNaam = "proef" + stempel;          // uniek: anders botst hij met restanten
     await p.fill("#nieuweKlas", klasNaam);
     await p.click("#btnNieuweKlas");
     await p.waitForSelector(".melding.ok", {timeout: 15000});
@@ -68,20 +70,20 @@ const api = (pad, body) => fetch(API + pad, {
     check("3d en die code werkt echt",
           (await (await fetch(API + "aanmelden", {method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({joincode: code, naam: "proef", pin: "1234"})})).json()).naam, "proef");
+            body: JSON.stringify({joincode: code, naam: leerlingNaam, pin: "1234"})})).json()).naam, leerlingNaam);
 
     /* ---- 4. leerlingen ---- */
     await p.selectOption("#klasFilter", String(klasId));
     // Wachten op de INHOUD, niet op de tabel: die stond er al van de vorige selectie.
-    await p.waitForFunction(() => document.querySelector("#leerlingen").textContent.includes("proef"),
-                            null, {timeout: 15000}).catch(() => {});
-    check("4a de leerling staat er", (await p.textContent("#leerlingen")).includes("proef"), true);
+    await p.waitForFunction(naam => document.querySelector("#leerlingen").textContent.includes(naam),
+                            leerlingNaam, {timeout: 15000}).catch(() => {});
+    check("4a de leerling staat er", (await p.textContent("#leerlingen")).includes(leerlingNaam), true);
 
     p.__antwoord = "4321";
     await p.evaluate(() => document.querySelector("#melding").innerHTML = "");
     // Op naam klikken, nooit op rijvolgorde: tijdens het bouwen trof "de eerste rij" een
     // echt account omdat de lijst nog ongefilterd was.
-    const rijProef = p.locator("#leerlingen tr").filter({hasText: "proef"});
+    const rijProef = p.locator("#leerlingen tr").filter({hasText: leerlingNaam});
     check("4a2 precies één rij voor de testleerling", await rijProef.count(), 1);
     await rijProef.locator('button[data-doe="pin"]').click();
     await p.waitForSelector(".melding.ok", {timeout: 15000});
@@ -90,7 +92,7 @@ const api = (pad, body) => fetch(API + pad, {
     check("4c en de nieuwe PIN werkt",
           (await (await fetch(API + "inloggen", {method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({joincode: code, naam: "proef", pin: "4321"})})).json()).naam, "proef");
+            body: JSON.stringify({joincode: code, naam: leerlingNaam, pin: "4321"})})).json()).naam, leerlingNaam);
 
     /* ---- 5. logboek ---- */
     // Eerst de achtergrondverversing laten uitrazen: die tekent anders ná onze keuze en
@@ -98,12 +100,12 @@ const api = (pad, body) => fetch(API + pad, {
     // op die van ons.
     await p.waitForLoadState("networkidle");
     await p.selectOption("#logKlas", String(klasId));
-    await p.waitForFunction(() => /PIN gereset voor proef/.test(document.querySelector("#logboek").textContent),
-                            null, {timeout: 15000}).catch(() => {});
+    await p.waitForFunction(naam => document.querySelector("#logboek").textContent.includes("PIN gereset voor " + naam),
+                            leerlingNaam, {timeout: 15000}).catch(() => {});
     const log = await p.textContent("#logboek");
     check("5a het logboek toont de aanmaak", /klas .* aangemaakt/.test(log), true);
-    check("5b en de PIN-reset van déze klas", /PIN gereset voor proef/.test(log), true);
-    if (!/PIN gereset voor proef/.test(log)) {
+    check("5b en de PIN-reset van déze klas", log.includes("PIN gereset voor " + leerlingNaam), true);
+    if (!log.includes("PIN gereset voor " + leerlingNaam)) {
       console.error("       paneel toonde:\n" + log.split("\n").slice(-6).map(r => "         " + r).join("\n"));
       console.error("       gekozen klas: " + await p.evaluate(() => document.querySelector("#logKlas").value));
     }
