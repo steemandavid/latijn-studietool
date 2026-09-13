@@ -1256,10 +1256,28 @@ grauwe voegmortel, zodat het beeld langzaam tevoorschijn komt.
   mozaïek werkt — staat als raster in de bron. Zo blijft het tekenwerk behapbaar en is de
   rand overal gelijk.
 - Bron van waarheid: `mozaieken/rasters.py`, hetzelfde tekenformaat als `tesserae/rasters.py`.
-  Daarnaast twee gereedschappen: `schets.py` tekent een emblema met vormen (veelhoeken,
-  ellipsen, lijnen, mozaïekletters) en bevriest het resultaat als raster, en `contactblad.py`
-  toont elk mozaïek compleet én halverwege. **Kijk daar echt naar** vóór het de app in gaat:
-  met de hand 84 × 52 tekens intypen levert een berg op waar een hond hoort te staan.
+  Daarnaast drie gereedschappen: `schets.py` tekent een emblema met vormen (veelhoeken,
+  ellipsen, lijnen, mozaïekletters) en bevriest het resultaat als raster, `importeer.py`
+  haalt een emblema uit een **foto van het echte mozaïek** (zie hieronder), en
+  `contactblad.py` toont elk mozaïek compleet én halverwege. **Kijk daar echt naar** vóór
+  het de app in gaat: met de hand 84 × 52 tekens intypen levert een berg op waar een hond
+  hoort te staan.
+
+**Een emblema uit een foto halen.** Een foto rechtstreeks verkleinen naar 96 × 64 werkt
+*niet*: een vloer in Pompeii is beschadigd, scheef gefotografeerd, ongelijk belicht en de
+ondergrond ligt vol losse ruitjes — dat wordt een grijze vlek. Wat wél werkt is de foto als
+**maatvoering** gebruiken: rechttrekken over vier hoekpunten, de belichting vlak maken
+(delen door een sterk vervaagde kopie), ontruizen, en er op een drempelwaarde één schone
+silhouet uit lichten. Grond, opschrift en rand komen er daarna zelf bij. De houding en de
+verhoudingen zijn dan die van het origineel, en daar is geen tekening tegen opgewassen.
+
+Grenzen van die route, en dus wanneer je beter tekent of genereert:
+- Het levert een **silhouet**, geen binnentekening. Goed voor Cave canem, het skelet,
+  Medusa en de wolvin; onbruikbaar voor het Alexandermozaïek en de Nijlscène, die van kleur
+  en detail leven.
+- De foto's zijn van derden en staan onder **CC BY-SA**. Bronvermelding in de colofon is
+  dan een voorwaarde, geen keuze. De bestanden zelf horen niet in de repo; hun herkomst
+  staat in `mozaieken/BRONNEN.md`.
 
 #### 13.10.2 Wanneer komt een tegel vrij
 

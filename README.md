@@ -74,7 +74,7 @@ regels op het scherm, zonder devtools (§13.8b).
 | `ONLINE-PLAN.md` | waarom de online modus is zoals ze is, en het meetrapport van de hosting |
 | `test/` | smoketests (headless Chromium via Playwright) + de servertests |
 | `tesserae/` | de pixelrasters van de verzamelsteentjes |
-| `mozaieken/` | de acht klasmozaïeken: rasters, schetsgereedschap, contactblad, injectie |
+| `mozaieken/` | de acht klasmozaïeken: rasters, schetsgereedschap, foto-import, contactblad, injectie |
 | `changelog.md` | wat er wanneer veranderd is, en waarom |
 
 ## Bouwen

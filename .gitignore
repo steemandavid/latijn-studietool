@@ -5,3 +5,12 @@ package-lock.json
 
 # Nooit in git: de echte inloggegevens van de server (§13.1)
 server/config.php
+
+# Werkbestanden van de mozaïekpijplijn.
+# bron/ bevat foto's van anderen (CC BY-SA): herkomst staat in mozaieken/BRONNEN.md,
+# de bestanden zelf verspreiden we niet mee. Let op: gitignore kent geen commentaar
+# achter een patroon — dat werd deel van het patroon en negeerde dus niets.
+mozaieken/bron/
+mozaieken/proef-*.png
+mozaieken/kijk*.png
+mozaieken/preview.png

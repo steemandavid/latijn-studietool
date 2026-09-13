@@ -279,6 +279,39 @@ niet zegt. Een dood aanmeldscherm over een werkende app, een mozaïek dat eeuwig
 geduld" zei, en een app die stil afgemeld was. Elke keer was de zichtbare toestand niet te
 onderscheiden van "hij is aan het laden".
 
+### Proef: een emblema uit een foto van het échte mozaïek
+De getekende mozaïeken zagen er grafisch zwak uit. Voor het genereren met een beter
+AI-gereedschap is er een Engelse prompt geschreven (vlak raster van 96 × 64, beperkt
+palet, dikke contour, geen verlopen — zodat de uitvoer rechtstreeks te rasteren is).
+Daarnaast één proef met de voor de hand liggende gratis bron: een foto van het origineel
+op Wikimedia Commons.
+
+**Wat niet werkte:** de foto rechtstreeks verkleinen. De vloer in Pompeii is beschadigd,
+schuin gefotografeerd, ongelijk belicht en de ondergrond ligt vol losse zwarte ruitjes.
+Op 96 × 64 werd dat een grijze vlek waarin de hond verdween — slechter dan de tekening.
+Ook mét belichtingscorrectie en mediaanontruizing bleef het modderig.
+
+**Wat wél werkt:** de foto als **maatvoering**. Rechttrekken over vier hoekpunten, de
+belichting vlak maken (delen door een sterk vervaagde kopie), ontruizen, en er op een
+drempelwaarde één schone silhouet uit lichten; grond, opschrift en rand komen er zelf bij.
+De houding is dan die van het origineel — de springende hond van Pompeii in plaats van
+mijn stijve viervoeter — en bij 30 % gelegd is hij herkenbaarder, omdat een organische
+vorm minder van één lijn afhangt.
+
+- Nieuw: `mozaieken/importeer.py`, met per mozaïek de hoekpunten, drempel en ontruizing.
+- `mozaieken/BRONNEN.md` houdt bij welke foto waar vandaan komt en onder welke licentie.
+  De foto's zelf blijven buiten de repo (`.gitignore`): het zijn CC BY-SA-werken van
+  anderen. Wordt zo'n mozaïek opgenomen, dan hoort de fotograaf in de colofon.
+- Specificatie §13.10.1 beschrijft de route én haar grenzen: het levert een silhouet, dus
+  het werkt voor Cave canem, het skelet, Medusa en de wolvin, en niet voor het
+  Alexandermozaïek of de Nijlscène.
+- Twee kleine vallen onderweg: de thumb-URL van Commons zelf samenstellen geeft HTTP 400
+  (gebruik de URL die de API teruggeeft), en een `.gitignore`-regel met commentaar áchter
+  het patroon negeert niets — dat commentaar wordt deel van het patroon.
+
+**Status: proef, nog niet doorgevoerd.** De acht getekende mozaïeken staan nog in de app;
+de keuze tussen fotoroute, AI-generatie of tekenen per paneel ligt nog open.
+
 ### Nog niet gedaan
 Nijlpaard en de tweeling onder de wolvin zijn de zwakste tekeningen; die mogen nog een
 ronde. Een leerling kan zijn eigen PIN nog altijd niet wijzigen; dat blijft een beheeractie.
