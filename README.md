@@ -1,11 +1,18 @@
 # VERBA — Latijnse woordenschat
 
-Een offline studietool voor de Latijnse woordenlijst van Caput 1 t/m 7 (1051 woorden).
-Eén enkel HTML-bestand, `verba/index.html`: kopieer het naar een USB-stick, dubbelklik,
-klaar. Geen installatie, geen server, geen internet — en nul netwerkrequests.
+Een studietool voor de Latijnse woordenlijst van Caput 1 t/m 7 (1051 woorden), in **twee
+builds uit dezelfde bron**:
 
-**Draait online op <https://www.steeman.be/verba/>** — met een knop in Instellingen ⚙ om
-het bestand zelf te downloaden. Achtergrond en ontwerpkeuzes staan in
+- **offline** — `verba/index.html`, één enkel bestand: kopieer het naar een USB-stick,
+  dubbelklik, klaar. Geen installatie, geen server, geen internet, nul netwerkrequests.
+  Dit blijft het hoofdding, en een online functie die dit breekt wordt niet gebouwd.
+- **online** — `verba-online/index.html` plus een kleine PHP/MySQL-API: één account per
+  leerling, voortgang die op al zijn toestellen gelijk loopt, en een klas die samen leert.
+  Werkt zonder verbinding gewoon door en synchroniseert later alsnog.
+
+**Draait online op <https://www.steeman.be/verba/>** — dat is sinds 13 september 2026 de
+**online build**: je hebt er een klascode voor nodig. De offline versie blijft er staan als
+`verba-offline.html`, met een knop in Instellingen ⚙ om ze te downloaden. Achtergrond en ontwerpkeuzes staan in
 [deze blogpost](https://www.steeman.be/posts/verba-an-offline-latin-vocabulary-trainer/).
 
 ## Wat het doet
@@ -35,6 +42,15 @@ het bestand zelf te downloaden. Achtergrond en ontwerpkeuzes staan in
   zijn vormen van hetzelfde woord (`amīcī / amīcae / amīcis / amīcūs`), zodat de juiste
   stam herkennen niet meer volstaat.
 - Voortgang in `localStorage`, met backup opslaan/laden over `file://`.
+- **Online**: aanmelden met een klascode, een naam en een PIN van 4 cijfers — geen
+  e-mailadres, geen echte naam. Voortgang van twee toestellen wordt **samengevoegd**, nooit
+  overschreven: wie 's avonds op de tablet verder leert, verliest zijn ochtend op de laptop
+  niet. Van elke speler en elke actie houdt de server een leesbaar logboek bij.
+
+Werkt de online versie ergens niet, begin dan bij het **bouwstempel** onderaan het
+aanmeldscherm (zie je de nieuwe pagina of een oude uit de cache?) en bij de knop
+**"Werkt het niet? Klik hier"**: die zet opslag, adres, account en serverstatus in zeven
+regels op het scherm, zonder devtools (§13.8b).
 
 ## Repo-inhoud
 
@@ -44,9 +60,12 @@ het bestand zelf te downloaden. Achtergrond en ontwerpkeuzes staan in
 | `woordenlijst.md` | de woordenlijst als bron, overgetypt uit scans en gecontroleerd tegen het register |
 | `maak-data.py` | `woordenlijst.md` → `latijn.json` (incl. de aanvaarde antwoordvarianten) |
 | `sjabloon.html` | de app zelf, met een `/*__DATA__*/`-placeholder |
-| `bouw.py` | `sjabloon.html` + `latijn.json` → `verba/index.html` |
+| `bouw.py` | `sjabloon.html` + `latijn.json` → beide builds + `server/woorden.php` |
 | `verba/index.html` | het gebouwde resultaat: dit bestand gaat op de USB-stick |
-| `test/` | smoketests (headless Chromium via Playwright) |
+| `verba-online/index.html` | de online build — zonder woorddata, die komt na het aanmelden |
+| `server/` | de API (PHP 8.4 + MariaDB): accounts, samenvoegen, grenzen, logboek |
+| `ONLINE-PLAN.md` | waarom de online modus is zoals ze is, en het meetrapport van de hosting |
+| `test/` | smoketests (headless Chromium via Playwright) + de servertests |
 | `tesserae/` | de pixelrasters van de verzamelsteentjes |
 | `changelog.md` | wat er wanneer veranderd is, en waarom |
 
@@ -54,8 +73,12 @@ het bestand zelf te downloaden. Achtergrond en ontwerpkeuzes staan in
 
 ```bash
 python3 maak-data.py     # woordenlijst.md -> latijn.json
-python3 bouw.py          # sjabloon.html + latijn.json -> verba/index.html
+python3 bouw.py          # -> verba/index.html, verba-online/index.html, server/woorden.php
 ```
+
+De synccode staat in `sjabloon.html` tussen `/*__ONLINE_BEGIN__*/` en `/*__ONLINE_EINDE__*/`
+en wordt bij de offline build **uit het bestand geknipt** — `bouw.py` weigert te bouwen als
+er daarna toch nog een `fetch(` in staat.
 
 ## Testen
 
@@ -66,7 +89,10 @@ al op de machine stond — pas `executablePath` aan als die er niet meer is.
 for t in test/smoke-*.js; do node "$t" || break; done
 ```
 
-Negen suites, samen 110 checks; groen = exit 0. De belangrijkste test is de invariant in
+Negen suites, samen 110 checks; groen = exit 0. Daarnaast voor de online modus
+`php test/samenvoegen-test.php` en `php test/grenzen-test.php` (geen server nodig), en met
+een beheersleutel `node test/api-test.js` en `node test/smoke-10-online-sync.js` tegen de
+echte server — zie `test/LEESMIJ.txt`. De belangrijkste test is de invariant in
 smoke-1 en smoke-3: voor alle 1806 leeritems moet het antwoord dat de app zelf toont ook
 door de app aanvaard worden, met en zonder macrons, in soepele en in strenge modus.
 Smoke-8 legt het adaptieve tempo vast (grenswaarden, lengtecorrectie bij typen, een echte

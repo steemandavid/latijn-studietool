@@ -4,14 +4,15 @@
 
 | | |
 |---|---|
-| Versie | 1.4 |
-| Datum | 11 september 2026 |
+| Versie | 1.5 |
+| Datum | 13 september 2026 |
+| Wijziging t.o.v. 1.4 | **Online modus** toegevoegd (nieuw hoofdstuk 13): centrale voortgang over meerdere toestellen, accounts met klascode + naam + PIN, meerdere klassen, een leesbaar logboek van alle spelers en hun acties. De app wordt vanaf nu in **twee builds** gemaakt uit hetzelfde `sjabloon.html` — offline (ongewijzigd, nul netwerkrequests) en online. Aangepast: §1.1, §2, §2.1, §2.2, §6.8, nieuw §8.5, §10, §11. Verantwoording en de meetresultaten op de echte hosting staan in `ONLINE-PLAN.md`. |
 | Wijziging t.o.v. 1.3 | Codereview-fixes doorgevoerd (zie `Code_Review_Phase1_20260910_2217.md`). Normering §7.4 aangescherpt (haakjes, kommadelen, `?`). Save krijgt een `app`-marker (§8.2/§8.3). Due-criteria in §4.3 eenduidig gemaakt (**én**, niet óf). Levelformule §5.1 verduidelijkt, examen-XP in de tabel opgenomen, tessera-ontgrendeling na een veroveringstoets expliciet toegestaan (§5.7). |
 | Wijziging t.o.v. 1.2 | Sterformule herzien (§5.4) en Blitz zet een ongezien item op box 1 (§6.5). Beide zorgden ervoor dat het mozaïek voortgang niet toonde. |
 | Wijziging t.o.v. 1.1 | Romeinse ornamentlaag en beweging vastgelegd (§9.2, §9.5). Tesserae op 16×16 i.p.v. 12×12 (§5.7). |
 | Wijziging t.o.v. 1.0 | Vormgeving uitgewerkt (§9.2). Veroveringstoetsen gaan per **deel** van max. 25 woorden i.p.v. per hele sectie (§6.6): sectie 1.0 telt 153 woorden. |
 | Zusterproject | `periodiek_systeem` (FLUO). VERBA volgt bewust dezelfde architectuur, leermotor en gamification. Wie FLUO kent, kent VERBA. |
-| Doelgroep app | Eén leerling, secundair onderwijs (België/Vlaanderen) |
+| Doelgroep app | Eén leerling, secundair onderwijs (België/Vlaanderen); in de online modus ook zijn klasgenoten (hoofdstuk 13) |
 | Doelgroep dit document | Het implementatiemodel dat de app bouwt |
 | Taal van de app | Nederlands |
 
@@ -43,14 +44,15 @@ De app moet:
 
 - Geen grammatica overhoren (naamvallen, tijden, zinsontleding).
 - Geen woordsoort of geslacht apart overhoren (die worden wel getoond).
-- Geen accounts, geen server, geen netwerk, geen telemetrie, geen externe fonts of CDN's.
+- Geen telemetrie, geen externe fonts, geen CDN's, geen trackers. In **geen enkele** build.
+- Geen accounts, geen server en geen netwerk — dit geldt onverkort voor de **offline build**, die de standaard blijft. De **online build** (hoofdstuk 13) heeft wél accounts en een server, maar blijft offline-first: ze werkt volledig door zonder netwerk.
 - Geen zinnen vertalen.
 
 ---
 
 ## 2. Technische randvoorwaarden (hard)
 
-Identiek aan FLUO §2. Kort:
+Identiek aan FLUO §2. De tabel hieronder geldt **onverkort voor de offline build**. De online build van hoofdstuk 13 wijkt op precies twee punten af — ze mag met haar eigen server praten (§13.4) en ze heeft een account (§13.2) — en is voor de rest hetzelfde bestand, uit dezelfde bron gebouwd (§2.2).
 
 | Eis | Detail |
 |---|---|
@@ -62,23 +64,25 @@ Identiek aan FLUO §2. Kort:
 | **Grootte** | Richtwaarde < 1 MB. Nu ~410 KB, waarvan ~330 KB woorddata inline; dat is aanvaard. |
 | **Responsive** | Laptop/desktop als referentie (1280×800), volledig bruikbaar op gsm in portret (360 px). Geen horizontale scroll van de pagina. |
 | **Toetsenbord** | Volledig bedienbaar met toetsenbord (§9.3). |
-| **Offline** | Absoluut alles offline. De app mag nooit een netwerkrequest doen. |
+| **Offline** | Absoluut alles offline. De offline build mag nooit een netwerkrequest doen; dat wordt afgedwongen met een test (§11.2 en §11.33), niet met een runtime-vlag. De online build praat uitsluitend met haar eigen API op `steeman.be` en met niets anders. |
 
 ### 2.1 Opslag
 
-`localStorage`, één sleutel `verba.save.v1`. Werkt in de praktijk over `file://` in Chrome en Firefox maar is **niet gegarandeerd**. Daarom is de backup-export/import van §8.3 **verplicht**. De app moet correct blijven werken (met een waarschuwing) als `localStorage` gooit of leeg is.
+`localStorage`, één sleutel `verba.save.v1`, in **beide** builds. In de online build komt de server daar bovenop, niet in de plaats van (§13.5): eerst lokaal wegschrijven, dan pas synchroniseren. Werkt in de praktijk over `file://` in Chrome en Firefox maar is **niet gegarandeerd**. Daarom is de backup-export/import van §8.3 **verplicht**. De app moet correct blijven werken (met een waarschuwing) als `localStorage` gooit of leeg is.
 
 ### 2.2 Bouwproces
 
-`index.html` wordt **gegenereerd**, niet met de hand onderhouden:
+`index.html` wordt **gegenereerd**, niet met de hand onderhouden. `bouw.py` levert **twee** artefacten uit dezelfde bron:
 
 ```
-woordenlijst.md  ──(maak-data.py)──▶  latijn.json  ──(bouw.py)──▶  verba/index.html
-                                                   ▲
+woordenlijst.md  ──(maak-data.py)──▶  latijn.json  ──(bouw.py)──┬──▶ verba/index.html         (offline)
+                                                   ▲            └──▶ verba-online/index.html  (online)
                                       sjabloon.html ┘   (alle CSS/JS, met /*__DATA__*/ placeholder)
                                                    ▲
              tesserae/rasters.py ──(tesserae/injecteer.py)──┘        (de 20 pixelfiguren)
 ```
+
+De twee builds verschillen in één ding: de synccode van hoofdstuk 13. Die staat in `sjabloon.html` tussen de markers `/*__ONLINE_BEGIN__*/` en `/*__ONLINE_EINDE__*/` en wordt door `bouw.py` bij de offline build **fysiek uit het bestand geknipt**. Niet uitgeschakeld met een vlag — weggeknipt, zodat "nul netwerkrequests" een controleerbare eigenschap van het bestand blijft en niet van een `if` afhangt.
 
 Twee bronnen, één artefact:
 
@@ -86,9 +90,9 @@ Twee bronnen, één artefact:
 |---|---|
 | een woord in `woordenlijst.md` | `python3 maak-data.py && python3 bouw.py` |
 | een pixelfiguur in `tesserae/rasters.py` | `cd tesserae && python3 contactblad.py` (kijken!) `&& python3 injecteer.py`, dan `cd .. && python3 bouw.py` |
-| de app zelf in `sjabloon.html` | `python3 bouw.py` |
+| de app zelf in `sjabloon.html` | `python3 bouw.py` (bouwt beide builds) |
 
-Reden: de 1051 woorden mogen maar op één plaats staan. Wie de woordenlijst corrigeert, draait de scripts opnieuw. `verba/index.html` is een build-artefact maar wordt **wel** mee ingecheckt, want dat is het ding dat op de stick moet staan.
+Beide artefacten worden mee ingecheckt. Reden: de 1051 woorden mogen maar op één plaats staan. Wie de woordenlijst corrigeert, draait de scripts opnieuw. `verba/index.html` is een build-artefact maar wordt **wel** mee ingecheckt, want dat is het ding dat op de stick moet staan.
 
 ---
 
@@ -553,10 +557,11 @@ Het overzichtsscherm toont de 7 caputs, elk uitklapbaar naar hun secties, met pe
 - Strengheid bij typen: "soepel" (standaard) of "streng" (§7.4).
 - Hoeveel zelf typen: "weinig" / "gemiddeld" (standaard) / "veel" (§4.6).
 - **Leertempo**: `auto` / `rustig` / `normaal` / `snel` (§4.4), met de huidige stand eronder.
-- **App downloaden**: bewaart het bestand zelf (`verba.html`). Alleen zichtbaar wanneer de app van een webserver komt — draait ze al over `file://`, dan valt er niets te downloaden en blijft het blok verborgen. Het is een gewone downloadlink naar het eigen bestand, dus geen achtergrondverkeer: er gebeurt alleen iets als hij klikt.
+- **App downloaden**: bewaart de **offline build** (`verba-offline.html` naast de app, opgeslagen als `verba.html`) — niet de pagina zelf, want die draagt in de online modus geen woorddata (§13.2a). Alleen zichtbaar wanneer de app van een webserver komt — draait ze al over `file://`, dan valt er niets te downloaden en blijft het blok verborgen. Het is een gewone downloadlink naar het eigen bestand, dus geen achtergrondverkeer: er gebeurt alleen iets als hij klikt.
 - **Leertempo**: het huidige plafond uit §4.4 als getal ("nieuwe woorden tegelijk"), zodat zichtbaar is dat de app meebeweegt.
 - **Backup opslaan** / **Backup laden** (§8.3).
-- **Alles wissen** met dubbele bevestiging.
+- **Account** — alleen in de online build (§13.2). Toont in welke klas je zit en onder welke naam, de stand van de synchronisatie ("alles bewaard" / "nog X te versturen" / "geen verbinding — wordt later verstuurd"), een knop **Nu synchroniseren**, en **Afmelden op dit toestel**. Afmelden wist het token en laat de lokale voortgang staan.
+- **Alles wissen** met dubbele bevestiging. In de online build wist dit alleen dit toestel; het account op de server blijft. Wie zijn account écht wil laten verwijderen, vraagt dat aan de beheerder (§13.8).
 
 ---
 
@@ -790,6 +795,15 @@ dan is dat geen kennisfout maar een leesfout.
 - Wegschrijven na elke beantwoorde vraag én bij het einde van een ronde.
 - Onbekende woordnummers in een geladen save (bv. na een correctie in de woordenlijst) worden stil genegeerd, niet als crash.
 
+### 8.5 Synchronisatie (alleen de online build)
+
+Het schema van §8.2 blijft ongewijzigd — dezelfde save, hetzelfde `localStorage`, dezelfde backup. De online build stuurt die staat daarnaast naar de server en voegt hem daar samen met wat er van andere toestellen komt. De volledige regels staan in §13.5; wat hier telt:
+
+- De save blijft **lokaal de bron** tijdens het leren. Er wordt nooit op de server gewacht om een vraag te kunnen beantwoorden.
+- Synchroniseren gebeurt **per ronde**, niet per vraag: bij het einde van een ronde, bij het verbergen van de pagina (`visibilitychange`) en bij het opstarten.
+- Bij een conflict tussen twee toestellen geldt **samenvoegen, nooit overschrijven** (§13.5). Een blob die de andere wint is verboden: dat wist een avond studeren.
+- De save krijgt in de online build twee extra velden, die de offline build negeert en die een backup ongemoeid laat: `rev` (het revisienummer dat de server bijhoudt) en `synced` (tijdstip van de laatste geslaagde sync).
+
 ---
 
 ## 9. Vormgeving, toon en toegankelijkheid
@@ -893,7 +907,7 @@ latijn-studietool/
 ├── woordenlijst.md              ← bron van waarheid (1051 woorden)
 ├── latijn.json                  ← afgeleide data
 ├── maak-data.py                 ← woordenlijst.md  → latijn.json
-├── bouw.py                      ← sjabloon.html + latijn.json → verba/index.html
+├── bouw.py                      ← sjabloon.html + latijn.json → beide builds
 ├── sjabloon.html                ← de app zonder data
 ├── tesserae/                    ← de 20 pixelfiguren
 │   ├── rasters.py               ← bron van waarheid voor de sprites
@@ -901,18 +915,36 @@ latijn-studietool/
 │   └── injecteer.py             ← schrijft ze in sjabloon.html
 ├── FUNCTIONELE-SPECIFICATIE.md  ← dit document
 ├── changelog.md
-├── test/                        ← smoketests (Playwright, zie test/LEESMIJ.txt)
-└── verba/
-    ├── index.html               ← de volledige app, dubbelklikbaar
-    └── LEESMIJ.txt
+├── test/                        ← smoketests (Playwright) + de servertests, zie test/LEESMIJ.txt
+│   ├── samenvoegen-test.php     ← elke regel van §13.5 apart
+│   ├── grenzen-test.php         ← elke grens van §13.6 apart
+│   ├── api-test.js              ← de API van begin tot eind, tegen de echte server
+│   └── smoke-10-online-sync.js  ← twee browsers, twee rondes, één account
+├── verba/                       ← de offline build
+│   ├── index.html               ← de volledige app, dubbelklikbaar
+│   └── LEESMIJ.txt
+├── verba-online/                ← de online build (hoofdstuk 13)
+│   └── index.html
+├── server/                      ← de API, PHP 8.4 (hoofdstuk 13)
+│   ├── index.php                ← één ingang, routeert /verba/api/v1/…
+│   ├── db.php · auth.php · sync.php · logboek.php · beheer.php
+│   ├── samenvoegen.php          ← de samenvoegregels van §13.5 (zuiver rekenwerk)
+│   ├── grenzen.php              ← de plausibiliteitsgrenzen van §13.6
+│   ├── woorden.php              ← gegenereerd door bouw.py; alleen met token op te vragen
+│   ├── schema.sql               ← de tabellen van §13.3
+│   ├── config.voorbeeld.php     ← lege velden; wordt config.php op de server
+│   └── beheer/                  ← de beheerpagina (klassen, joincodes, logboek)
+└── ONLINE-PLAN.md               ← verantwoording + meetrapport van de hosting
 ```
+
+`server/config.php` (de echte inloggegevens van de database) staat in `.gitignore` en wordt **nooit** ingecheckt: deze repo staat publiek op GitHub.
 
 ---
 
 ## 11. Aanvaardingscriteria
 
-1. `verba/index.html` opent met een dubbelklik vanaf een USB-stick, zonder server, zonder internet, en werkt volledig.
-2. De app doet **nul** netwerkrequests. (De downloadknop van §6.8 is de enige uitzondering: die haalt op klik het eigen bestand op, en bestaat alleen in de webversie.)
+1. `verba/index.html` opent met een dubbelklik vanaf een USB-stick, zonder server, zonder internet, en werkt volledig. Dit criterium gaat vóór op alles in hoofdstuk 13: een online functie die de offline build breekt, wordt niet gebouwd.
+2. De **offline build** doet **nul** netwerkrequests. (De downloadknop van §6.8 is de enige uitzondering: die haalt op klik het eigen bestand op, en bestaat alleen in de webversie.)
 3. Exact de **1051** woorden uit `woordenlijst.md` komen voor, met hun nummer, woord, vorm, vertaling, caput en sectie.
 4. Er zijn **1806 leeritems**: 1051 × `L2N` + 755 × `L2V`. Een woord met `soort = geen` krijgt nooit een vormvraag.
 5. Het leerpakket kan per caput en per sectie gekozen worden; de leermotor blijft binnen die selectie; van pakket wisselen verliest geen voortgang.
@@ -959,6 +991,20 @@ latijn-studietool/
     van de ronde onveranderd, en dezelfde vraag staat opnieuw op het scherm. De tweede
     fout telt wel gewoon.
 
+**Online modus (hoofdstuk 13).** Deze criteria gelden voor `verba-online/index.html` en de server; falen ze, dan raakt dat de offline build niet.
+
+32. `bouw.py` levert beide builds uit hetzelfde `sjabloon.html`, in één run.
+33. `verba/index.html` bevat nergens `fetch`, `XMLHttpRequest`, `navigator.sendBeacon`, `WebSocket` of een `http(s)://`-URL naar een eigen server. Een test faalt als de synccode ooit in de offline build lekt.
+34. De online build werkt **volledig** zonder netwerk: een ronde spelen, XP verdienen, badges halen en opslaan blijft werken met de server onbereikbaar; de openstaande wijzigingen gaan alsnog weg zodra er weer verbinding is. Er is geen scherm dat op de server wacht.
+35. Aanmelden met een geldige joincode, een vrije naam en een PIN van 4 cijfers maakt een account; dezelfde joincode + naam + PIN geeft op een tweede toestel dezelfde voortgang.
+36. Zonder geldige joincode is de app niet bruikbaar en zijn de woorden niet op te vragen — ook niet rechtstreeks via de API, en ook niet uit de HTML van de online build zelf (§13.2a). `verba-online/index.html` bevat geen enkel woord uit `latijn.json`; `bouw.py` weigert te bouwen als dat toch zo is.
+37. **Samenvoegen wist niets.** Twee toestellen die elk offline een ronde spelen en daarna allebei syncen, leveren een staat waarin beide rondes zitten: elke tabelregel uit §13.5 wordt apart getest, met de nadruk op de gevallen die bij overschrijven data zouden verliezen.
+38. Elke grens uit §13.6 weigert wat erbuiten valt, en laat daarbij een leesbare regel met de reden na in het logboek.
+39. Het logboek van §13.7 bevat voor elke speler elke actie uit de lijst daar, in leesbaar Nederlands, filterbaar per klas en per leerling, en te downloaden als platte tekst. Een logboek dat niet kan wegschrijven blokkeert de sync niet.
+40. Geen enkel antwoord van de API begint met `<?php`, en de API stuurt altijd `Cache-Control: no-store`.
+41. Meerdere klassen bestaan naast elkaar zonder elkaar te zien: een leerling haalt nooit gegevens van een andere klas op, en dezelfde naam mag in twee klassen bestaan.
+42. Zodra de app draait, is het aanmeldscherm niet zichtbaar — ook niet als een stijlregel het `hidden`-attribuut zou overschrijven (§13.8b). Smoke-10 controleert dit.
+
 ---
 
 ## 12. Openstaande punten (bewust opengelaten)
@@ -967,3 +1013,202 @@ latijn-studietool/
 - **NL → Latijn** is bewust **niet** geïmplementeerd (de leerling moet herkennen en de vormleer kennen, niet produceren). De itemsleutel `<nr>:<richting>` laat toe om er later een derde richting `N2L` naast te zetten zonder de save te breken.
 - **Flavourteksten en pixelrasters** van de tesserae (§5.7) zijn vrije invulling, zolang ze kort en droog zijn.
 - **Geluidsontwerp**: met de Web Audio API gegenereerd, niet uit bestanden.
+
+---
+
+## 13. Online modus
+
+Alles in dit hoofdstuk geldt **uitsluitend** voor de online build (`verba-online/index.html`) en de bijbehorende server. De offline build van hoofdstuk 1 t/m 12 verandert er niet door. De verantwoording, de afgewogen alternatieven en de metingen op de echte hosting staan in `ONLINE-PLAN.md`.
+
+### 13.0 Waarom, en wat niet
+
+Eén leerling leert op meerdere toestellen en begint daar telkens opnieuw; daarnaast mogen zijn klasgenoten mee. Dat vraagt een centrale plaats voor de voortgang, en dus accounts.
+
+Vier uitgangspunten, in deze volgorde bindend:
+
+1. **De offline app blijft bestaan en blijft ongewijzigd werken.** Dat is de reden dat dit project bestaat en de terugvalweg als de server stuk is.
+2. **Offline-first, ook online.** Lokaal opslaan blijft primair; de server komt erbovenop. Geen netwerk = de app van hoofdstuk 1 t/m 12, met een discrete melding.
+3. **Zo weinig mogelijk persoonsgegevens.** Het gaat over minderjarigen: geen e-mail, geen echte naam verplicht, geen externe identiteitsprovider, geen telemetrie.
+4. **Eén bron.** De woorden en de leermotor staan op één plaats; er komt geen tweede codebase.
+
+Uitdrukkelijk **niet** gebouwd: een leerkrachtoverzicht van individuele voortgang, en een logboek dat de leerling zelf kan inkijken (§13.7).
+
+### 13.1 Hosting
+
+De API draait op de bestaande hosting van steeman.be, **same-origin** onder `https://www.steeman.be/verba/api/v1/…`: PHP 8.4 (`fpm-fcgi`), MariaDB 10.11, `utf8mb4`. Op 13 september 2026 geverifieerd op de echte hosting, inclusief `argon2id`, en dat de edge-cache `/verba/api/*` niet cachet (`ONLINE-PLAN.md` §3).
+
+- Elk API-antwoord stuurt `Cache-Control: no-store`.
+- De PHP-versie wordt **alleen via het beheerpaneel van de hoster** gewijzigd, nooit met een `AddHandler` in een `.htaccess`: dat schakelt de PHP-uitvoering uit en de server geeft dan de **broncode** van het bestand terug — met het databasewachtwoord erin. Na elke serverwijziging wordt §11.40 opnieuw gecontroleerd.
+- De FTP-root ís de docroot: er is geen map boven de website. `config.php` staat daarom in `.gitignore`, de databasegebruiker heeft rechten op enkel zijn eigen schema, en er staat nooit een geheim in de repo.
+- De database staat **8 gelijktijdige verbindingen** toe. Dus: geen persistente verbindingen, pas verbinden als een verzoek de database echt nodig heeft, meteen loslaten. Loopt het toch vol, dan antwoordt de API `503` met `Retry-After` en zet de client zijn wijziging terug in de wachtrij.
+
+### 13.2 Accounts: klascode + naam + PIN
+
+Geen e-mail, geen OAuth, geen wachtwoordherstel per mail.
+
+1. De beheerder maakt een **klas** aan en krijgt een **joincode** (8 tekens, niet te raden, in te trekken). **Meerdere klassen bestaan naast elkaar**, elk met eigen leerlingen, eigen joincode en een eigen gezamenlijk doel.
+2. De leerling geeft de joincode, kiest een **naam of bijnaam** — uniek **binnen zijn klas**, twee klassen mogen elk hun eigen "Lotte" hebben — en een **PIN van 4 cijfers**.
+3. De server geeft een **token** terug (willekeurig, ondoorzichtig, alleen als hash bewaard) dat in `localStorage` blijft. Op dat toestel is inloggen daarna niet meer nodig.
+4. Tweede toestel: **joincode + naam + PIN** → hetzelfde account. De joincode hoort dus ook bij het inloggen: hij bepaalt in welke klas naar die naam gezocht wordt.
+5. PIN vergeten → de beheerder reset hem. Er is geen zelfbediening, want daarvoor zouden er e-mailadressen van kinderen nodig zijn.
+6. Een leerling zit in **één** klas. Verplaatsen is een beheeractie en komt in het logboek.
+
+Een PIN van 4 cijfers is zwak; dat is bewust aanvaard. De tegenmaatregelen staan in §13.6. Het ergste geval is dat een klasgenoot aan andermans Latijnscore zit — er zijn geen gegevens die kunnen uitlekken, want die worden niet verzameld.
+
+**Zonder geldige joincode is er geen toegang tot de app**, ook niet tot de woorden (§13.8). De online build draagt `noindex`.
+
+**Migratie.** Wie al lokaal voortgang heeft, krijgt bij de eerste aanmelding de vraag *"Je hebt hier al voortgang staan. Overzetten naar je account?"* Bij ja wordt de bestaande save als eerste wijziging verstuurd. Er gaat niets verloren.
+
+### 13.2a De online build bevat de woordenlijst niet
+
+De offline build heeft de 1051 woorden inline staan; dat is de hele bedoeling van een
+bestand op een USB-stick. Voor de online build kan dat niet: wie de URL kent, zou de
+woordenlijst dan kunnen binnenhalen zonder ooit een klascode te hebben gezien — en dat is
+precies wat §13.8 verbiedt.
+
+Daarom bouwt `bouw.py` de online build **zonder woorddata**:
+
+1. De pagina bevat de app, de vormgeving en de tesserae, maar geen enkel woord.
+2. Zonder woorden start de app niet op: er verschijnt alleen het aanmeldscherm.
+3. Na een geslaagde aanmelding haalt de app `/woorden` op met haar token, zet de lijst in
+   `localStorage` en **herlaadt de pagina**. Daarna start ze synchroon op, precies zoals
+   de offline build, en werkt ze ook zonder verbinding verder.
+4. Afmelden wist de woordenlijst weer van dat toestel.
+
+Op de server staan de woorden in een **`.php`-bestand**, niet als `.json`: een `.json` in
+de docroot is rechtstreeks op te vragen, een `.php` wordt uitgevoerd en geeft bij een
+directe aanvraag niets prijs. `server/woorden.php` wordt gegenereerd door `bouw.py`, uit
+dezelfde `latijn.json` als de app (§2.2) — de woorden blijven dus op één plaats staan.
+
+### 13.3 Gegevens op de server
+
+| Tabel | Inhoud |
+|---|---|
+| `klassen` | id, naam, joincode-hash, actief |
+| `leerlingen` | id, klas, naam, pin-hash (`argon2id`), aangemaakt, laatste sync, `rev` |
+| `staat` | leerling, de save-JSON van §8.2, `rev` |
+| `sessies` | token-hash, leerling, aangemaakt, laatst gezien |
+| `gebeurtenissen` | append-only logboek van elke actie van elke speler (§13.7) |
+
+Eén rij per leerling voor de staat. Bij volledige voortgang is die ~200 KB (1806 items × ~115 byte), gzip ~30 KB; er is geen reden de items over rijen te spreiden.
+
+### 13.4 API (v1)
+
+JSON over HTTPS, token in `Authorization: Bearer …`, `POST` tenzij anders vermeld.
+
+| Endpoint | Doel |
+|---|---|
+| `/aanmelden` | joincode + naam + PIN → account aanmaken, token terug |
+| `/inloggen` | joincode + naam + PIN → token terug |
+| `/woorden` (GET) | de 1051 woorden — **alleen met een geldig token** (§13.2a) |
+| `/staat` (GET) | de volledige samengevoegde staat + `rev` |
+| `/sync` | `{basisRev, wijziging}` → samengevoegde staat, of enkel een bevestiging |
+| `/klas` (GET) | geaggregeerde cijfers van **de eigen klas**, voor het gezamenlijke doel — nooit van een andere klas, nooit per leerling |
+| `/beheer/…` | alleen met de beheersleutel (nooit met een leerlingtoken): |
+| `/beheer/klas` | nieuwe klas + joincode (die code staat nergens opgeslagen, alleen de hash) |
+| `/beheer/klassen` · `/beheer/leerlingen` | overzicht |
+| `/beheer/hernoem` · `/beheer/code` · `/beheer/intrekken` | klas hernoemen, joincode zetten (leeg = willekeurig) of intrekken |
+| `/beheer/pin` · `/beheer/verplaats` · `/beheer/wissen` · `/beheer/klas-wissen` | PIN resetten (meldt alle toestellen af), leerling verplaatsen, account of klas echt verwijderen |
+| `/beheer/logboek` | het logboek (§13.7), `formaat=tekst` geeft de download |
+
+### 13.5 Samenvoegen — de regels
+
+De client stuurt de **wijziging sinds zijn laatste sync**. De server voegt samen per veld. **Laatste-schrijver-wint over de hele save is verboden.**
+
+| Veld | Regel |
+|---|---|
+| `items["<nr>:<richting>"]` | per item: de kant met de nieuwste `laatstGezien` bepaalt `box`, `vragenSindsdien` en `mcSinds`; `juist` en `fout` nemen het **maximum** |
+| `profiel.xp`, `besteCombo`, `blitzRecord`, `totaalJuist`, `totaalFout`, `vormJuist`, `vormFout`, `totaalRondes`, `totaleTijdMs` | **maximum** (monotoon stijgende tellers) |
+| `profiel.streakGeschiedenis` | vereniging van de dagen; `streak` en `laatsteActieveDag` worden daaruit **herberekend**, niet overgenomen |
+| `profiel.tempo` | van de kant met de nieuwste activiteit |
+| `badges`, `tesserae` | vereniging; bij dubbel wint de **vroegste** tijdstempel |
+| `secties` | per sectie: `veroverd` is een OR, `besteScore` en `pogingen` het maximum |
+| `examen` | `gehaald` is een OR, `besteScore` het maximum |
+| `settings` | laatste schrijver wint |
+
+De server verhoogt `rev` en stuurt de samengevoegde staat terug als de client achterliep; de client vervangt zijn lokale staat dan integraal. Na het samenvoegen is de server de waarheid.
+
+Klokken van toestellen lopen uit elkaar: tijdstempels van de client worden geklemd op "niet in de toekomst" en dienen alleen om twee kanten te ordenen, nooit om iets te berekenen dat ertoe doet.
+
+### 13.6 Vals spelen en misbruik
+
+De leermotor draait in de browser, dus **elke score is een bewering van de client**. Dat serverzijdig dichttimmeren zou de Leitner-motor, de antwoordbeoordeling en de XP-berekening op de server vragen, met een verzoek per vraag en zonder offline spelen — een ander project. Gekozen houding: **de client blijft baas, de server maakt vals spelen zichtbaar en onschadelijk.**
+
+- **De eerste sync van een account is een migratie, geen groei.** Wie maanden offline leerde, brengt in één keer een volle save mee; die aan een groei-per-uur meten zou juist de bestaande gebruiker buitensluiten. Vorm, sleutels, boxen en tijdstempels worden wél gecontroleerd, en de import komt met omvang in het logboek.
+- **Grenzen per sync**: ten hoogste ~300 beantwoorde vragen en een begrensde XP-groei per uur, `box` binnen 0–5, geen tijdstempel in de toekomst, payload ≤ 512 KB, ten hoogste 1806 itemsleutels, elke sleutel tegen `^\d+:(L2N|L2V)$`. Wat erbuiten valt wordt **geweigerd**, niet stil afgekapt, en belandt met reden in het logboek.
+- **Snelheidslimieten**: joincode-pogingen per IP, inlogpogingen per naam met oplopende vertraging, één sync per ~10 s per account. Een teller die op *raden* staat (joincode, PIN, beheersleutel) wordt bij een geslaagde poging **gewist**: de limiet remt het raden af, niet het gebruik. Anders legt een beheerpagina die wat vaker ververst zichzelf plat — dat gebeurde tijdens het bouwen.
+- **Het gezamenlijke doel wordt per persoon begrensd**, zodat één opgeblazen account het niet alleen kan uitspelen of verpesten.
+- Verder: HTTPS-only, PIN met `password_hash` (`argon2id`, zonder het algoritme vast te pinnen), tokens alleen als hash bewaard, **alle** velden serverzijdig gevalideerd, geen SQL uit stringplakwerk, en servertekst wordt in de app nooit als HTML gerenderd.
+
+### 13.7 Logboek
+
+Van **elke speler en elke actie** blijft een spoor dat leesbaar is zonder databasekennis. Elke rij in `gebeurtenissen` is gestructureerd (tijd, klas, leerling, type, cijfers) **én** draagt een kant-en-klare Nederlandse zin.
+
+```
+2026-09-14 19:02  robbe   account aangemaakt in klas "Caput 7"
+2026-09-14 19:20  robbe   ronde afgerond — 15 vragen, 13 juist, +120 XP, 4 woorden een box hoger
+2026-09-14 19:21  robbe   badge verdiend: primus-gradus
+2026-09-14 19:22  robbe   gesynct vanaf toestel B — 15 items samengevoegd, staat nu rev 42
+2026-09-15 08:40  lotte   sync geweigerd — 4200 XP in 3 minuten, boven de grens (§13.6)
+2026-09-16 17:55  beheer  PIN gereset voor lotte
+```
+
+- **Wat**: account aangemaakt of verwijderd · inloggen op een nieuw toestel · elke sync (omvang, samengevoegde items, nieuwe `rev`) · geweigerde sync mét reden · ronde en blitz afgerond · sectie veroverd · examen · badge of tessera verdiend · elke beheeractie.
+- **Wat niet**: PIN's, tokens, antwoordinhoud. Het IP alleen als hash.
+- **Granulariteit: per ronde en per gebeurtenis, nooit per vraag.** Per vraag zou duizenden onleesbare regels per week opleveren én neerkomen op bijhouden welke woorden andermans kind fout had. Per klas aan te zetten als het ooit nodig blijkt; standaard uit.
+- **Wie het ziet: alleen de beheerder.** Niet de leerlingen, ook niet hun eigen regels: wie ziet welke grens hem betrapte, leert eronder blijven. De ouders worden wel ingelicht dát het logboek bestaat (§13.8).
+- **Waar**: op de beheerpagina, nieuwste eerst, filterbaar per klas, per leerling en per dag, met een knop **logboek downloaden** die platte tekst geeft — één regel per gebeurtenis.
+- **Bewaartermijn**: 12 maanden (één schooljaar), daarna automatisch gewist. Een verwijderd account neemt zijn logregels mee.
+- Het logboek mag de app **nooit** ophouden: faalt het wegschrijven, dan gaat de sync door en wordt de logfout apart gemeld.
+
+### 13.8 Privacy, minderjarigen en de woordenlijst
+
+1. **Wat bewaard wordt**: een bijnaam, een PIN-hash, de leervoortgang, en het logboek van §13.7 met een IP-hash. Meer niet. Dat logboek is het gevoeligste wat het systeem bijhoudt: daarom per ronde en niet per vraag, 12 maanden, en uitdrukkelijk vermeld in de tekst voor de ouders.
+2. In **Instellingen** staat, uitklapbaar, **"Wat bewaart VERBA?"** in gewone taal, met een contactadres en de belofte dat een account op vraag meteen verwijderd wordt — één knop op de beheerpagina, die de rijen echt wist.
+3. **De woordenlijst.** `woordenlijst.md` is overgetypt uit een schoolboek en verantwoord als persoonlijk studiegebruik. Een openbare website die hem aan een klas serveert is een ruimere verspreiding. Daarom staat de online app **achter de joincode** — geen anonieme toegang tot de woorden — en op `noindex`. Zo blijft het "leerlingen met hetzelfde boek die samen studeren" en geen publicatie. Dit is een **voorwaarde**, geen optie.
+4. Ouders van klasgenoten krijgen samen met de joincode één alinea die hetzelfde uitlegt.
+
+### 13.8a Wat er op de webserver staat
+
+| Pad | Wat |
+|---|---|
+| `/verba/` | de **online build** — het aanmeldscherm, `noindex`, geen woorddata |
+| `/verba/verba-offline.html` | de offline build, waar de downloadknop naar wijst |
+| `/verba/api/v1/` | de API; `config.php` en `woorden.php` staan hier ook, maar geven bij een directe aanvraag niets prijs |
+| `/verba-test/` | dezelfde online build als staging, waar `smoke-10` tegen draait |
+
+### 13.8b Diagnose op het aanmeldscherm
+
+Een online app faalt op plaatsen waar de bouwer niet bij kan: een andere browser, een
+andere machine, een cache die iets ouds bewaart. Drie dingen maken dat op afstand
+bespreekbaar, en ze horen te blijven staan:
+
+1. **Bouwstempel.** Het aanmeldscherm toont `bouw DD-MM UU:MM`, gezet door `bouw.py`.
+   Zonder dat weet niemand of de bezoeker de nieuwe pagina ziet of een oude uit de cache
+   van de hosting — de eerste vraag bij elke melding.
+2. **Zelftest** ("Werkt het niet? Klik hier"): zet in zeven regels op het scherm welke
+   bouw, welk adres, welke browser, of `localStorage` werkt, of de woordenlijst er staat,
+   of er een account is, en of de server antwoordt (met de HTTP-status als dat niet lukt).
+   Bedoeld om voor te lezen, zonder devtools.
+3. **JavaScript-fouten komen op het scherm**, in het foutvak van het aanmeldscherm. Een
+   stille fout is op afstand niet te onderscheiden van een dode knop.
+
+Bindingen op dat scherm lopen via **één klikafhandelaar op het omhulsel**, niet via losse
+`addEventListener`-regels per knop: valt één element weg, dan sleurt dat de andere knoppen
+niet mee.
+
+Harde regel die hieruit volgt: **het aanmeldscherm mag nooit zichtbaar zijn terwijl de app
+draait.** Een eigen `display`-regel wint van het `hidden`-attribuut, en dan staat er een
+dood formulier over een werkende app — zichtbaar voor de gebruiker, onzichtbaar in elke
+test die alleen naar de server kijkt. Aanvaardingscriterium 42.
+
+### 13.9 Fasering
+
+| Fase | Inhoud |
+|---|---|
+| 0 | ✔ Hosting geverifieerd (PHP 8.4, MariaDB, cache), 13 september 2026 |
+| 1 | Server + accounts + staat + sync + logboek; de online build; migratie van de bestaande save; de tests van §11.32–41 |
+| 2 | Klasgenoten: joincodes, beheerpagina met logboek, PIN-reset, snelheidslimieten, privacytekst, `noindex` |
+| 3 | Het gezamenlijke doel — apart te ontwerpen, per klas; het klasmozaïek ("samen 1051") is de voorzet |
+
+Niets van fase 3 wordt gebouwd voor fase 1 en 2 stabiel draaien.

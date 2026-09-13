@@ -1,5 +1,172 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-13 — Online modus, fase 1: accounts, centrale voortgang, logboek
+
+### Doel
+Robbe leert op meerdere toestellen en begon telkens opnieuw; daarnaast moeten zijn
+klasgenoten erop kunnen. Dat vraagt een centrale plaats voor de voortgang — en dus het
+einde van "één bestand, geen server". Het offline bestand blijft wel bestaan: het is de
+reden dat dit project er is, en de terugvalweg als de hosting ooit stopt.
+
+Beslist vooraf (zie `ONLINE-PLAN.md`, met de afgewogen alternatieven): LWS-hosting met
+PHP + MySQL, aanmelden met een klascode, de client blijft baas over zijn eigen score en
+de server maakt vals spelen alleen zichtbaar, en van elke speler blijft een leesbaar
+logboek bij. Specificatie op **v1.5** met een nieuw hoofdstuk 13 en tien extra
+aanvaardingscriteria (32–41).
+
+### 1. Twee builds uit één sjabloon (§2.2, criterium 32/33)
+- `bouw.py` levert nu `verba/index.html` (offline, ongewijzigd) én `verba-online/index.html`.
+- De synccode staat tussen `/*__ONLINE_BEGIN__*/`-markers en wordt bij de offline build
+  **fysiek uitgeknipt**, niet uitgeschakeld met een vlag. `bouw.py` weigert te bouwen als
+  er daarna nog een `fetch(`, `XMLHttpRequest` of `WebSocket` in het offline bestand staat.
+  "Nul netwerkrequests" is zo een eigenschap van het bestand, niet van een `if`.
+
+### 2. De online build draagt de woordenlijst niet (§13.2a, criterium 36)
+Tijdens het bouwen bleek dat de woorden in de HTML zitten: wie de URL kende, had de hele
+lijst, klascode of niet — precies wat §13.8 verbiedt. Daarom bevat de online build geen
+enkel woord. Na het aanmelden haalt de app ze op bij `/woorden` (token vereist), zet ze in
+`localStorage` en herlaadt de pagina; daarna start ze synchroon op zoals offline en werkt
+ze ook zonder verbinding. Op de server staan ze in `woorden.php`, niet in een `.json`: een
+`.json` in de docroot is rechtstreeks op te vragen.
+
+### 3. Accounts: klascode + naam + PIN (§13.2)
+Geen e-mail, geen OAuth, geen herstel per mail. Meerdere klassen naast elkaar; een naam is
+uniek *binnen* een klas, dus twee klassen mogen elk hun eigen "Lotte" hebben. De joincode
+hoort ook bij het inloggen: hij bepaalt in welke klas er gezocht wordt. PIN met `argon2id`,
+tokens alleen als hash bewaard.
+
+### 4. Samenvoegen, nooit overschrijven (§13.5, criterium 37)
+Het onderdeel dat stil data vernietigt als het fout is, dus als eerste gebouwd en als enige
+met een mutatietest: zes bewust kapotte versies van de samenvoegcode (laatste schrijver
+wint, badges met de laatste tijdstempel, client wint altijd, streak overgenomen, geen klem
+op toekomstige tijd, hele staat overschrijven) worden alle zes door de testen betrapt.
+Tellers nemen het maximum, `laatstGezien` bepaalt welke kant de box zet, badges houden hun
+vroegste tijdstempel, de dagstreak wordt herberekend uit de vereniging van de dagen.
+
+### 5. Logboek (§13.7, criterium 39)
+Elke rij in `gebeurtenissen` draagt een kant-en-klare Nederlandse zin, zodat het logboek
+leesbaar is zonder databasekennis, met filter per klas/leerling/dag en een download als
+platte tekst. De zinnen worden op de **server** samengesteld uit een vaste lijst: stuurde
+het toestel ze mee, dan schrijft een leerling zijn eigen logboek vol. Per ronde en per
+gebeurtenis, nooit per vraag — anders houd je bij welke woorden andermans kind fout had.
+
+### Vier fouten die de tests eruit haalden
+1. **De eerste sync werd geweigerd.** Wie al maanden offline leerde, brengt in één keer een
+   volle save mee; de XP-grens per uur zag dat als geknoei. De eerste sync is nu een
+   migratie: vorm en sleutels worden gecontroleerd, groei niet.
+2. **Een vers tweede toestel werd geweigerd** — de regel "tellers mogen niet dalen" sloeg
+   aan op een toestel dat legitiem op nul staat. Die regel geldt nu alleen nog voor een
+   toestel dat de huidige serverstaat gezien heeft (`basisRev == rev`).
+3. **Elke sync stuurde alle 1806 items** (~200 KB), want de app maakt voor elk item een
+   lege rij aan. Lege items gaan niet meer mee; een ronde is nu één item groot.
+4. **De snelheidslimiet telde geslaagde pogingen mee**, waardoor de beheerpagina zichzelf
+   platlegde. Een teller die op raden staat, wordt bij succes gewist.
+
+### Ook opgemerkt
+- Deze hosting toont PHP-fouten aan de bezoeker: een onopgevangen uitzondering liet pad,
+  stack trace en regelnummer zien. `display_errors` staat nu uit, fouten gaan naar het
+  serverlogboek en de bezoeker krijgt één zin.
+- De PHP-versie werd van 7.3.33 (end-of-life) naar 8.4.25 gezet, waarmee `argon2id`
+  beschikbaar is. Nooit via een `AddHandler` in `.htaccess`: dat schakelt PHP uit en de
+  server geeft dan de **broncode** terug, inclusief het databasewachtwoord.
+- `server/config.php` staat in `.gitignore`; de FTP-root is de docroot, dus er is geen map
+  boven de website om geheimen in te leggen.
+
+### Tests
+110 bestaande checks blijven groen. Nieuw: 42 checks op de samenvoegregels, 24 op de
+grenzen, 49 op de API van begin tot eind, en 22 in smoke-10 — twee echte browsers die elk
+een ronde spelen, samenkomen zonder verlies, en doorwerken met de server afgekoppeld.
+
+### Omgeschakeld: /verba/ is de online build (later dezelfde dag)
+- `https://www.steeman.be/verba/` toont nu het aanmeldscherm; de offline build staat naast
+  de app als `verba-offline.html` en dat is waar de downloadknop naar wijst. Zonder die
+  verhuizing zou de knop de online build uitdelen — een bestand zónder woorden, precies het
+  tegenovergestelde van wat hij belooft.
+- Meegenomen omdat het omschakelen ze zichtbaar maakt: `noindex` op de online build, en de
+  uitklapbare tekst **"Wat bewaart VERBA?"** in de instellingen, waar het aanmeldscherm al
+  naar verwees.
+- Nieuw endpoint `beheer/code` om een eigen joincode te zetten; die van Robbe is **3LAT**,
+  de vorige werkt niet meer. Een korte code geeft makkelijker door en is makkelijker te
+  raden — de limiet op joincode-pogingen per IP (§13.6) is wat hem beschermt.
+- **Derde vondst in de grenzen:** "leeg account" mag niet betekenen "er is nog nooit
+  gesynct", maar "er staat nog niets". Eén aanmelding vanaf een toestel zónder voortgang
+  schreef anders een lege staat weg, waarna de échte save van datzelfde kind als
+  onmogelijke groei geweigerd werd.
+
+### Meteen daarna: "Aanmelden reageert niet"
+Robbe kreeg zijn account niet open. De knop réágeerde wel — de API gaf netjes 409 en de
+melding *"die naam is in deze klas al bezet — kies een andere"* stond op het scherm — maar
+dat was het verkeerde advies: zijn account was vooraf aangemaakt, dus zijn weg was
+"Ik heb hier al een account". Een val die door dat vooraf aanmaken zelf ontstond.
+
+- Bestaat de naam al in die klas, dan probeert de app nu **zelf inloggen** met dezelfde
+  gegevens. Lukt dat, dan is hij gewoon binnen; klopt de PIN niet, dan zegt de melding wat
+  er aan de hand is en staat de knop al op *Inloggen*.
+- Een foutmelding die je over het hoofd ziet, bestaat niet: de melding staat nu in een
+  omkaderd vlak in plaats van als los rood regeltje.
+- `beheer/logboek` gaf de opgeslagen `cijfers` niet terug — ze werden wél bewaard maar
+  nergens getoond. Nu wel, zodat achter elke sync te zien is hoeveel leeritems en XP er ná
+  het samenvoegen op de server staan.
+- `smoke-2` verwachtte nog dat de downloadknop naar `index.html` wijst; dat is sinds de
+  omschakeling `verba-offline.html`.
+
+Onderweg meteen een bewijs uit de praktijk: nadat Robbe zijn 44 leeritems en 9937 XP had
+gemigreerd, logde een testbrowser zónder voortgang op hetzelfde account in en synchroniseerde.
+Bij "laatste schrijver wint" was zijn voortgang op dat moment weg geweest; het samenvoegen
+hield alles staan (44 leeritems, 9937 XP, 4 badges, 6 tesserae, ongewijzigd).
+
+### De bug die een avond kostte: een aanmeldscherm over een werkende app
+Op drie browsers en twee machines reageerde geen enkele link op het aanmeldscherm — geen
+foutmelding, geen beweging. Ondertussen liet het serverlogboek vrolijk geslaagde logins en
+syncs zien. Beide waren waar:
+
+```css
+.aanmeld{ ... display:flex; ... }     /* wint van het hidden-attribuut */
+```
+
+`hidden` is maar een stijlregel van de browser zelf; een eigen `display:flex` overschrijft
+hem. Het aanmeldscherm bleef dus **over de draaiende app hangen**. De app werkte, de
+gebruiker keek naar een formulier dat niet meer bediend werd — want bij een ingelogde app
+draait de aanmeldcode helemaal niet, dus zaten er ook geen klikafhandelaars op die knoppen.
+Geen fout om te melden, dus ook geen foutmelding.
+
+- Fix: `.aanmeld[hidden]{display:none !important}` ná die regel, plus bij het opstarten
+  expliciet `hidden = true` en `style.display = "none"` — twee sloten.
+- Regressietest `2c2` in smoke-10: zodra de app draait, is het aanmeldscherm weg.
+
+**Les voor de volgende keer:** "ik zie het scherm maar niets werkt" wijst op een scherm dat
+getekend wordt zonder dat de bijbehorende code loopt. Daar beginnen, niet bij het netwerk.
+Er zijn onderweg drie dingen gebouwd die bleven staan omdat ze hoe dan ook nuttig zijn als
+er klasgenoten bij komen: een **bouwstempel** op het aanmeldscherm (zie je de nieuwe pagina
+of een oude uit de cache?), een **zelftest**-knop die opslag, adres, account en server in
+zeven regels samenvat, en **JavaScript-fouten die op het scherm komen** in plaats van in een
+console die niemand openzet. Bindingen gaan nu ook via één afhandelaar op het omhulsel, zodat
+één stuk element niet de rest van de knoppen meesleurt.
+
+Onderweg nog opgemerkt: de DDoS-bescherming van de hosting stuurt een headless browser met
+403 weg ("LWS Protection DDoS"). Dat lijkt op een stukke app en is er geen — smoke-10 draait
+nu met een gewone user-agent en herkent die 403 expliciet.
+
+### Ook nog toegevoegd
+- `beheer/hernoem` (een klas een andere naam geven) en `beheer/code` zonder code meesturen
+  levert een willekeurige joincode. Robbe's klas heet nu **3LAT** met een willekeurige code.
+
+### Documentatie
+- Specificatie op **v1.5**: nieuw hoofdstuk 13 (online modus) met §13.2a (de online build
+  zonder woorddata), §13.8a (wat er op de webserver staat) en §13.8b (bouwstempel,
+  zelftest, fouten op het scherm, en de harde regel dat het aanmeldscherm nooit over de
+  draaiende app mag staan). Aanvaardingscriteria 32 t/m 42.
+- De beheer-endpoints staan nu stuk voor stuk in §13.4, niet meer als één regel `/beheer/…`.
+- `README.md`: twee builds, de online URL achter een klascode, `verba-offline.html`, en
+  waar je begint als het ergens niet werkt. `test/LEESMIJ.txt`: de servertests, de
+  beheersleutel als omgevingsvariabele, en de DDoS-val van de hosting.
+- `ONLINE-PLAN.md` blijft staan als verantwoording en meetrapport (de afgewogen
+  alternatieven + fase 0 op de echte hosting); de spec is wat bindt.
+
+### Nog niet gedaan
+Fase 2 (beheerpagina in beeld, de klas erop) en fase 3 (het gezamenlijke doel). Een PIN door
+de leerling zelf laten wijzigen kan nog niet.
+
 ## 2026-09-12 (i) — Adaptief leertempo + gratis herkansing bij een misgelezen vraag
 
 ### Doel

@@ -2,3 +2,6 @@ __pycache__/
 *.pyc
 node_modules/
 package-lock.json
+
+# Nooit in git: de echte inloggegevens van de server (§13.1)
+server/config.php

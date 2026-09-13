@@ -99,7 +99,10 @@ const check = (naam, ok, detail) => {
     });
     console.log('DOWNLOAD', JSON.stringify(dl));
     check('downloadblok is verborgen over file://', dl.protocol === 'file:' && dl.verborgen === true, dl);
-    check('downloadknop wijst naar het bestand zelf', dl.href === 'index.html' && dl.naam === 'verba.html', dl);
+    // Sinds /verba/ de online build serveert, wijst de knop naar het OFFLINE bestand
+    // ernaast — de pagina zelf draagt geen woorden meer (§13.2a, §6.8).
+    check('downloadknop wijst naar de offline build',
+          dl.href === 'verba-offline.html' && dl.naam === 'verba.html', dl);
 
     // backup roundtrip
     const backup = await p.evaluate(() => {

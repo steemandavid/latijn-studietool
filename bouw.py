@@ -1,12 +1,22 @@
 # -*- coding: utf-8 -*-
-"""Bouwt verba/index.html uit sjabloon.html + latijn.json.
+"""Bouwt beide builds uit sjabloon.html + latijn.json (§2.2).
 
     python3 maak-data.py     # woordenlijst.md -> latijn.json
-    python3 bouw.py          # sjabloon.html + latijn.json -> verba/index.html
+    python3 bouw.py          # sjabloon.html + latijn.json -> verba/ en verba-online/
+
+De offline build is het ding dat op de USB-stick gaat: daar wordt de synccode niet
+uitgeschakeld maar **fysiek uitgeknipt**, zodat "nul netwerkrequests" een eigenschap van
+het bestand is en niet van een if-je (§11.33).
 """
-import json, os, sys
+import datetime, json, os, re, sys
 
 HIER = os.path.dirname(os.path.abspath(__file__))
+
+# Wat er in de offline build echt niet mag voorkomen (§11.2, §11.33).
+VERBODEN_OFFLINE = [
+    r"\bfetch\s*\(", r"\bXMLHttpRequest\b", r"navigator\.sendBeacon", r"\bWebSocket\b",
+    r"\bEventSource\b", r"\bimport\s*\(",
+]
 
 def lees(pad, wat):
     try:
@@ -14,10 +24,31 @@ def lees(pad, wat):
     except FileNotFoundError:
         sys.exit(f"bouw.py: {wat} ontbreekt — verwacht op {pad}")
 
+def knip_online(html):
+    """Haalt elk gemarkeerd blok weg — in JS/CSS én in de HTML."""
+    html = re.sub(r"/\*__ONLINE_BEGIN__\*/.*?/\*__ONLINE_EINDE__\*/", "", html, flags=re.S)
+    html = re.sub(r"<!--__ONLINE_BEGIN__-->.*?<!--__ONLINE_EINDE__-->", "", html, flags=re.S)
+    return html
+
+def houd_online(html):
+    """Laat de blokken staan, maar haalt de markeringen zelf weg."""
+    for marker in ("/*__ONLINE_BEGIN__*/", "/*__ONLINE_EINDE__*/",
+                   "<!--__ONLINE_BEGIN__-->", "<!--__ONLINE_EINDE__-->"):
+        html = html.replace(marker, "")
+    return html
+
+def schrijf(pad, inhoud):
+    os.makedirs(os.path.dirname(pad), exist_ok=True)
+    open(pad, "w", encoding="utf-8").write(inhoud)
+    return os.path.getsize(pad) / 1024
+
 sjabloon = lees(os.path.join(HIER, "sjabloon.html"), "sjabloon.html")
 
 if "/*__DATA__*/" not in sjabloon:
     sys.exit("sjabloon.html mist de /*__DATA__*/ placeholder")
+if sjabloon.count("/*__ONLINE_BEGIN__*/") != sjabloon.count("/*__ONLINE_EINDE__*/") or \
+   sjabloon.count("<!--__ONLINE_BEGIN__-->") != sjabloon.count("<!--__ONLINE_EINDE__-->"):
+    sys.exit("sjabloon.html: een __ONLINE__-blok is niet netjes afgesloten")
 
 try:
     data = json.loads(lees(os.path.join(HIER, "latijn.json"), "latijn.json"))
@@ -27,10 +58,35 @@ except json.JSONDecodeError as e:
 # Compact: geen spaties, en </script> kan nooit in de data voorkomen.
 js = json.dumps(data["woorden"], ensure_ascii=False, separators=(",", ":"))
 assert "</script" not in js.lower(), "data bevat een script-tag"
+# ---- offline: de data staat in het bestand, de synccode gaat eruit -------
+offline = knip_online(sjabloon.replace("/*__DATA__*/", js)).replace("/*__STEMPEL__*/", "")
+for patroon in VERBODEN_OFFLINE:
+    if re.search(patroon, offline):
+        sys.exit(f"bouw.py: de offline build bevat {patroon} — dat mag niet (§11.33)")
+kb_off = schrijf(os.path.join(HIER, "verba", "index.html"), offline)
 
-uit = sjabloon.replace("/*__DATA__*/", js)
-pad = os.path.join(HIER, "verba", "index.html")
-os.makedirs(os.path.dirname(pad), exist_ok=True)
-open(pad, "w", encoding="utf-8").write(uit)
-print(f"verba/index.html gebouwd — {len(data['woorden'])} woorden, "
-      f"{os.path.getsize(pad)/1024:.0f} KB")
+# ---- online: GEEN data in de pagina --------------------------------------
+# Wie de URL kent maar geen klascode heeft, mag de woordenlijst niet krijgen (§13.8,
+# §11.36). De app haalt ze na het aanmelden op bij de API en bewaart ze lokaal.
+# Een zichtbaar bouwstempel: zonder dat weet niemand of de bezoeker de nieuwe pagina
+# ziet of een oude uit de cache van de hosting (§13.1).
+stempel = datetime.datetime.now().strftime("%d-%m %H:%M")
+online = houd_online(sjabloon.replace("/*__DATA__*/", "woordenUitCache()")
+                             .replace("/*__STEMPEL__*/", stempel))
+if js[:40] in online:
+    sys.exit("bouw.py: er zit toch woorddata in de online build (§11.36)")
+kb_on = schrijf(os.path.join(HIER, "verba-online", "index.html"), online)
+
+# ---- de woorden voor de server -------------------------------------------
+# Als PHP-bestand, niet als .json: een .json in de docroot is rechtstreeks op te vragen,
+# een .php wordt uitgevoerd en geeft bij een directe aanvraag niets prijs.
+woorden_php = os.path.join(HIER, "server", "woorden.php")
+# De JSON wordt als tekst teruggegeven, niet als PHP-array: de API stuurt hem
+# ongewijzigd door, zonder 300 KB te decoderen en opnieuw te coderen.
+kb_w = schrijf(woorden_php,
+               "<?php\n/* Gegenereerd door bouw.py — niet met de hand bewerken. */\n"
+               "return <<<'VERBA_JSON'\n" + js + "\nVERBA_JSON;\n")
+
+print(f"verba/index.html         gebouwd — {len(data['woorden'])} woorden, {kb_off:.0f} KB (offline)")
+print(f"verba-online/index.html  gebouwd — {kb_on:.0f} KB (online, zonder woorddata, stempel {stempel})")
+print(f"server/woorden.php       gebouwd — {kb_w:.0f} KB (alleen met geldig token op te vragen)")

@@ -46,3 +46,33 @@ de ándere richting van hetzelfde woord wordt herkend (in beide richtingen), onz
 invoer en woorden zonder tweede vorm vallen af, en een end-to-end rit vergelijkt box,
 combo, typ-streak, XP, juist/fout, tempo-index en de vraagteller vóór en ná — alles moet
 onveranderd blijven. De tweede fout telt wél.
+
+────────────────────────────────────────────────────────────────────────
+ONLINE MODUS (hoofdstuk 13 van de specificatie)
+────────────────────────────────────────────────────────────────────────
+
+Zonder server, puur rekenwerk — draaien altijd, ook zonder internet:
+
+    php test/samenvoegen-test.php    de samenvoegregels van §13.5 (42 checks)
+    php test/grenzen-test.php        de plausibiliteitsgrenzen van §13.6 (24 checks)
+
+Tegen de echte server (er is geen lokale MySQL). Beide maken hun eigen wegwerpklas
+aan en ruimen die achteraf weer op:
+
+    VERBA_BEHEER=<beheersleutel> node test/api-test.js              (49 checks)
+    VERBA_BEHEER=<beheersleutel> node test/smoke-10-online-sync.js  (22 checks)
+
+smoke-10 opent twee echte browsers op https://www.steeman.be/verba-test/ — dat is de
+online build op een testpad. Na een wijziging aan sjabloon.html dus eerst:
+
+    python3 bouw.py
+    curl --netrc -T verba-online/index.html ftp://ftp.steeman.be/verba-test/index.html
+
+LET OP: de hosting heeft een DDoS-bescherming. Draai je smoke-10 een paar keer kort na
+elkaar, dan krijgt de headless browser een 403 met de titel "LWS Protection DDoS" — de
+test zegt dat nu zelf. Dat is GEEN fout in de app (curl en gewone bezoekers merken niets);
+wacht een kwartier, of draai tegen /verba-test/.
+
+De beheersleutel staat niet in de repo. Kwijt? Dan maak je een nieuwe hash met
+`php -r 'echo password_hash("nieuwe-sleutel", PASSWORD_ARGON2ID);'` en zet je die in
+server/config.php op de server.
