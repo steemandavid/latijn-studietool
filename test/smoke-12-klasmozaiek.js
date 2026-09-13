@@ -165,12 +165,30 @@ async function maakGoud(pagina, nrs) {
     check("6d opnieuw proberen herstelt de stand", await twee.evaluate(() => KLASSTAND.totaal.klaar), 12);
     check("6e en de melding verdwijnt", await twee.locator(".melding-klas").count(), 0);
 
-    /* ---- 7. zonder verbinding blijft het scherm bruikbaar ---- */
+    /* ---- 7. afgemeld maar met woorden in de kast: geen stille dode app ---- */
+    // Dit overkwam een gebruiker na een PIN-reset (die meldt alle toestellen af): de app
+    // startte gewoon op, stuurde niets meer door en zei dat nergens.
+    await twee.evaluate(() => {
+      ACC.token = null; bewaarAccount();                  // woorden blijven in localStorage
+    });
+    await twee.reload({waitUntil: "domcontentloaded"});
+    await twee.waitForSelector("#aanmeldScherm:not([hidden])", {timeout: 20000});
+    check("7a zonder account verschijnt het aanmeldscherm",
+          await twee.isVisible("#aanmeldScherm"), true);
+    check("7b met uitleg waarom",
+          /afgemeld/.test(await twee.textContent("#aanmeldFout")), true);
+    check("7c en de woordenlijst is niet weggegooid",
+          await twee.evaluate(() => (JSON.parse(localStorage.getItem("verba.woorden.v1")) || []).length), 1051);
+
+    /* ---- 8. zonder verbinding blijft het scherm bruikbaar ---- */
+    await meldAan(twee, klas.joincode, "lotte", "4321", false);   // opnieuw aanmelden
+    await twee.click('[data-ga="opus"]');
+    await twee.waitForSelector("#opusRaster .opuskaart", {timeout: 20000});
     await tweeCtx.setOffline(true);
     await twee.click("#scr-opus [data-terug]");
     await twee.click('[data-ga="opus"]');
     await twee.waitForTimeout(1000);
-    check("7a het scherm blijft staan zonder netwerk",
+    check("8a het scherm blijft staan zonder netwerk",
           await twee.locator("#opusRaster .opuskaart").count(), 8);
     await tweeCtx.setOffline(false);
   } catch (e) {

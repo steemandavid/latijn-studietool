@@ -3684,7 +3684,8 @@ function renderMozaiek(){
 }
 
 async function haalKlas(pogingen){
-  if(!ACC.token || klasBezig) return;
+  if(!ACC.token){ klasFout = "je bent niet aangemeld op dit toestel"; renderMozaiek(); return; }
+  if(klasBezig) return;
   klasBezig = true; renderMozaiek();
   const r = await apiRoep("klas");
   klasBezig = false;
@@ -3797,6 +3798,16 @@ function afmelden(stil){
 }
 
 function startOnline(){
+  if(!ACC.token){
+    // Geen account meer op dit toestel (bv. na een PIN-reset, die overal afmeldt). De
+    // woorden staan er nog, dus de app zou gewoon opstarten en stilletjes niets meer
+    // doorsturen. Dan liever meteen het aanmeldscherm, met uitleg.
+    startAanmelden();
+    $("#aanmeldFout").textContent = "Je bent op dit toestel afgemeld — dat gebeurt onder "
+      + "andere als je PIN opnieuw is ingesteld. Meld je opnieuw aan; je voortgang staat "
+      + "veilig op de server.";
+    return;
+  }
   $("#accBlok").hidden = false;
   const uitleg = $("#lokaalUitleg");
   if(uitleg) uitleg.textContent = "Je voortgang staat ook centraal op de server: je kan op "

@@ -258,6 +258,27 @@ bleef er "even geduld" staan zonder uitleg en zonder nieuwe poging.
   wachten tot er geen aanroep meer loopt — een die al onderweg was, vulde de stand meteen
   weer en de nieuwe werd door de vergrendeling overgeslagen.
 
+### En het echte gevolg van de PIN-reset: stil afgemeld
+Het mozaïekscherm toonde daarna de néutrale melding ("nog niet opgehaald"), niet een fout.
+Dat kon maar één ding betekenen: `haalKlas()` liep helemaal niet, omdat er geen token was.
+
+De oorzaak lag uren eerder: de PIN-reset meldt álle toestellen af (dat is de bedoeling),
+maar de woordenlijst bleef in `localStorage` staan. En zo startte de app gewoon op — met
+woorden, zonder account — en stuurde stilletjes niets meer door: geen sync, geen klasstand,
+geen melding. De app zag er normaal uit en deed niets.
+
+- `startOnline()` toont nu meteen het aanmeldscherm als er geen token is, mét de reden
+  ("je bent op dit toestel afgemeld — dat gebeurt onder andere als je PIN opnieuw is
+  ingesteld"). De woordenlijst blijft staan, dus opnieuw aanmelden is één handeling.
+- `haalKlas()` zonder token zet voortaan een leesbare reden in plaats van niets te doen.
+- Regressietest smoke-12 stap 7: token weghalen, woorden laten staan, herladen — het
+  aanmeldscherm moet verschijnen, met uitleg, en de woordenlijst mag niet weggegooid zijn.
+
+**Het patroon van vandaag, drie keer:** een scherm dat wacht op iets dat nooit komt en dat
+niet zegt. Een dood aanmeldscherm over een werkende app, een mozaïek dat eeuwig "even
+geduld" zei, en een app die stil afgemeld was. Elke keer was de zichtbare toestand niet te
+onderscheiden van "hij is aan het laden".
+
 ### Nog niet gedaan
 Nijlpaard en de tweeling onder de wolvin zijn de zwakste tekeningen; die mogen nog een
 ronde. Een leerling kan zijn eigen PIN nog altijd niet wijzigen; dat blijft een beheeractie.

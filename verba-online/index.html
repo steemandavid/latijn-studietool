@@ -879,7 +879,7 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
     <hr style="border:0;border-top:1px solid var(--lijn);margin:4px 0 0">
     <div class="rij" style="justify-content:space-between;align-items:baseline">
       <button class="wissel" id="btnZelftest">Werkt het niet? Klik hier</button>
-      <span class="sub" id="bouwStempel" style="margin:0">bouw 13-09 21:06</span>
+      <span class="sub" id="bouwStempel" style="margin:0">bouw 13-09 21:18</span>
     </div>
     <pre id="zelftestUit" hidden style="white-space:pre-wrap;font-size:12px;margin:0;
       padding:10px;border:1px solid var(--lijn);border-radius:8px;overflow-x:auto"></pre>
@@ -3684,7 +3684,8 @@ function renderMozaiek(){
 }
 
 async function haalKlas(pogingen){
-  if(!ACC.token || klasBezig) return;
+  if(!ACC.token){ klasFout = "je bent niet aangemeld op dit toestel"; renderMozaiek(); return; }
+  if(klasBezig) return;
   klasBezig = true; renderMozaiek();
   const r = await apiRoep("klas");
   klasBezig = false;
@@ -3797,6 +3798,16 @@ function afmelden(stil){
 }
 
 function startOnline(){
+  if(!ACC.token){
+    // Geen account meer op dit toestel (bv. na een PIN-reset, die overal afmeldt). De
+    // woorden staan er nog, dus de app zou gewoon opstarten en stilletjes niets meer
+    // doorsturen. Dan liever meteen het aanmeldscherm, met uitleg.
+    startAanmelden();
+    $("#aanmeldFout").textContent = "Je bent op dit toestel afgemeld — dat gebeurt onder "
+      + "andere als je PIN opnieuw is ingesteld. Meld je opnieuw aan; je voortgang staat "
+      + "veilig op de server.";
+    return;
+  }
   $("#accBlok").hidden = false;
   const uitleg = $("#lokaalUitleg");
   if(uitleg) uitleg.textContent = "Je voortgang staat ook centraal op de server: je kan op "
