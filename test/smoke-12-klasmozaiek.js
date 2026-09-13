@@ -143,12 +143,34 @@ async function maakGoud(pagina, nrs) {
     await twee.waitForFunction(() => KLASSTAND && KLASSTAND.totaal.klaar === 12, null, {timeout: 20000});
     check("5a na herladen staat de stand er weer", await twee.evaluate(() => KLASSTAND.totaal.klaar), 12);
 
-    /* ---- 6. zonder verbinding blijft het scherm bruikbaar ---- */
+    /* ---- 6. mislukt ophalen: uitleg en een knop, geen eeuwig "even geduld" ---- */
+    // Dit is wat een gebruiker echt overkwam: de hosting blokkeerde juist dit ene verzoek
+    // en het scherm bleef "Even geduld…" tonen, voor altijd, zonder uitleg.
+    if (!bediening) throw new Error("deze stap vraagt de lokale testserver");
+    bediening.blokkeer("klas");
+    // Wachten tot er GEEN aanroep meer loopt: een die al onderweg was, vulde de stand
+    // anders meteen weer en de nieuwe werd door de vergrendeling overgeslagen.
+    await twee.waitForFunction(() => !klasBezig, null, {timeout: 20000});
+    await twee.evaluate(() => { KLASSTAND = null; klasFout = null; renderMozaiek(); haalKlas(); });
+    await twee.waitForSelector(".melding-klas", {timeout: 15000});
+    check("6a de panelen blijven staan", await twee.locator("#opusRaster .opuskaart").count(), 8);
+    await twee.waitForTimeout(11000);            // twee stille herpogingen
+    const melding = await twee.textContent(".melding-klas");
+    check("6b de melding noemt de echte oorzaak", /DDoS|403/.test(melding), true);
+    check("6c en er staat een knop om het opnieuw te proberen",
+          await twee.locator(".melding-klas button").count(), 1);
+    bediening.laatDoor("klas");
+    await twee.click(".melding-klas button");
+    await twee.waitForFunction(() => KLASSTAND !== null, null, {timeout: 20000});
+    check("6d opnieuw proberen herstelt de stand", await twee.evaluate(() => KLASSTAND.totaal.klaar), 12);
+    check("6e en de melding verdwijnt", await twee.locator(".melding-klas").count(), 0);
+
+    /* ---- 7. zonder verbinding blijft het scherm bruikbaar ---- */
     await tweeCtx.setOffline(true);
     await twee.click("#scr-opus [data-terug]");
     await twee.click('[data-ga="opus"]');
     await twee.waitForTimeout(1000);
-    check("6a het scherm blijft staan zonder netwerk",
+    check("7a het scherm blijft staan zonder netwerk",
           await twee.locator("#opusRaster .opuskaart").count(), 8);
     await tweeCtx.setOffline(false);
   } catch (e) {

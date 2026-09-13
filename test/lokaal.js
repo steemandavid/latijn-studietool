@@ -14,8 +14,20 @@ const ECHT = "https://www.steeman.be";
 
 function start(poort = 0, bestand = path.join(__dirname, "..", "verba-online", "index.html")) {
   const html = fs.readFileSync(bestand);
+  // Endpoints die tijdelijk moeten falen, zoals de hosting soms doet. Hier in de hand
+  // gehouden in plaats van met route-interceptie in de browser: die bleek na een
+  // herlaadbeurt stilletjes door te laten, en dan meet de test niets.
+  const geblokkeerd = new Set();
   const server = http.createServer(async (verzoek, antwoord) => {
     if (verzoek.url.startsWith("/verba/api/")) {
+      const wat = (verzoek.url.split("r=")[1] || "").split("&")[0];
+      if (process.env.VERBA_PROXY_LOG) console.log("  [proxy]", verzoek.method, wat,
+        geblokkeerd.has(wat) ? "-> GEBLOKKEERD" : "-> door");
+      if (geblokkeerd.has(wat)) {
+        antwoord.writeHead(403, {"Content-Type": "text/html"});
+        antwoord.end("<html><title>LWS Protection DDoS</title></html>");
+        return;
+      }
       const brokken = [];
       for await (const b of verzoek) brokken.push(b);
       const kop = {};
@@ -41,7 +53,10 @@ function start(poort = 0, bestand = path.join(__dirname, "..", "verba-online", "
     antwoord.end(html);
   });
   return new Promise(k => server.listen(poort, () => k({
-    server, url: `http://localhost:${server.address().port}/`})));
+    server,
+    url: `http://localhost:${server.address().port}/`,
+    blokkeer: (wat) => geblokkeerd.add(wat),
+    laatDoor: (wat) => geblokkeerd.delete(wat)})));
 }
 
 module.exports = {start};

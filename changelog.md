@@ -242,6 +242,22 @@ weg — dat is geen fout in de app, maar het legde de tests wel plat.
 9 offline suites (110 checks) ongewijzigd groen, 42 samenvoegen, 25 grenzen, 62 API,
 17 beheerpagina, 16 klasmozaïek — samen 272 checks.
 
+### Meteen erna: "De stand van de klas is nog niet opgehaald… duurt erg lang"
+Het mozaïekscherm bleef dat tonen, voor altijd. De oorzaak lag niet bij de app maar bij de
+hosting — juist die ene aanroep werd met 403 weggestuurd (DDoS-bescherming) — maar de fout
+was wel van mij: `haalKlas()` deed alleen iets bij een geslaagd antwoord. Mislukte hij, dan
+bleef er "even geduld" staan zonder uitleg en zonder nieuwe poging.
+
+- Het scherm toont nu **altijd de acht panelen**, ook zonder stand, met bovenaan wat er
+  misging (met de echte reden, bv. "de hosting blokkeerde dit verzoek (403)") en een knop
+  **Opnieuw proberen**. Daarvoor probeert hij het twee keer stil opnieuw.
+- Regressietest in smoke-12 (stap 6): de testserver blokkeert `/klas`, het scherm moet de
+  panelen blijven tonen, de oorzaak noemen, een knop geven, en na deblokkeren herstellen.
+- Onderweg bleek Playwright's route-interceptie na een herlaadbeurt stilletjes door te laten;
+  de blokkade zit nu in `test/lokaal.js` zelf, waar ze wél te vertrouwen is. En de test moet
+  wachten tot er geen aanroep meer loopt — een die al onderweg was, vulde de stand meteen
+  weer en de nieuwe werd door de vergrendeling overgeslagen.
+
 ### Nog niet gedaan
 Nijlpaard en de tweeling onder de wolvin zijn de zwakste tekeningen; die mogen nog een
 ronde. Een leerling kan zijn eigen PIN nog altijd niet wijzigen; dat blijft een beheeractie.
