@@ -163,9 +163,30 @@ nu met een gewone user-agent en herkent die 403 expliciet.
 - `ONLINE-PLAN.md` blijft staan als verantwoording en meetrapport (de afgewogen
   alternatieven + fase 0 op de echte hosting); de spec is wat bindt.
 
+### Fase 2 — de klas kan erop (zelfde sessie, na de commit van fase 1)
+- **Beheerpagina** op `/verba/beheer/` (§13.8c): klassen aanmaken/hernoemen/wissen, een
+  nieuwe joincode zetten, leerlingen per klas met PIN-reset en verwijderen, en het logboek
+  met filter per klas en per dag plus download. Eén bestand, `noindex`, geen link vanuit de
+  app; de beheersleutel blijft in het tabblad.
+- **`OUDERBRIEF.md`**: het sjabloon dat met de joincode meegaat — wat we wel en niet
+  bijhouden, dat het logboek bestaat, dat de school er niet bij betrokken is, en hoe je het
+  account laat wissen.
+- **Twee fouten die het bouwen opleverde**, allebei met een regel in de spec:
+  1. *Namen en logregels worden nooit als HTML uitgevoerd* — ze zijn door leerlingen
+     ingevuld (criterium 43, smoke-11 controleert het met een naam vol opmaak).
+  2. *Elk paneel heeft zijn eigen volgnummer voor lopende verzoeken.* Een trager, ouder
+     antwoord tekende over een nieuwere selectie heen, waardoor er een **ongefilterde**
+     lijst onder een gekozen klas stond. Daardoor trof een PIN-reset tijdens het testen de
+     verkeerde leerling — Robbe's eigen account. Meteen hersteld (PIN terug op de oude
+     waarde, geverifieerd), maar dit is precies hoe zoiets in het echt misgaat. Sindsdien:
+     per paneel een eigen teller, de gekozen klas staat boven de lijst, en smoke-11 klikt
+     op naam in plaats van op rijvolgorde.
+- Nieuwe smoke-11 (17 checks): slot dicht zonder sleutel, klas aanmaken met zichtbare code,
+  PIN-reset die echt werkt, logboek van déze klas, geen HTML-uitvoering, en klas wissen.
+
 ### Nog niet gedaan
-Fase 2 (beheerpagina in beeld, de klas erop) en fase 3 (het gezamenlijke doel). Een PIN door
-de leerling zelf laten wijzigen kan nog niet.
+Fase 3, het gezamenlijke doel: de vorm is nog niet gekozen (§14). Een leerling kan zijn
+eigen PIN nog altijd niet wijzigen; dat blijft een beheeractie.
 
 ## 2026-09-12 (i) — Adaptief leertempo + gratis herkansing bij een misgelezen vraag
 

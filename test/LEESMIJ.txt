@@ -60,7 +60,12 @@ Tegen de echte server (er is geen lokale MySQL). Beide maken hun eigen wegwerpkl
 aan en ruimen die achteraf weer op:
 
     VERBA_BEHEER=<beheersleutel> node test/api-test.js              (49 checks)
-    VERBA_BEHEER=<beheersleutel> node test/smoke-10-online-sync.js  (22 checks)
+    VERBA_BEHEER=<beheersleutel> node test/smoke-10-online-sync.js  (23 checks)
+    VERBA_BEHEER=<beheersleutel> node test/smoke-11-beheerpagina.js (17 checks)
+
+smoke-11 test de beheerpagina op https://www.steeman.be/verba/beheer/. Hij klikt bewust
+op NAAM en nooit op rijvolgorde: tijdens het bouwen trof "de eerste rij" een echt account
+omdat de lijst nog ongefilterd was.
 
 smoke-10 opent twee echte browsers op https://www.steeman.be/verba-test/ — dat is de
 online build op een testpad. Na een wijziging aan sjabloon.html dus eerst:

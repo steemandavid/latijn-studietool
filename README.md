@@ -64,6 +64,8 @@ regels op het scherm, zonder devtools (§13.8b).
 | `verba/index.html` | het gebouwde resultaat: dit bestand gaat op de USB-stick |
 | `verba-online/index.html` | de online build — zonder woorddata, die komt na het aanmelden |
 | `server/` | de API (PHP 8.4 + MariaDB): accounts, samenvoegen, grenzen, logboek |
+| `server/beheer/` | de beheerpagina: klassen, joincodes, PIN-resets, logboek |
+| `OUDERBRIEF.md` | sjabloon dat met de joincode meegaat naar de ouders |
 | `ONLINE-PLAN.md` | waarom de online modus is zoals ze is, en het meetrapport van de hosting |
 | `test/` | smoketests (headless Chromium via Playwright) + de servertests |
 | `tesserae/` | de pixelrasters van de verzamelsteentjes |

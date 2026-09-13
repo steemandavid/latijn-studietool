@@ -933,7 +933,8 @@ latijn-studietool/
 │   ├── woorden.php              ← gegenereerd door bouw.py; alleen met token op te vragen
 │   ├── schema.sql               ← de tabellen van §13.3
 │   ├── config.voorbeeld.php     ← lege velden; wordt config.php op de server
-│   └── beheer/                  ← de beheerpagina (klassen, joincodes, logboek)
+│   └── beheer/index.html        ← de beheerpagina (klassen, joincodes, leerlingen, logboek)
+├── OUDERBRIEF.md                ← sjabloon dat met de joincode meegaat (§13.8)
 └── ONLINE-PLAN.md               ← verantwoording + meetrapport van de hosting
 ```
 
@@ -1004,6 +1005,7 @@ latijn-studietool/
 40. Geen enkel antwoord van de API begint met `<?php`, en de API stuurt altijd `Cache-Control: no-store`.
 41. Meerdere klassen bestaan naast elkaar zonder elkaar te zien: een leerling haalt nooit gegevens van een andere klas op, en dezelfde naam mag in twee klassen bestaan.
 42. Zodra de app draait, is het aanmeldscherm niet zichtbaar — ook niet als een stijlregel het `hidden`-attribuut zou overschrijven (§13.8b). Smoke-10 controleert dit.
+43. De beheerpagina toont nooit gegevens zonder geldige beheersleutel, voert namen en logregels nooit als HTML uit, en toont bij een gekozen klas alleen die klas (§13.8c). Smoke-11 controleert dit.
 
 ---
 
@@ -1177,6 +1179,26 @@ Van **elke speler en elke actie** blijft een spoor dat leesbaar is zonder databa
 | `/verba/api/v1/` | de API; `config.php` en `woorden.php` staan hier ook, maar geven bij een directe aanvraag niets prijs |
 | `/verba-test/` | dezelfde online build als staging, waar `smoke-10` tegen draait |
 
+### 13.8c Beheerpagina
+
+Op `/verba/beheer/` (`noindex`, geen link vanuit de app). Eén bestand, vraagt de
+beheersleutel en houdt die alleen in dat tabblad; alle gegevens komen van dezelfde API en
+elk verzoek draagt de sleutel als header.
+
+- **Klassen**: aanmaken (de joincode komt één keer in beeld, met de waarschuwing dat hij
+  daarna alleen te vervangen is), hernoemen, nieuwe code, klas wissen.
+- **Leerlingen**: per klas, met PIN-reset (alle toestellen worden afgemeld) en verwijderen.
+- **Logboek**: filter per klas en per dag, plus download als platte tekst.
+
+Twee regels die uit het bouwen volgen en die blijven gelden:
+
+1. **Alles wat van de server komt, wordt als tekst getoond, nooit als HTML.** Namen en
+   logregels zijn door leerlingen ingevuld.
+2. **Elk paneel heeft zijn eigen volgnummer voor lopende verzoeken.** Zonder dat tekende een
+   trager, ouder antwoord over een nieuwere selectie heen — en dan staat er een ongefilterde
+   lijst onder een gekozen klas. Tijdens het bouwen trof een knop daardoor de verkeerde
+   leerling; alleen daarom is het hier een harde regel en geen detail.
+
 ### 13.8b Diagnose op het aanmeldscherm
 
 Een online app faalt op plaatsen waar de bouwer niet bij kan: een andere browser, een
@@ -1207,8 +1229,8 @@ test die alleen naar de server kijkt. Aanvaardingscriterium 42.
 | Fase | Inhoud |
 |---|---|
 | 0 | ✔ Hosting geverifieerd (PHP 8.4, MariaDB, cache), 13 september 2026 |
-| 1 | Server + accounts + staat + sync + logboek; de online build; migratie van de bestaande save; de tests van §11.32–41 |
-| 2 | Klasgenoten: joincodes, beheerpagina met logboek, PIN-reset, snelheidslimieten, privacytekst, `noindex` |
-| 3 | Het gezamenlijke doel — apart te ontwerpen, per klas; het klasmozaïek ("samen 1051") is de voorzet |
+| 1 | ✔ **klaar (13 september 2026)** — server, accounts, staat, sync, logboek, de online build, migratie van de bestaande save |
+| 2 | ✔ **klaar (13 september 2026)** — beheerpagina op `/verba/beheer/` (§13.8c), joincodes, PIN-reset, klas hernoemen/wissen, logboek met filter en download, privacytekst in de app, `OUDERBRIEF.md`, `noindex` |
+| 3 | Het gezamenlijke doel — per klas; het klasmozaïek ("samen 1051") is de voorzet. Vorm nog te kiezen (§14) |
 
 Niets van fase 3 wordt gebouwd voor fase 1 en 2 stabiel draaien.

@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>VERBA — beheer</title>
+<style>
+:root{--bg:#14110e;--kaart:#1d1a16;--lijn:#3a332b;--tekst:#ece5da;--zacht:#9d9287;
+  --accent:#c9a227;--fout:#c2543f;--goed:#6a8f4f;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tekst);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:24px 16px 64px}
+h1{font-size:24px;margin:0 0 4px}h2{font-size:17px;margin:28px 0 10px}
+.sub{color:var(--zacht);font-size:13px;margin:0}
+.kaart{background:var(--kaart);border:1px solid var(--lijn);border-radius:10px;padding:16px;margin-top:12px}
+button{font:inherit;padding:7px 12px;border:1px solid var(--lijn);border-radius:8px;
+  background:transparent;color:var(--tekst);cursor:pointer}
+button:hover{border-color:var(--accent)}
+button.prim{background:var(--accent);border-color:var(--accent);color:#14110e;font-weight:600}
+button.gevaar{border-color:var(--fout);color:var(--fout)}
+input,select{font:inherit;padding:7px 10px;border:1px solid var(--lijn);border-radius:8px;
+  background:var(--bg);color:var(--tekst)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--lijn);vertical-align:top}
+th{color:var(--zacht);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.rij{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.melding{padding:10px 12px;border-radius:8px;margin-top:12px}
+.melding.ok{border:1px solid var(--goed);background:rgba(106,143,79,.12)}
+.melding.fout{border:1px solid var(--fout);background:rgba(194,84,63,.12)}
+.code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:16px;letter-spacing:.08em;
+  color:var(--accent);user-select:all}
+pre{white-space:pre-wrap;font-size:12.5px;margin:0;max-height:60vh;overflow:auto}
+@media(max-width:560px){td,th{padding:6px 4px;font-size:13px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>VERBA — beheer</h1>
+  <p class="sub">Klassen, joincodes en het logboek. Alles hier vraagt de beheersleutel; die
+    blijft in dit tabblad en wordt nergens bewaard.</p>
+
+  <div id="slot" class="kaart">
+    <div class="rij">
+      <input type="password" id="sleutel" placeholder="beheersleutel" style="flex:1;min-width:220px"
+             autocomplete="current-password">
+      <button class="prim" id="btnOpen">Openen</button>
+    </div>
+  </div>
+
+  <div id="paneel" hidden>
+    <h2>Klassen</h2>
+    <div class="kaart">
+      <div class="rij">
+        <input id="nieuweKlas" placeholder="naam van de nieuwe klas" style="flex:1;min-width:200px">
+        <button id="btnNieuweKlas">Klas aanmaken</button>
+      </div>
+      <div id="klassen" style="margin-top:14px"></div>
+    </div>
+
+    <h2>Leerlingen</h2>
+    <div class="kaart">
+      <div class="rij">
+        <select id="klasFilter"></select>
+        <button id="btnVernieuwLeerlingen">Verversen</button>
+      </div>
+      <div id="leerlingen" style="margin-top:14px"></div>
+    </div>
+
+    <h2>Logboek</h2>
+    <div class="kaart">
+      <div class="rij">
+        <select id="logKlas"></select>
+        <input type="date" id="logDag">
+        <button id="btnLog">Tonen</button>
+        <button id="btnLogDownload">Downloaden</button>
+      </div>
+      <pre id="logboek" style="margin-top:14px"></pre>
+    </div>
+  </div>
+
+  <div id="melding"></div>
+</div>
+
+<script>
+"use strict";
+/* Beheerpagina. Praat met dezelfde API als de app; de sleutel gaat alleen als header mee
+   en blijft in dit tabblad (sessionStorage), zodat een herlaadbeurt niet telkens vraagt. */
+const API = "../api/v1/index.php?r=";
+const $ = q => document.querySelector(q);
+let sleutel = "";
+// Eén volgnummer PER paneel: alleen het nieuwste antwoord van dát paneel mag tekenen.
+// Eén gedeelde teller gooide het antwoord van het ene paneel weg zodra het andere ververste.
+const beurt = {leerlingen: 0, logboek: 0};
+
+function melding(tekst, goed){
+  $("#melding").innerHTML = `<div class="melding ${goed ? "ok" : "fout"}">${ontsnap(tekst)}</div>`;
+  if(goed) setTimeout(() => { $("#melding").innerHTML = ""; }, 6000);
+}
+/* Alles wat van de server komt is tekst, geen HTML: namen en logregels zijn door
+   leerlingen ingevuld en mogen nooit als opmaak uitkomen. */
+const ontsnap = s => (s == null ? "" : String(s))
+  .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+async function roep(pad, body){
+  const r = await fetch(API + pad, {
+    method: body ? "POST" : "GET",
+    headers: {"Content-Type": "application/json", "X-Beheer-Sleutel": sleutel},
+    body: body ? JSON.stringify(body) : undefined});
+  let d = null; try{ d = await r.json(); }catch(e){}
+  if(r.status === 403) throw new Error("de beheersleutel klopt niet");
+  if(!r.ok) throw new Error((d && d.fout) || ("de server antwoordde " + r.status));
+  return d;
+}
+
+async function toonKlassen(){
+  const {klassen} = await roep("beheer/klassen");
+  $("#klassen").innerHTML = klassen.length ? `<table><thead><tr>
+      <th>klas</th><th>leerlingen</th><th>sinds</th><th></th></tr></thead><tbody>
+    ${klassen.map(k => `<tr data-klas="${k.id}">
+      <td><b>${ontsnap(k.naam)}</b>${k.actief == 0 ? ' <span class="sub">(ingetrokken)</span>' : ""}</td>
+      <td>${k.leerlingen}</td>
+      <td class="sub">${ontsnap(String(k.aangemaakt).slice(0, 10))}</td>
+      <td><div class="rij">
+        <button data-doe="hernoem">Hernoemen</button>
+        <button data-doe="code">Nieuwe code</button>
+        <button data-doe="wis" class="gevaar">Wissen</button>
+      </div></td></tr>`).join("")}</tbody></table>`
+    : `<p class="sub">Nog geen klassen. Maak er één aan en geef de code door.</p>`;
+
+  for(const sel of ["#klasFilter", "#logKlas"]){
+    const nu = $(sel).value;
+    $(sel).innerHTML = `<option value="">alle klassen</option>` +
+      klassen.map(k => `<option value="${k.id}">${ontsnap(k.naam)}</option>`).join("");
+    if(nu) $(sel).value = nu;
+  }
+}
+
+async function toonLeerlingen(){
+  const klas = $("#klasFilter").value;
+  const mijn = ++beurt.leerlingen;
+  const {leerlingen} = await roep("beheer/leerlingen" + (klas ? "&klas=" + klas : ""));
+  if(mijn !== beurt.leerlingen) return;   // ondertussen is er een nieuwere selectie gedaan
+  const klasNaam = klas ? ($("#klasFilter").selectedOptions[0] || {}).textContent : "alle klassen";
+  $("#leerlingen").innerHTML = leerlingen.length ? `<p class="sub" style="margin:0 0 8px">
+      toont: <b>${ontsnap(klasNaam)}</b> — ${leerlingen.length} leerling(en)</p>
+    <table><thead><tr>
+      <th>naam</th><th>klas</th><th>laatste sync</th><th>rev</th><th></th></tr></thead><tbody>
+    ${leerlingen.map(l => `<tr data-leerling="${l.id}">
+      <td><b>${ontsnap(l.naam)}</b></td><td class="sub">${l.klas_id}</td>
+      <td class="sub">${ontsnap(l.laatste_sync || "nog nooit")}</td><td class="sub">${l.rev}</td>
+      <td><div class="rij">
+        <button data-doe="pin">PIN resetten</button>
+        <button data-doe="wisL" class="gevaar">Wissen</button>
+      </div></td></tr>`).join("")}</tbody></table>`
+    : `<p class="sub">Nog geen leerlingen in deze selectie.</p>`;
+}
+
+async function toonLogboek(){
+  const klas = $("#logKlas").value, dag = $("#logDag").value;
+  const mijn = ++beurt.logboek;
+  const {logboek} = await roep("beheer/logboek&aantal=300"
+    + (klas ? "&klas=" + klas : "") + (dag ? "&dag=" + dag : ""));
+  if(mijn !== beurt.logboek) return;
+  $("#logboek").textContent = logboek.length
+    ? logboek.slice().reverse().map(r =>
+        `${String(r.tijd).slice(0, 16)}  ${String(r.naam).padEnd(9)} ${r.zin}`).join("\n")
+    : "Nog niets gebeurd in deze selectie.";
+}
+
+async function alles(){ await toonKlassen(); await toonLeerlingen(); await toonLogboek(); }
+
+/* ---- bediening ---- */
+$("#btnOpen").addEventListener("click", async () => {
+  sleutel = $("#sleutel").value.trim();
+  if(!sleutel) return melding("Vul de beheersleutel in.", false);
+  try{
+    await roep("beheer/klassen");
+    try{ sessionStorage.setItem("verba.beheer", sleutel); }catch(e){}
+    $("#slot").hidden = true; $("#paneel").hidden = false;
+    await alles();
+  }catch(e){ melding(e.message, false); }
+});
+$("#sleutel").addEventListener("keydown", e => { if(e.key === "Enter") $("#btnOpen").click(); });
+
+$("#btnNieuweKlas").addEventListener("click", async () => {
+  const naam = $("#nieuweKlas").value.trim();
+  if(!naam) return melding("Geef de klas een naam.", false);
+  try{
+    const d = await roep("beheer/klas", {naam});
+    $("#nieuweKlas").value = "";
+    // De code staat nergens opgeslagen, alleen de hash: nu noteren of nooit meer.
+    melding(`Klas "${d.naam}" aangemaakt. Joincode: ${d.joincode} — schrijf hem nu op, `
+          + `hij is later niet meer op te vragen (alleen te vervangen).`, true);
+    await alles();
+  }catch(e){ melding(e.message, false); }
+});
+
+$("#klassen").addEventListener("click", async e => {
+  const knop = e.target.closest("button"); if(!knop) return;
+  const klas = +knop.closest("tr").dataset.klas;
+  const naam = knop.closest("tr").querySelector("b").textContent;
+  try{
+    if(knop.dataset.doe === "hernoem"){
+      const nieuw = prompt(`Nieuwe naam voor "${naam}":`, naam);
+      if(!nieuw) return;
+      await roep("beheer/hernoem", {klas, naam: nieuw});
+      melding(`Klas heet nu "${nieuw}".`, true);
+    }
+    if(knop.dataset.doe === "code"){
+      if(!confirm(`Nieuwe joincode voor "${naam}"? De oude werkt dan niet meer — `
+                + `wie al aangemeld is, blijft gewoon aangemeld.`)) return;
+      const d = await roep("beheer/code", {klas, code: ""});
+      melding(`Nieuwe joincode voor "${naam}": ${d.joincode} — noteer hem nu.`, true);
+    }
+    if(knop.dataset.doe === "wis"){
+      if(!confirm(`"${naam}" met alle leerlingen, voortgang en logregels verwijderen? `
+                + `Dat is niet terug te draaien.`)) return;
+      await roep("beheer/klas-wissen", {klas});
+      melding(`Klas "${naam}" verwijderd.`, true);
+    }
+    await alles();
+  }catch(err){ melding(err.message, false); }
+});
+
+$("#leerlingen").addEventListener("click", async e => {
+  const knop = e.target.closest("button"); if(!knop) return;
+  const leerling = +knop.closest("tr").dataset.leerling;
+  const naam = knop.closest("tr").querySelector("b").textContent;
+  try{
+    if(knop.dataset.doe === "pin"){
+      const pin = prompt(`Nieuwe PIN voor ${naam} (4 cijfers):`, "");
+      if(!pin) return;
+      await roep("beheer/pin", {leerling, pin});
+      melding(`PIN van ${naam} staat nu op ${pin}. Alle toestellen zijn afgemeld; `
+            + `hij moet zich één keer opnieuw aanmelden.`, true);
+    }
+    if(knop.dataset.doe === "wisL"){
+      if(!confirm(`Account van ${naam} verwijderen, met voortgang én logboek? `
+                + `Dat is niet terug te draaien.`)) return;
+      await roep("beheer/wissen", {leerling});
+      melding(`Account van ${naam} verwijderd.`, true);
+    }
+    await alles();
+  }catch(err){ melding(err.message, false); }
+});
+
+$("#btnVernieuwLeerlingen").addEventListener("click", () => toonLeerlingen().catch(e => melding(e.message, false)));
+$("#klasFilter").addEventListener("change", () => toonLeerlingen().catch(e => melding(e.message, false)));
+$("#btnLog").addEventListener("click", () => toonLogboek().catch(e => melding(e.message, false)));
+$("#logKlas").addEventListener("change", () => toonLogboek().catch(e => melding(e.message, false)));
+$("#btnLogDownload").addEventListener("click", async () => {
+  const klas = $("#logKlas").value, dag = $("#logDag").value;
+  try{
+    const r = await fetch(API + "beheer/logboek&formaat=tekst&aantal=2000"
+      + (klas ? "&klas=" + klas : "") + (dag ? "&dag=" + dag : ""),
+      {headers: {"X-Beheer-Sleutel": sleutel}});
+    if(!r.ok) throw new Error("de server antwoordde " + r.status);
+    const blob = await r.blob(), a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "verba-logboek-" + new Date().toISOString().slice(0, 10) + ".txt";
+    a.click(); URL.revokeObjectURL(a.href);
+  }catch(e){ melding(e.message, false); }
+});
+
+/* Sleutel uit dit tabblad? Dan meteen door. */
+try{
+  const bewaard = sessionStorage.getItem("verba.beheer");
+  if(bewaard){ $("#sleutel").value = bewaard; $("#btnOpen").click(); }
+}catch(e){}
+</script>
+</body>
+</html>
