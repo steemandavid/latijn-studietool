@@ -34,10 +34,14 @@ const check = (naam, ok, detail) => {
         letterWeg:    uit(2, 'L2N', 'de vrind'),
         verwisseld:   uit(2, 'L2N', 'de vriedn'),
         anderWoord:   uit(2, 'L2N', 'de vijand'),
-        vormTik:      uit(2, 'L2V', 'amcii'),
-        vormDubbel:   uit(2, 'L2V', 'amicii'),
-        vormNaamval:  uit(2, 'L2V', 'amico'),
-        vormJuist:    uit(2, 'L2V', 'amici'),
+        // §7.2a: het geslacht hoort bij een genitiefantwoord; de tikfoutregels gaan over
+        // de vorm ervóór, dus die staat er hier telkens correct achter.
+        vormTik:      uit(2, 'L2V', 'amcii, m.'),
+        vormDubbel:   uit(2, 'L2V', 'amicii, m.'),
+        vormNaamval:  uit(2, 'L2V', 'amico, m.'),
+        vormJuist:    uit(2, 'L2V', 'amici, m.'),
+        vormGeslWeg:  uit(2, 'L2V', 'amici'),
+        vormTikGeslWeg: uit(2, 'L2V', 'amcii'),
         // korte antwoorden krijgen geen tolerantie
         kort:         uit(BY_NR[52] ? 52 : 2, 'L2V', 'ducix'),
       };
@@ -54,6 +58,10 @@ const check = (naam, ok, detail) => {
     check('tikfout in de stam van een vorm telt als tikfout', g.vormTik === 'tikfout' && g.vormDubbel === 'tikfout', g);
     check('andere naamvalsuitgang blijft "bijna"', g.vormNaamval === 'bijna', g.vormNaamval);
     check('de juiste vorm blijft juist', g.vormJuist === 'juist', g.vormJuist);
+    // Een tikfout in de stam mag het vergeten geslacht niet wegpoetsen: fout blijft fout.
+    check('een vergeten geslacht is fout, ook met een verder juiste vorm',
+          g.vormGeslWeg === 'fout' && g.vormTikGeslWeg === 'fout',
+          {vormGeslWeg:g.vormGeslWeg, vormTikGeslWeg:g.vormTikGeslWeg});
 
     // Geen enkel antwoord van een ánder woord mag als tikfout passeren.
     const kruis = await p.evaluate(() => {

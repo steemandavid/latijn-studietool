@@ -114,15 +114,18 @@ smoke-13 (2026-09-14) bewaakt de twee correcties van spec 1.7, criteria 46 en 47
   onderhoud kiest het item dat het langst niet gesteld is.
 
 smoke-14 (2026-09-14) bewaakt §7.2a: het geslacht bij de genitiefvraag. Hij telt dat
-precies 153 van de 345 zelfstandige naamwoorden een gedrukt geslacht dragen (en geen
-enkel ander woord), legt de aanvaarde notaties vast (m / m. / mann. / masc. / mannelijk /
-masculinum, en m/v, m. en v., met of zonder mv.), controleert dat de vorm zónder geslacht
-fout is met "vergeten" als reden, en veegt daarna de hele lijst: elke gedrukte vorm blijft
-juist, strenge modus blijft exact, elke notatievariant wordt aanvaard, en bij de 192
-woorden zonder gedrukt geslacht straft een vrijwillig meegegeven geslacht niet. Tot slot
-kijkt hij naar de vraagkop (die noemt het geslacht alleen waar het gevraagd wordt) en naar
-de meerkeuze: 152 van de 153 dragen een geslachtsvalstrik — de juiste vorm met het
-verkeerde geslacht. De 153e is vīs (208): die heeft geen genitief om op te variëren.
+343 van de 345 zelfstandige naamwoorden een geslacht dragen — 153 gedrukt, 190 afgeleid
+(`ga: 1`) — en dat alleen alter (174) en plērīque (247) er geen hebben. Hij controleert
+dat een afgeleid geslacht wél in `vol` staat (het antwoord) maar nooit in `v` (de
+transcriptie), legt de aanvaarde notaties vast (m / m. / mann. / masc. / mannelijk /
+masculinum, en m/v, m. en v., met of zonder mv.), en veegt daarna de hele lijst: elke
+gedrukte vorm blijft juist, strenge modus vraagt het geslacht óók, bij alle 343 is de
+kale vorm fout met "vergeten" als reden, elke notatievariant wordt aanvaard en **elk ander
+geslacht is fout** — die laatste check is de belangrijkste, want zonder die garantie zou de
+app een fout antwoord kunnen inoefenen. Tot slot de vraagkop en de meerkeuze: 341 van de
+343 dragen een geslachtsvalstrik (de juiste vorm met het verkeerde geslacht). De twee
+zonder zijn vīs (208, geen genitief) en rēs pūblica (552, twee woorden).
 
-Let op bij smoke-1: de check `genderWeg` verwacht sinds spec 1.8 `fout` in plaats van
-`juist`. Dat is geen regressie maar de nieuwe regel.
+Let op bij smoke-1 en smoke-7: checks die `amīcī` zonder geslacht als juist verwachtten,
+verwachten sinds spec 1.8 `fout` of typen het geslacht erbij. Dat is geen regressie maar
+de nieuwe regel.

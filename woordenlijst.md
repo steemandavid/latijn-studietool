@@ -1259,3 +1259,242 @@ gespeld als *continuere*.
 | 1049 | retinēre, ~eō | retinuī, retentum | tegenhouden; behouden |
 | 1050 | fallere, ~ō | fefellī, falsum | misleiden; ontgaan |
 | 1051 | quasi | (ondersch. voegw.) | alsof |
+
+## Afgeleide geslachten — NIET uit het boek
+
+Het boek drukt het geslacht alleen wáár het niet uit de verbuiging volgt: bij `dux, ducis, m.`
+wel, bij `avus, avī` niet. Dat is 153 van de 345 zelfstandige naamwoorden. Nagekeken op de
+scans: het staat ook niet in het alfabetisch register achterin (p. 70-84) en nergens anders
+in de woordenlijst — het is dus geen transcriptiehiaat maar een keuze van het boek.
+
+Voor de studietool is het geslacht bij **élk** zelfstandig naamwoord leerstof (§7.2a van de
+specificatie). Zou de app het bij deze 190 woorden ongemoeid laten, dan werd `amīcī, v.`
+stilzwijgend goedgerekend en oefende ze een fout antwoord in. Daarom staan ze hier.
+
+**Deze tabel is afgeleid, niet overgetypt.** Ze hoort niet bij de transcriptie hierboven en
+mag er ook nooit in verwerkt worden: de kolom `woord`/`genitief` van een rij blijft staan
+zoals het boek ze drukt. `maak-data.py` voegt het geslacht er pas bij het bouwen aan toe en
+markeert het in `latijn.json` met `ga: 1` ("geslacht afgeleid").
+
+De regel per rij staat erbij, zodat elke waarde na te rekenen is:
+
+| Code | Regel |
+|---|---|
+| `1 v` | 1e verbuiging, `-a` / gen. `-ae` → vrouwelijk |
+| `1 v mv` | 1e verbuiging, alleen meervoud, `-ae` / gen. `-ārum` → vrouwelijk |
+| `2 m` | 2e verbuiging, `-us` / `-er` / `-ir` / gen. `-ī` → mannelijk |
+| `2 o` | 2e verbuiging, `-um` / gen. `-ī` → onzijdig |
+| `2 m mv` | 2e verbuiging, alleen meervoud, `-ī` / gen. `-ōrum` → mannelijk |
+| `2 o mv` | 2e verbuiging, alleen meervoud, `-a` / gen. `-ōrum` → onzijdig |
+| `4 m` | 4e verbuiging, `-us` / gen. `-ūs` → mannelijk |
+| `5 v` | 5e verbuiging, `-ēs` / gen. `-ēī` → vrouwelijk |
+
+De **derde verbuiging staat er niet bij**: daar volgt het geslacht níét uit de uitgang, en
+precies daarom drukt het boek het daar wel. Geen enkele waarde hieronder is dus geraden.
+
+De bekende uitzonderingen op deze regels zijn stuk voor stuk nagegaan en komen in deze
+woordenlijst **niet** voor: mannelijke personen van de 1e verbuiging (`agricola`, `nauta`,
+`poēta`, `incola`), onzijdige en vrouwelijke woorden van de 2e op `-us` (`vulgus`, `virus`,
+`pelagus`, `humus`, boomnamen), vrouwelijke van de 4e (`manus`, `domus`, `porticus`,
+`tribus` — de eerste twee staan in het boek mét hun geslacht) en `diēs`/`merīdiēs` van de 5e
+(`diēs` staat in het boek als `m./v.`). Een Nederlands lidwoord zegt niets over het Latijnse
+geslacht: `īnsula` is "het eiland" en toch vrouwelijk, `gladius` is "het zwaard" en toch
+mannelijk.
+
+**Twee zelfstandige naamwoorden krijgen bewust geen geslacht:** 174 `alter` en
+247 `plērīque`. Dat zijn voornaamwoordelijke bijvoeglijke naamwoorden met alle drie de
+geslachten; de woordsoort-heuristiek van `maak-data.py` zet ze op `znw`, maar er valt geen
+geslacht naar te vragen.
+
+| nr | woord | genitief | geslacht | regel |
+|---:|---|---|---|---|
+| 1 | avus | avī | m. | `2 m` |
+| 2 | amīcus | amīcī | m. | `2 m` |
+| 3 | deus | deī | m. | `2 m` |
+| 4 | dominus | dominī | m. | `2 m` |
+| 5 | fīlius | fīliī | m. | `2 m` |
+| 6 | locus | locī | m. | `2 m` |
+| 7 | populus | populī | m. | `2 m` |
+| 8 | servus | servī | m. | `2 m` |
+| 9 | puer | puerī | m. | `2 m` |
+| 10 | rosa | rosae | v. | `1 v` |
+| 11 | amīcitia | amīcitiae | v. | `1 v` |
+| 12 | dea | deae | v. | `1 v` |
+| 13 | fīlia | fīliae | v. | `1 v` |
+| 14 | glōria | glōriae | v. | `1 v` |
+| 15 | grātia | grātiae | v. | `1 v` |
+| 16 | iniūria | iniūriae | v. | `1 v` |
+| 17 | īnsula | īnsulae | v. | `1 v` |
+| 18 | puella | puellae | v. | `1 v` |
+| 19 | pugna | pugnae | v. | `1 v` |
+| 20 | terra | terrae | v. | `1 v` |
+| 21 | victōria | victōriae | v. | `1 v` |
+| 22 | vīta | vītae | v. | `1 v` |
+| 23 | dīvitiae | dīvitiārum | v. mv. | `1 v mv` |
+| 24 | dōnum | dōnī | o. | `2 o` |
+| 25 | aedificium | aedificiī | o. | `2 o` |
+| 26 | forum | forī | o. | `2 o` |
+| 27 | gaudium | gaudiī | o. | `2 o` |
+| 28 | imperium | imperiī | o. | `2 o` |
+| 29 | incendium | incendiī | o. | `2 o` |
+| 30 | templum | templī | o. | `2 o` |
+| 31 | vīnum | vīnī | o. | `2 o` |
+| 32 | castra | castrōrum | o. mv. | `2 o mv` |
+| 103 | frūctus | frūctūs | m. | `4 m` |
+| 104 | aditus | aditūs | m. | `4 m` |
+| 105 | cāsus | cāsūs | m. | `4 m` |
+| 106 | cōnspectus | cōnspectūs | m. | `4 m` |
+| 107 | cursus | cursūs | m. | `4 m` |
+| 108 | exitus | exitūs | m. | `4 m` |
+| 109 | mōtus | mōtūs | m. | `4 m` |
+| 110 | ūsus | ūsus | m. | `4 m` |
+| 113 | rēs | reī | v. | `5 v` |
+| 154 | exemplum | exemplī | o. | `2 o` |
+| 169 | epistula | epistulae | v. | `1 v` |
+| 170 | mēnsa | mēnsae | v. | `1 v` |
+| 171 | fātum | fātī | o. | `2 o` |
+| 172 | vitium | vitiī | o. | `2 o` |
+| 182 | fidēs | fideī | v. | `5 v` |
+| 194 | lūdus | lūdī | m. | `2 m` |
+| 195 | fortūna | fortūnae | v. | `1 v` |
+| 203 | vir | virī | m. | `2 m` |
+| 204 | cōpia | cōpiae | v. | `1 v` |
+| 205 | cōpiae | cōpiārum | v. mv. | `1 v mv` |
+| 206 | frūmentum | frūmentī | o. | `2 o` |
+| 225 | sententia | sententiae | v. | `1 v` |
+| 226 | iūdicium | iūdiciī | o. | `2 o` |
+| 254 | asinus | asinī | m. | `2 m` |
+| 379 | ventus | ventī | m. | `2 m` |
+| 380 | vesper | vesperī | m. | `2 m` |
+| 381 | nuptiae | nuptiārum | v. mv. | `1 v mv` |
+| 382 | bracchium | bracchiī | o. | `2 o` |
+| 383 | impedīmentum | impedīmentī | o. | `2 o` |
+| 404 | mātrimōnium | mātrimōniī | o. | `2 o` |
+| 410 | speciēs | speciēī | v. | `5 v` |
+| 425 | praeda | praedae | v. | `1 v` |
+| 426 | sagitta | sagittae | v. | `1 v` |
+| 427 | silva | silvae | v. | `1 v` |
+| 428 | spectāculum | spectāculī | o. | `2 o` |
+| 442 | passus | passūs | m. | `4 m` |
+| 443 | vultus | vultūs | m. | `4 m` |
+| 472 | lēgātus | lēgātī | m. | `2 m` |
+| 473 | marītus | marītī | m. | `2 m` |
+| 474 | cūra | cūrae | v. | `1 v` |
+| 475 | auxilium | auxiliī | o. | `2 o` |
+| 476 | arma | armōrum | o. mv. | `2 o mv` |
+| 477 | iugum | iugī | o. | `2 o` |
+| 478 | perīculum | perīculī | o. | `2 o` |
+| 479 | vallum | vallī | o. | `2 o` |
+| 495 | cōnsēnsus | cōnsēnsūs | m. | `4 m` |
+| 496 | senātus | senātūs | m. | `4 m` |
+| 517 | causa | causae | v. | `1 v` |
+| 518 | lingua | linguae | v. | `1 v` |
+| 519 | summa | summae | v. | `1 v` |
+| 520 | bellum | bellī | o. | `2 o` |
+| 521 | caelum | caelī | o. | `2 o` |
+| 522 | negōtium | negōtiī | o. | `2 o` |
+| 526 | faciēs | faciēī | v. | `5 v` |
+| 537 | signum | signī | o. | `2 o` |
+| 538 | tēctum | tēctī | o. | `2 o` |
+| 549 | līberī | līberōrum | m. mv. | `2 m mv` |
+| 552 | rēs pūblica | reī pūblicae | v. | `1 v` |
+| 554 | portus | portūs | m. | `4 m` |
+| 558 | socius | sociī | m. | `2 m` |
+| 559 | taurus | taurī | m. | `2 m` |
+| 560 | flamma | flammae | v. | `1 v` |
+| 561 | rīpa | rīpae | v. | `1 v` |
+| 562 | via | viae | v. | `1 v` |
+| 563 | cōnsilium | cōnsiliī | o. | `2 o` |
+| 564 | mōnstrum | mōnstrī | o. | `2 o` |
+| 565 | praemium | praemiī | o. | `2 o` |
+| 586 | metus | metūs | m. | `4 m` |
+| 611 | dolus | dolī | m. | `2 m` |
+| 612 | fēmina | fēminae | v. | `1 v` |
+| 627 | capillus | capillī | m. | `2 m` |
+| 628 | lectus | lectī | m. | `2 m` |
+| 629 | lūna | lūnae | v. | `1 v` |
+| 630 | umbra | umbrae | v. | `1 v` |
+| 631 | vīlla | vīllae | v. | `1 v` |
+| 632 | initium | initiī | o. | `2 o` |
+| 633 | silentium | silentiī | o. | `2 o` |
+| 634 | spatium | spatiī | o. | `2 o` |
+| 635 | vinculum | vinculī | o. | `2 o` |
+| 642 | magistrātus | magistrātūs | m. | `4 m` |
+| 660 | odium | odiī | o. | `2 o` |
+| 661 | oppidum | oppidī | o. | `2 o` |
+| 671 | studium | studiī | o. | `2 o` |
+| 676 | equitātus | equitātūs | m. | `4 m` |
+| 677 | impetus | impetūs | m. | `4 m` |
+| 691 | cibus | cibī | m. | `2 m` |
+| 692 | lībertus | lībertī | m. | `2 m` |
+| 693 | familia | familiae | v. | `1 v` |
+| 694 | hōra | hōrae | v. | `1 v` |
+| 695 | lacrima | lacrimae | v. | `1 v` |
+| 696 | mora | morae | v. | `1 v` |
+| 697 | statua | statuae | v. | `1 v` |
+| 698 | beneficium | beneficiī | o. | `2 o` |
+| 699 | cubiculum | cubiculī | o. | `2 o` |
+| 700 | ingenium | ingeniī | o. | `2 o` |
+| 701 | verbum | verbī | o. | `2 o` |
+| 757 | oculus | oculī | m. | `2 m` |
+| 758 | ager | agrī | m. | `2 m` |
+| 759 | nātūra | nātūrae | v. | `1 v` |
+| 760 | poena | poenae | v. | `1 v` |
+| 779 | dextra | dextrae | v. | `1 v` |
+| 804 | cēna | cēnae | v. | `1 v` |
+| 805 | prōvincia | prōvinciae | v. | `1 v` |
+| 810 | annus | annī | m. | `2 m` |
+| 811 | campus | campī | m. | `2 m` |
+| 812 | modus | modī | m. | `2 m` |
+| 813 | praefectus | praefectī | m. | `2 m` |
+| 814 | āra | ārae | v. | `1 v` |
+| 815 | proelium | proeliī | o. | `2 o` |
+| 832 | adventus | adventūs | m. | `4 m` |
+| 833 | exercitus | exercitūs | m. | `4 m` |
+| 864 | somnus | somnī | m. | `2 m` |
+| 865 | rēgia | rēgiae | v. | `1 v` |
+| 866 | rēgīna | rēgīnae | v. | `1 v` |
+| 867 | pretium | pretiī | o. | `2 o` |
+| 868 | rēgnum | rēgnī | o. | `2 o` |
+| 900 | aqua | aquae | v. | `1 v` |
+| 901 | fera | ferae | v. | `1 v` |
+| 902 | fuga | fugae | v. | `1 v` |
+| 903 | inopia | inopiae | v. | `1 v` |
+| 904 | īra | īrae | v. | `1 v` |
+| 905 | memoria | memoriae | v. | `1 v` |
+| 906 | tēlum | tēlī | o. | `2 o` |
+| 912 | aestus | aestūs | m. | `4 m` |
+| 913 | spēs | spēī | v. | `5 v` |
+| 916 | equus | equī | m. | `2 m` |
+| 917 | numerus | numerī | m. | `2 m` |
+| 918 | ala | alae | v. | `1 v` |
+| 919 | cūria | cūriae | v. | `1 v` |
+| 920 | fāma | fāmae | v. | `1 v` |
+| 921 | pecūnia | pecūniae | v. | `1 v` |
+| 922 | īnsidiae | īnsidiārum | v. mv. | `1 v mv` |
+| 923 | supplicium | suppliciī | o. | `2 o` |
+| 945 | animus | animī | m. | `2 m` |
+| 946 | gladius | gladiī | m. | `2 m` |
+| 947 | nūntius | nūntiī | m. | `2 m` |
+| 948 | minister | ministrī | m. | `2 m` |
+| 949 | hasta | hastae | v. | `1 v` |
+| 950 | invidia | invidiae | v. | `1 v` |
+| 951 | littera | litterae | v. | `1 v` |
+| 952 | litterae | litterārum | v. mv. | `1 v mv` |
+| 953 | patria | patriae | v. | `1 v` |
+| 954 | aurum | aurī | o. | `2 o` |
+| 955 | ferrum | ferrī | o. | `2 o` |
+| 956 | membrum | membrī | o. | `2 o` |
+| 957 | officium | officiī | o. | `2 o` |
+| 958 | ōrāculum | ōrāculī | o. | `2 o` |
+| 959 | tergum | tergī | o. | `2 o` |
+| 1001 | mūrus | mūrī | m. | `2 m` |
+| 1002 | liber | librī | m. | `2 m` |
+| 1003 | fōrma | fōrmae | v. | `1 v` |
+| 1004 | porta | portae | v. | `1 v` |
+| 1005 | unda | undae | v. | `1 v` |
+| 1006 | fūrtum | fūrtī | o. | `2 o` |
+| 1007 | saxum | saxī | o. | `2 o` |
+| 1039 | magister | magistrī | m. | `2 m` |
+| 1040 | discordia | discordiae | v. | `1 v` |
+| 1044 | currus | currūs | m. | `4 m` |

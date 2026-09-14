@@ -1,7 +1,9 @@
 /* smoke-14 — het geslacht bij de genitiefvraag (§7.2a, aanvaardingscriterium 48).
  *
- * Drukt het boek het geslacht (ducis, m.), dan hoort het bij het antwoord. Drukt het
- * boek het niet (avī, rosae, templī), dan vraagt de app er ook niet naar.
+ * Bij élk zelfstandig naamwoord hoort het geslacht bij het antwoord. Het boek drukt er
+ * 153; de andere 190 zijn uit de verbuiging afgeleid (tabel achterin woordenlijst.md) en
+ * dragen `ga: 1`. Alleen alter en plērīque krijgen er geen: dat zijn voornaamwoordelijke
+ * bijvoeglijke naamwoorden met alle drie de geslachten.
  */
 const { chromium } = require('playwright');
 const PAD='file:///home/john/claudecode/projects/latijn-studietool/verba/index.html';
@@ -21,16 +23,27 @@ const check = (naam, ok, detail) => {
     const telling = await p.evaluate(()=>{
       const znw = W.filter(w=>w.soort==="znw");
       return {znw:znw.length, metG:znw.filter(w=>w.g).length,
+              gedrukt: znw.filter(w=>w.g && !w.ga).length,
+              afgeleid: znw.filter(w=>w.ga).length,
               anderSoortMetG: W.filter(w=>w.g && w.soort!=="znw").length,
-              voorbeeld: W.find(w=>w.nr===52).g, zonder: !!W.find(w=>w.nr===2).g};
+              zonderG: znw.filter(w=>!w.g).map(w=>w.nr),
+              gedruktInVol: znw.filter(w=>w.ga && !w.vol.endsWith(", "+w.g)).length,
+              geslInV: znw.filter(w=>w.ga && /,\s*(m|v|o)\./.test(w.v)).length,
+              dux: W.find(w=>w.nr===52).g, amicus: W.find(w=>w.nr===2).g};
     });
     console.log("TELLING", JSON.stringify(telling));
-    check('153 van de 345 zelfstandige naamwoorden dragen een gedrukt geslacht',
-          telling.znw===345 && telling.metG===153, telling);
+    check('343 van de 345 zelfstandige naamwoorden dragen een geslacht: 153 gedrukt, 190 afgeleid',
+          telling.znw===345 && telling.metG===343 &&
+          telling.gedrukt===153 && telling.afgeleid===190, telling);
+    check('alleen alter (174) en plērīque (247) krijgen er geen — die hebben alle drie',
+          telling.zonderG.length===2 && telling.zonderG[0]===174 && telling.zonderG[1]===247,
+          telling.zonderG);
     check('alleen zelfstandige naamwoorden dragen er een',
           telling.anderSoortMetG===0, telling);
-    check('dux draagt m., amīcus draagt niets',
-          telling.voorbeeld==="m." && telling.zonder===false, telling);
+    check('een afgeleid geslacht staat in vol (het antwoord) maar nooit in v (de transcriptie)',
+          telling.gedruktInVol===0 && telling.geslInV===0, telling);
+    check('dux draagt m. uit het boek, amīcus m. uit de afleiding',
+          telling.dux==="m." && telling.amicus==="m.", telling);
 
     /* ---------- 2: de notatie is vrij, het geslacht niet ---------- */
     const oordeel = await p.evaluate(()=>{
@@ -45,7 +58,9 @@ const check = (naam, ok, detail) => {
         dies:  ["diēī, m./v.","diei m/v","diei, m. en v.","diei, m.","diei"].map(s=>[s,u(s,dies)]),
         mv:    ["māiōrum, m. mv.","maiorum m mv","maiorum, m.","maiorum"].map(s=>[s,u(s,mai)]),
         vis:   ["geen gen., v.","geen gen v","geen gen."].map(s=>[s,u(s,vis)]),
-        amicus:["amīcī","amici","amici, m.","amici, v.","amicus"].map(s=>[s,u(s,am)])
+        amicus:["amīcī, m.","amici m","amici mannelijk","amici","amici, v."].map(s=>[s,u(s,am)]),
+        vnw:   ["altera, alterum; alterīus","altera alterum alterius"]
+                 .map(s=>[s,u(s,W.find(x=>x.nr===174))])
       };
     });
     for(const [k,rij] of Object.entries(oordeel)){
@@ -66,9 +81,12 @@ const check = (naam, ok, detail) => {
     check('een punt is een afkortingsteken, geen leerstof ("geen gen." = "geen gen")',
           oordeel.vis[0][1]==="juist" && oordeel.vis[1][1]==="juist" &&
           oordeel.vis[2][1]==="fout:vergeten", oordeel.vis);
-    check('waar het boek geen geslacht drukt, straft een vrijwillig geslacht niet',
-          oordeel.amicus.slice(0,4).every(([,r])=>r==="juist") &&
-          oordeel.amicus[4][1]==="fout", oordeel.amicus);
+    check('een afgeleid geslacht telt net zo hard mee als een gedrukt',
+          oordeel.amicus.slice(0,3).every(([,r])=>r==="juist") &&
+          oordeel.amicus[3][1]==="fout:vergeten" && oordeel.amicus[4][1]==="fout:fout",
+          oordeel.amicus);
+    check('bij een woord zonder geslacht (alter) blijft de vorm alleen gewoon juist',
+          oordeel.vnw.every(([,r])=>r==="juist"), oordeel.vnw);
 
     /* ---------- 3: over de hele lijst ---------- */
     const sweep = await p.evaluate(()=>{
@@ -93,8 +111,10 @@ const check = (naam, ok, detail) => {
             kaal.push([w.nr,vol,zonder,r]);
           for(const g of VAR[geslKern(w.g)]||[])
             if(beoordeel(zonder+", "+g,w,"L2V").uit!=="juist") notatie.push([w.nr,w.g,g]);
-        } else if(w.soort==="znw" && beoordeel(vol+", m.",w,"L2V").uit!=="juist"){
-          vrij.push([w.nr,vol]);
+          // en elk ánder geslacht moet fout zijn — anders leert de app een fout antwoord aan
+          const ALT={m:["v.","o."],v:["m.","o."],o:["m.","v."],mv:["m.","v.","o."]};
+          for(const alt of ALT[geslKern(w.g)]||[])
+            if(beoordeel(zonder+", "+alt,w,"L2V").uit!=="fout") vrij.push([w.nr,w.g,alt]);
         }
       }
       return {gedrukt, streng, kaal, vrij, notatie,
@@ -107,11 +127,11 @@ const check = (naam, ok, detail) => {
           sweep.gedrukt.length===0, sweep.gedrukt.slice(0,5));
     check('strenge modus aanvaardt nog steeds precies wat er gedrukt staat',
           sweep.streng.length===0, sweep.streng.slice(0,5));
-    check('bij alle 153 is de vorm zonder geslacht fout, met "vergeten" als reden',
+    check('bij alle 343 is de vorm zonder geslacht fout, met "vergeten" als reden',
           sweep.kaal.length===0, sweep.kaal.slice(0,5));
     check('alle notatievarianten van elk gedrukt geslacht worden aanvaard',
           sweep.notatie.length===0, sweep.notatie.slice(0,5));
-    check('geen enkel woord zonder gedrukt geslacht straft een vrijwillig geslacht af',
+    check('een verkeerd geslacht wordt bij geen enkel woord goedgerekend',
           sweep.vrij.length===0, sweep.vrij.slice(0,5));
 
     /* ---------- 4: de vraagkop zegt het, de meerkeuze test het ---------- */
@@ -122,9 +142,9 @@ const check = (naam, ok, detail) => {
       // meerkeuze: onder de afleiders hoort de juiste vorm met een ander geslacht
       const G=/,\s*(m\.\/v\.|m\. en v\.|m\. mv\.|v\. mv\.|o\. mv\.|m\.|v\.|o\.)\s*$/;
       /* De morfologische afleiders (§7.2) zetten dezelfde stam in andere uitgangen. Waar
-         dat niet kan — vīs heeft geen genitief, "geen gen., v." valt niet te ontleden —
-         valt de app terug op vormen van andere woorden en is er geen valstrik te zetten.
-         Die uitzondering hoort benoemd te worden, niet weggemiddeld. */
+         dat niet kan — vīs heeft geen genitief, rēs pūblica is twee woorden — valt de app
+         terug op vormen van andere woorden en is er geen valstrik te zetten. Die twee
+         uitzonderingen horen benoemd te worden, niet weggemiddeld. */
       let metValstrik=0, gemeten=0, geenMorf=[];
       for(const w of W.filter(x=>x.g)){
         if(!genAfleiders(w,3)){ geenMorf.push(w.nr); continue; }
@@ -140,12 +160,14 @@ const check = (naam, ok, detail) => {
     console.log("MEERKEUZE  :", kop.metValstrik, "van de", kop.gemeten,
                 "met een geslachtsvalstrik; zonder morfologische afleiders:",
                 JSON.stringify(kop.geenMorf));
-    check('de kop vraagt zichtbaar naar het geslacht waar dat nodig is',
-          /genitief en het geslacht/.test(kop.dux) && !/geslacht/.test(kop.amicus), kop);
+    check('de kop vraagt zichtbaar naar het geslacht, gedrukt of afgeleid',
+          /genitief en het geslacht/.test(kop.dux) &&
+          /genitief en het geslacht/.test(kop.amicus), kop);
     check('de meerkeuze zet het geslacht op de proef in plaats van het weg te geven',
-          kop.gemeten>=150 && kop.metValstrik===kop.gemeten, kop);
-    check('alleen vīs (208) mist morfologische afleiders — die heeft geen genitief',
-          kop.geenMorf.length===1 && kop.geenMorf[0]===208, kop.geenMorf);
+          kop.gemeten>=340 && kop.metValstrik===kop.gemeten, kop);
+    check('alleen vīs (208) en rēs pūblica (552) missen morfologische afleiders',
+          kop.geenMorf.length===2 && kop.geenMorf[0]===208 && kop.geenMorf[1]===552,
+          kop.geenMorf);
 
     console.log("FOUTEN", f.length);
     check('nul console/pageerrors', f.length===0, f.slice(0,3));

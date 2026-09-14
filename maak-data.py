@@ -94,8 +94,25 @@ def onderdelen(vert):
                 voeg(stuk)
     return uit
 
-rows, cap, sec = [], None, None
+# --- afgeleide geslachten (zie de gelijknamige sectie achteraan woordenlijst.md) ---
+# Het boek drukt het geslacht alleen waar het niet uit de verbuiging volgt. Voor de app is
+# het bij elk zelfstandig naamwoord leerstof (§7.2a), dus de rest wordt hier bijgezet —
+# afgeleid uit de verbuiging, met de regel erbij, en gemarkeerd als afgeleid (`ga`).
+GEEN_GESLACHT = {174, 247}          # alter, plērīque: voornaamwoordelijke adjectieven
+AFGELEID = {}
+_in_tabel = False
 for line in open(os.path.join(HIER, "woordenlijst.md"), encoding="utf-8"):
+    if line.startswith("## Afgeleide geslachten"): _in_tabel = True; continue
+    if _in_tabel and line.startswith("## "):       _in_tabel = False
+    if not _in_tabel: continue
+    m = re.match(r"^\|\s*(\d+)\s*\|([^|]*)\|([^|]*)\|([^|]*)\|([^|]*)\|", line)
+    if m: AFGELEID[int(m.group(1))] = m.group(4).strip()
+
+rows, cap, sec = [], None, None
+_na_tabel = False
+for line in open(os.path.join(HIER, "woordenlijst.md"), encoding="utf-8"):
+    if line.startswith("## Afgeleide geslachten"): _na_tabel = True
+    if _na_tabel: continue           # die tabel is geen woordenlijst
     if line.startswith("## Caput"): cap = line[3:].strip()
     elif line.startswith("### "):   sec = line[4:].strip()
     m = re.match(r"^\|\s*(\d+)\s*\|([^|]*)\|([^|]*)\|([^|]*)\|", line)
@@ -112,18 +129,29 @@ for line in open(os.path.join(HIER, "woordenlijst.md"), encoding="utf-8"):
             e["soort"], vol = OVERRIDE[nr]
         else:
             vol = expandeer(vorm, kop)
-        e["vol"] = vol
-        # Het geslacht hoort bij de leerstof (§7.2a): staat het gedrukt, dan moet hij het
-        # meegeven. Het wordt apart nagekeken, dus de aanvaarde VORMEN staan er altijd
-        # zonder. Het boek drukt het alleen waar het niet uit de verbuiging volgt; bij
-        # `avus, avi` staat het nergens in het boek (ook niet in het register) en dan
-        # vraagt de app er ook niet naar.
+        # Het geslacht hoort bij de leerstof (§7.2a) en wordt apart nagekeken, dus de
+        # aanvaarde VORMEN staan er altijd zonder. Drukt het boek het niet, dan komt het
+        # uit de afgeleide tabel en schuift het alsnog in `vol`, want dat is het antwoord
+        # dat de app toont en verwacht. `v` blijft de letterlijke transcriptie.
         gm = GENDER.search(vol) or GENDER.search(vorm)
-        if e["soort"] == "znw" and gm:
-            e["g"] = gm.group(1)
+        if e["soort"] == "znw" and nr not in GEEN_GESLACHT:
+            if gm:
+                e["g"] = gm.group(1)
+            elif nr in AFGELEID:
+                e["g"] = AFGELEID[nr]
+                e["ga"] = 1                                   # geslacht afgeleid
+                vol = vol + ", " + e["g"]
+            else:
+                sys.exit(f"woordenlijst.md: {nr} ({kop}) is een znw zonder geslacht — "
+                         f"zet het in de tabel 'Afgeleide geslachten' of in GEEN_GESLACHT")
+        e["vol"] = vol
         acc = {soepel(GENDER.sub("", vorm)), soepel(GENDER.sub("", vol))}
         e["a"]  = sorted(x for x in acc if x)
-        e["ac"] = sorted({norm(vorm), norm(vol)} - {""})              # streng: alleen zoals gedrukt
+        # Streng: alleen de canonieke vormen — mét het geslacht, anders zou de strenge
+        # modus soepeler zijn dan de soepele (§7.2a).
+        def metG(x):
+            return x if not e.get("g") or GENDER.search(x) else x + ", " + e["g"]
+        e["ac"] = sorted({norm(metG(vorm)), norm(metG(vol))} - {""})
     else:
         e["soort"] = "geen"
     # vertalingen: alle onderdelen apart aanvaarden, lidwoord overal optioneel
@@ -149,6 +177,25 @@ c = collections.Counter(r["soort"] for r in rows)
 if len(rows) != VERWACHT_TOTAAL or dict(c) != VERWACHT:
     sys.exit(f"woordenlijst.md: tellingen kloppen niet — got {len(rows)} woorden, {dict(c)}; "
              f"verwacht {VERWACHT_TOTAAL}, {VERWACHT}")
+# --- validatie: de afgeleide tabel moet kloppen met de woordenlijst ---
+bekend = {r["nr"]: r for r in rows}
+for nr in sorted(AFGELEID):
+    r = bekend.get(nr)
+    if r is None:
+        sys.exit(f"Afgeleide geslachten: {nr} bestaat niet in de woordenlijst")
+    if r["soort"] != "znw":
+        sys.exit(f"Afgeleide geslachten: {nr} ({r['kop']}) is geen znw maar {r['soort']}")
+    if GENDER.search(r["v"]):
+        sys.exit(f"Afgeleide geslachten: {nr} ({r['kop']}) heeft al een gedrukt geslacht — "
+                 f"haal de rij uit de tabel")
+    if AFGELEID[nr] not in {"m.", "v.", "o.", "m./v.", "m. en v.",
+                            "m. mv.", "v. mv.", "o. mv."}:
+        sys.exit(f"Afgeleide geslachten: {nr} heeft een onbekend geslacht {AFGELEID[nr]!r}")
+zonder_g = [r["nr"] for r in rows
+            if r["soort"] == "znw" and "g" not in r and r["nr"] not in GEEN_GESLACHT]
+if zonder_g:
+    sys.exit(f"znw zonder geslacht: {zonder_g[:10]}")
+
 nrs = [r["nr"] for r in rows]
 if nrs != list(range(1, VERWACHT_TOTAAL + 1)):
     ontbrekt = sorted(set(range(1, VERWACHT_TOTAAL + 1)) - set(nrs))

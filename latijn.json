@@ -11,12 +11,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "avī",
+"g": "m.",
+"ga": 1,
+"vol": "avī, m.",
 "a": [
 "avi"
 ],
 "ac": [
-"avi"
+"avi, m."
 ],
 "ta": [
 "de grootvader",
@@ -35,12 +37,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "amīcī",
+"g": "m.",
+"ga": 1,
+"vol": "amīcī, m.",
 "a": [
 "amici"
 ],
 "ac": [
-"amici"
+"amici, m."
 ],
 "ta": [
 "de vriend",
@@ -59,12 +63,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "deī",
+"g": "m.",
+"ga": 1,
+"vol": "deī, m.",
 "a": [
 "dei"
 ],
 "ac": [
-"dei"
+"dei, m."
 ],
 "ta": [
 "de god",
@@ -83,12 +89,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "dominī",
+"g": "m.",
+"ga": 1,
+"vol": "dominī, m.",
 "a": [
 "domini"
 ],
 "ac": [
-"domini"
+"domini, m."
 ],
 "ta": [
 "de meester",
@@ -107,12 +115,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "fīliī",
+"g": "m.",
+"ga": 1,
+"vol": "fīliī, m.",
 "a": [
 "filii"
 ],
 "ac": [
-"filii"
+"filii, m."
 ],
 "ta": [
 "de zoon",
@@ -131,12 +141,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "locī",
+"g": "m.",
+"ga": 1,
+"vol": "locī, m.",
 "a": [
 "loci"
 ],
 "ac": [
-"loci"
+"loci, m."
 ],
 "ta": [
 "de gelegenheid",
@@ -161,12 +173,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "populī",
+"g": "m.",
+"ga": 1,
+"vol": "populī, m.",
 "a": [
 "populi"
 ],
 "ac": [
-"populi"
+"populi, m."
 ],
 "ta": [
 "het volk",
@@ -185,12 +199,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "servī",
+"g": "m.",
+"ga": 1,
+"vol": "servī, m.",
 "a": [
 "servi"
 ],
 "ac": [
-"servi"
+"servi, m."
 ],
 "ta": [
 "de slaaf",
@@ -209,12 +225,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "puerī",
+"g": "m.",
+"ga": 1,
+"vol": "puerī, m.",
 "a": [
 "pueri"
 ],
 "ac": [
-"pueri"
+"pueri, m."
 ],
 "ta": [
 "de jongen",
@@ -233,12 +251,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "rosae",
+"g": "v.",
+"ga": 1,
+"vol": "rosae, v.",
 "a": [
 "rosae"
 ],
 "ac": [
-"rosae"
+"rosae, v."
 ],
 "ta": [
 "de roos",
@@ -257,12 +277,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "amīcitiae",
+"g": "v.",
+"ga": 1,
+"vol": "amīcitiae, v.",
 "a": [
 "amicitiae"
 ],
 "ac": [
-"amicitiae"
+"amicitiae, v."
 ],
 "ta": [
 "de vriendschap",
@@ -281,12 +303,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "deae",
+"g": "v.",
+"ga": 1,
+"vol": "deae, v.",
 "a": [
 "deae"
 ],
 "ac": [
-"deae"
+"deae, v."
 ],
 "ta": [
 "de godin",
@@ -305,12 +329,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "fīliae",
+"g": "v.",
+"ga": 1,
+"vol": "fīliae, v.",
 "a": [
 "filiae"
 ],
 "ac": [
-"filiae"
+"filiae, v."
 ],
 "ta": [
 "de dochter",
@@ -329,12 +355,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "glōriae",
+"g": "v.",
+"ga": 1,
+"vol": "glōriae, v.",
 "a": [
 "gloriae"
 ],
 "ac": [
-"gloriae"
+"gloriae, v."
 ],
 "ta": [
 "de roem",
@@ -353,12 +381,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "grātiae",
+"g": "v.",
+"ga": 1,
+"vol": "grātiae, v.",
 "a": [
 "gratiae"
 ],
 "ac": [
-"gratiae"
+"gratiae, v."
 ],
 "ta": [
 "aanzien",
@@ -386,12 +416,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "iniūriae",
+"g": "v.",
+"ga": 1,
+"vol": "iniūriae, v.",
 "a": [
 "iniuriae"
 ],
 "ac": [
-"iniuriae"
+"iniuriae, v."
 ],
 "ta": [
 "het onrecht",
@@ -410,12 +442,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "īnsulae",
+"g": "v.",
+"ga": 1,
+"vol": "īnsulae, v.",
 "a": [
 "insulae"
 ],
 "ac": [
-"insulae"
+"insulae, v."
 ],
 "ta": [
 "eiland",
@@ -434,12 +468,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "puellae",
+"g": "v.",
+"ga": 1,
+"vol": "puellae, v.",
 "a": [
 "puellae"
 ],
 "ac": [
-"puellae"
+"puellae, v."
 ],
 "ta": [
 "het meisje",
@@ -458,12 +494,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "pugnae",
+"g": "v.",
+"ga": 1,
+"vol": "pugnae, v.",
 "a": [
 "pugnae"
 ],
 "ac": [
-"pugnae"
+"pugnae, v."
 ],
 "ta": [
 "gevecht",
@@ -482,12 +520,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "terrae",
+"g": "v.",
+"ga": 1,
+"vol": "terrae, v.",
 "a": [
 "terrae"
 ],
 "ac": [
-"terrae"
+"terrae, v."
 ],
 "ta": [
 "aarde",
@@ -512,12 +552,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "victōriae",
+"g": "v.",
+"ga": 1,
+"vol": "victōriae, v.",
 "a": [
 "victoriae"
 ],
 "ac": [
-"victoriae"
+"victoriae, v."
 ],
 "ta": [
 "de overwinning",
@@ -536,12 +578,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "vītae",
+"g": "v.",
+"ga": 1,
+"vol": "vītae, v.",
 "a": [
 "vitae"
 ],
 "ac": [
-"vitae"
+"vitae, v."
 ],
 "ta": [
 "het leven",
@@ -560,12 +604,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "dīvitiārum",
+"g": "v. mv.",
+"ga": 1,
+"vol": "dīvitiārum, v. mv.",
 "a": [
 "divitiarum"
 ],
 "ac": [
-"divitiarum"
+"divitiarum, v. mv."
 ],
 "ta": [
 "de rijkdom",
@@ -584,12 +630,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "dōnī",
+"g": "o.",
+"ga": 1,
+"vol": "dōnī, o.",
 "a": [
 "doni"
 ],
 "ac": [
-"doni"
+"doni, o."
 ],
 "ta": [
 "geschenk",
@@ -608,12 +656,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "aedificiī",
+"g": "o.",
+"ga": 1,
+"vol": "aedificiī, o.",
 "a": [
 "aedificii"
 ],
 "ac": [
-"aedificii"
+"aedificii, o."
 ],
 "ta": [
 "gebouw",
@@ -632,12 +682,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "forī",
+"g": "o.",
+"ga": 1,
+"vol": "forī, o.",
 "a": [
 "fori"
 ],
 "ac": [
-"fori"
+"fori, o."
 ],
 "ta": [
 "forum",
@@ -658,12 +710,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "gaudiī",
+"g": "o.",
+"ga": 1,
+"vol": "gaudiī, o.",
 "a": [
 "gaudii"
 ],
 "ac": [
-"gaudii"
+"gaudii, o."
 ],
 "ta": [
 "de vreugde",
@@ -682,12 +736,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "imperiī",
+"g": "o.",
+"ga": 1,
+"vol": "imperiī, o.",
 "a": [
 "imperii"
 ],
 "ac": [
-"imperii"
+"imperii, o."
 ],
 "ta": [
 "de heerschappij",
@@ -715,12 +771,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "incendiī",
+"g": "o.",
+"ga": 1,
+"vol": "incendiī, o.",
 "a": [
 "incendii"
 ],
 "ac": [
-"incendii"
+"incendii, o."
 ],
 "ta": [
 "brand",
@@ -739,12 +797,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "templī",
+"g": "o.",
+"ga": 1,
+"vol": "templī, o.",
 "a": [
 "templi"
 ],
 "ac": [
-"templi"
+"templi, o."
 ],
 "ta": [
 "de tempel",
@@ -763,12 +823,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "vīnī",
+"g": "o.",
+"ga": 1,
+"vol": "vīnī, o.",
 "a": [
 "vini"
 ],
 "ac": [
-"vini"
+"vini, o."
 ],
 "ta": [
 "de wijn",
@@ -787,12 +849,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "castrōrum",
+"g": "o. mv.",
+"ga": 1,
+"vol": "castrōrum, o. mv.",
 "a": [
 "castrorum"
 ],
 "ac": [
-"castrorum"
+"castrorum, o. mv."
 ],
 "ta": [
 "het kamp",
@@ -1309,8 +1373,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "ducis, m.",
 "g": "m.",
+"vol": "ducis, m.",
 "a": [
 "ducis"
 ],
@@ -1334,8 +1398,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "amōris, m.",
 "g": "m.",
+"vol": "amōris, m.",
 "a": [
 "amoris"
 ],
@@ -1359,8 +1423,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "cīvis, m.",
 "g": "m.",
+"vol": "cīvis, m.",
 "a": [
 "civis"
 ],
@@ -1384,8 +1448,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "clāmōris, m.",
 "g": "m.",
+"vol": "clāmōris, m.",
 "a": [
 "clamoris"
 ],
@@ -1409,8 +1473,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "dolōris, m.",
 "g": "m.",
+"vol": "dolōris, m.",
 "a": [
 "doloris"
 ],
@@ -1440,8 +1504,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "errōris, m.",
 "g": "m.",
+"vol": "errōris, m.",
 "a": [
 "erroris"
 ],
@@ -1471,8 +1535,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "frātris, m.",
 "g": "m.",
+"vol": "frātris, m.",
 "a": [
 "fratris"
 ],
@@ -1496,8 +1560,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "hominis, m.",
 "g": "m.",
+"vol": "hominis, m.",
 "a": [
 "hominis"
 ],
@@ -1521,8 +1585,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "hostis, m.",
 "g": "m.",
+"vol": "hostis, m.",
 "a": [
 "hostis"
 ],
@@ -1546,8 +1610,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "imperātōris, m.",
 "g": "m.",
+"vol": "imperātōris, m.",
 "a": [
 "imperatoris"
 ],
@@ -1571,8 +1635,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "labōris, m.",
 "g": "m.",
+"vol": "labōris, m.",
 "a": [
 "laboris"
 ],
@@ -1602,8 +1666,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "mīlitis, m.",
 "g": "m.",
+"vol": "mīlitis, m.",
 "a": [
 "militis"
 ],
@@ -1627,8 +1691,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "montis, m.",
 "g": "m.",
+"vol": "montis, m.",
 "a": [
 "montis"
 ],
@@ -1652,8 +1716,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "patris, m.",
 "g": "m.",
+"vol": "patris, m.",
 "a": [
 "patris"
 ],
@@ -1677,8 +1741,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "terrōris, m.",
 "g": "m.",
+"vol": "terrōris, m.",
 "a": [
 "terroris"
 ],
@@ -1702,8 +1766,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "timōris, m.",
 "g": "m.",
+"vol": "timōris, m.",
 "a": [
 "timoris"
 ],
@@ -1727,8 +1791,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "victōris, m.",
 "g": "m.",
+"vol": "victōris, m.",
 "a": [
 "victoris"
 ],
@@ -1752,8 +1816,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "mātris, v.",
 "g": "v.",
+"vol": "mātris, v.",
 "a": [
 "matris"
 ],
@@ -1777,8 +1841,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "celeritātis, v.",
 "g": "v.",
+"vol": "celeritātis, v.",
 "a": [
 "celeritatis"
 ],
@@ -1802,8 +1866,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "cīvitātis, v.",
 "g": "v.",
+"vol": "cīvitātis, v.",
 "a": [
 "civitatis"
 ],
@@ -1833,8 +1897,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "damnātiōnis, v.",
 "g": "v.",
+"vol": "damnātiōnis, v.",
 "a": [
 "damnationis"
 ],
@@ -1858,8 +1922,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "facultātis, v.",
 "g": "v.",
+"vol": "facultātis, v.",
 "a": [
 "facultatis"
 ],
@@ -1883,8 +1947,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "lībertātis, v.",
 "g": "v.",
+"vol": "lībertātis, v.",
 "a": [
 "libertatis"
 ],
@@ -1908,8 +1972,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "mortis, v.",
 "g": "v.",
+"vol": "mortis, v.",
 "a": [
 "mortis"
 ],
@@ -1933,8 +1997,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "mulieris, v.",
 "g": "v.",
+"vol": "mulieris, v.",
 "a": [
 "mulieris"
 ],
@@ -1958,8 +2022,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "multitūdinis, v.",
 "g": "v.",
+"vol": "multitūdinis, v.",
 "a": [
 "multitudinis"
 ],
@@ -1983,8 +2047,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "noctis, v.",
 "g": "v.",
+"vol": "noctis, v.",
 "a": [
 "noctis"
 ],
@@ -2008,8 +2072,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "partis, v.",
 "g": "v.",
+"vol": "partis, v.",
 "a": [
 "partis"
 ],
@@ -2039,8 +2103,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "sorōris, v.",
 "g": "v.",
+"vol": "sorōris, v.",
 "a": [
 "sororis"
 ],
@@ -2064,8 +2128,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "urbis, v.",
 "g": "v.",
+"vol": "urbis, v.",
 "a": [
 "urbis"
 ],
@@ -2089,8 +2153,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "uxōris, v.",
 "g": "v.",
+"vol": "uxōris, v.",
 "a": [
 "uxoris"
 ],
@@ -2114,8 +2178,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "corporis, o.",
 "g": "o.",
+"vol": "corporis, o.",
 "a": [
 "corporis"
 ],
@@ -2139,8 +2203,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "certāminis, o.",
 "g": "o.",
+"vol": "certāminis, o.",
 "a": [
 "certaminis"
 ],
@@ -2164,8 +2228,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "flūminis, o.",
 "g": "o.",
+"vol": "flūminis, o.",
 "a": [
 "fluminis"
 ],
@@ -2189,8 +2253,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "lītoris, o.",
 "g": "o.",
+"vol": "lītoris, o.",
 "a": [
 "litoris"
 ],
@@ -2214,8 +2278,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "nōminis, o.",
 "g": "o.",
+"vol": "nōminis, o.",
 "a": [
 "nominis"
 ],
@@ -2239,8 +2303,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "temporis, o.",
 "g": "o.",
+"vol": "temporis, o.",
 "a": [
 "temporis"
 ],
@@ -2642,12 +2706,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "frūctūs",
+"g": "m.",
+"ga": 1,
+"vol": "frūctūs, m.",
 "a": [
 "fructus"
 ],
 "ac": [
-"fructus"
+"fructus, m."
 ],
 "ta": [
 "de vrucht",
@@ -2666,12 +2732,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "aditūs",
+"g": "m.",
+"ga": 1,
+"vol": "aditūs, m.",
 "a": [
 "aditus"
 ],
 "ac": [
-"aditus"
+"aditus, m."
 ],
 "ta": [
 "de toegang",
@@ -2690,12 +2758,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "cāsūs",
+"g": "m.",
+"ga": 1,
+"vol": "cāsūs, m.",
 "a": [
 "casus"
 ],
 "ac": [
-"casus"
+"casus, m."
 ],
 "ta": [
 "de val",
@@ -2723,12 +2793,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "cōnspectūs",
+"g": "m.",
+"ga": 1,
+"vol": "cōnspectūs, m.",
 "a": [
 "conspectus"
 ],
 "ac": [
-"conspectus"
+"conspectus, m."
 ],
 "ta": [
 "het zicht",
@@ -2747,12 +2819,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "cursūs",
+"g": "m.",
+"ga": 1,
+"vol": "cursūs, m.",
 "a": [
 "cursus"
 ],
 "ac": [
-"cursus"
+"cursus, m."
 ],
 "ta": [
 "de koers",
@@ -2777,12 +2851,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "exitūs",
+"g": "m.",
+"ga": 1,
+"vol": "exitūs, m.",
 "a": [
 "exitus"
 ],
 "ac": [
-"exitus"
+"exitus, m."
 ],
 "ta": [
 "afloop",
@@ -2807,12 +2883,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "mōtūs",
+"g": "m.",
+"ga": 1,
+"vol": "mōtūs, m.",
 "a": [
 "motus"
 ],
 "ac": [
-"motus"
+"motus, m."
 ],
 "ta": [
 "beweging",
@@ -2837,12 +2915,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "ūsus",
+"g": "m.",
+"ga": 1,
+"vol": "ūsus, m.",
 "a": [
 "usus"
 ],
 "ac": [
-"usus"
+"usus, m."
 ],
 "ta": [
 "de ervaring",
@@ -2870,8 +2950,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "domūs, v.",
 "g": "v.",
+"vol": "domūs, v.",
 "a": [
 "domus"
 ],
@@ -2895,8 +2975,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "manūs, v.",
 "g": "v.",
+"vol": "manūs, v.",
 "a": [
 "manus"
 ],
@@ -2926,12 +3006,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "reī",
+"g": "v.",
+"ga": 1,
+"vol": "reī, v.",
 "a": [
 "rei"
 ],
 "ac": [
-"rei"
+"rei, v."
 ],
 "ta": [
 "de zaak",
@@ -2950,8 +3032,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.0 Deze woorden ken je zeker nog. (WV 1-13)",
 "soort": "znw",
-"vol": "diēī, m./v.",
 "g": "m./v.",
+"vol": "diēī, m./v.",
 "a": [
 "diei"
 ],
@@ -3725,12 +3807,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.1",
 "soort": "znw",
-"vol": "exemplī",
+"g": "o.",
+"ga": 1,
+"vol": "exemplī, o.",
 "a": [
 "exempli"
 ],
 "ac": [
-"exempli"
+"exempli, o."
 ],
 "ta": [
 "het voorbeeld",
@@ -4070,12 +4154,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.2",
 "soort": "znw",
-"vol": "epistulae",
+"g": "v.",
+"ga": 1,
+"vol": "epistulae, v.",
 "a": [
 "epistulae"
 ],
 "ac": [
-"epistulae"
+"epistulae, v."
 ],
 "ta": [
 "brief",
@@ -4094,12 +4180,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.2",
 "soort": "znw",
-"vol": "mēnsae",
+"g": "v.",
+"ga": 1,
+"vol": "mēnsae, v.",
 "a": [
 "mensae"
 ],
 "ac": [
-"mensae"
+"mensae, v."
 ],
 "ta": [
 "de tafel",
@@ -4118,12 +4206,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.2",
 "soort": "znw",
-"vol": "fātī",
+"g": "o.",
+"ga": 1,
+"vol": "fātī, o.",
 "a": [
 "fati"
 ],
 "ac": [
-"fati"
+"fati, o."
 ],
 "ta": [
 "het lot",
@@ -4142,12 +4232,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.2",
 "soort": "znw",
-"vol": "vitiī",
+"g": "o.",
+"ga": 1,
+"vol": "vitiī, o.",
 "a": [
 "vitii"
 ],
 "ac": [
-"vitii"
+"vitii, o."
 ],
 "ta": [
 "de ondeugd",
@@ -4301,8 +4393,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.2",
 "soort": "znw",
-"vol": "honōris, m.",
 "g": "m.",
+"vol": "honōris, m.",
 "a": [
 "honoris"
 ],
@@ -4332,8 +4424,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.2",
 "soort": "znw",
-"vol": "virtūtis, v.",
 "g": "v.",
+"vol": "virtūtis, v.",
 "a": [
 "virtutis"
 ],
@@ -4363,8 +4455,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.2",
 "soort": "znw",
-"vol": "oneris, o.",
 "g": "o.",
+"vol": "oneris, o.",
 "a": [
 "oneris"
 ],
@@ -4417,12 +4509,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.2",
 "soort": "znw",
-"vol": "fideī",
+"g": "v.",
+"ga": 1,
+"vol": "fideī, v.",
 "a": [
 "fidei"
 ],
 "ac": [
-"fidei"
+"fidei, v."
 ],
 "ta": [
 "de trouw",
@@ -4683,12 +4777,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.3",
 "soort": "znw",
-"vol": "lūdī",
+"g": "m.",
+"ga": 1,
+"vol": "lūdī, m.",
 "a": [
 "ludi"
 ],
 "ac": [
-"ludi"
+"ludi, m."
 ],
 "ta": [
 "de school",
@@ -4713,12 +4809,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.3",
 "soort": "znw",
-"vol": "fortūnae",
+"g": "v.",
+"ga": 1,
+"vol": "fortūnae, v.",
 "a": [
 "fortunae"
 ],
 "ac": [
-"fortunae"
+"fortunae, v."
 ],
 "ta": [
 "de toestand",
@@ -4851,8 +4949,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.3",
 "soort": "znw",
-"vol": "potestātis, v.",
 "g": "v.",
+"vol": "potestātis, v.",
 "a": [
 "potestatis"
 ],
@@ -4925,12 +5023,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.4",
 "soort": "znw",
-"vol": "virī",
+"g": "m.",
+"ga": 1,
+"vol": "virī, m.",
 "a": [
 "viri"
 ],
 "ac": [
-"viri"
+"viri, m."
 ],
 "ta": [
 "de man",
@@ -4949,12 +5049,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.4",
 "soort": "znw",
-"vol": "cōpiae",
+"g": "v.",
+"ga": 1,
+"vol": "cōpiae, v.",
 "a": [
 "copiae"
 ],
 "ac": [
-"copiae"
+"copiae, v."
 ],
 "ta": [
 "de gelegenheid",
@@ -4979,12 +5081,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.4",
 "soort": "znw",
-"vol": "cōpiārum",
+"g": "v. mv.",
+"ga": 1,
+"vol": "cōpiārum, v. mv.",
 "a": [
 "copiarum"
 ],
 "ac": [
-"copiarum"
+"copiarum, v. mv."
 ],
 "ta": [
 "de troepen",
@@ -5003,12 +5107,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.4",
 "soort": "znw",
-"vol": "frūmentī",
+"g": "o.",
+"ga": 1,
+"vol": "frūmentī, o.",
 "a": [
 "frumenti"
 ],
 "ac": [
-"frumenti"
+"frumenti, o."
 ],
 "ta": [
 "graan",
@@ -5052,8 +5158,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.4",
 "soort": "znw",
-"vol": "geen gen., v.",
 "g": "v.",
+"vol": "geen gen., v.",
 "a": [
 "geen gen."
 ],
@@ -5456,12 +5562,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.6",
 "soort": "znw",
-"vol": "sententiae",
+"g": "v.",
+"ga": 1,
+"vol": "sententiae, v.",
 "a": [
 "sententiae"
 ],
 "ac": [
-"sententiae"
+"sententiae, v."
 ],
 "ta": [
 "de mening",
@@ -5486,12 +5594,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.6",
 "soort": "znw",
-"vol": "iūdiciī",
+"g": "o.",
+"ga": 1,
+"vol": "iūdiciī, o.",
 "a": [
 "iudicii"
 ],
 "ac": [
-"iudicii"
+"iudicii, o."
 ],
 "ta": [
 "het oordeel",
@@ -5566,8 +5676,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.6",
 "soort": "znw",
-"vol": "iūdicis, m.",
 "g": "m.",
+"vol": "iūdicis, m.",
 "a": [
 "iudicis"
 ],
@@ -5591,8 +5701,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.6",
 "soort": "znw",
-"vol": "māiōrum, m. mv.",
 "g": "m. mv.",
+"vol": "māiōrum, m. mv.",
 "a": [
 "maiorum"
 ],
@@ -5616,8 +5726,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.6",
 "soort": "znw",
-"vol": "avis, v.",
 "g": "v.",
+"vol": "avis, v.",
 "a": [
 "avis"
 ],
@@ -6180,12 +6290,14 @@
 "c": "Caput 1 · Geluk",
 "s": "1.7",
 "soort": "znw",
-"vol": "asinī",
+"g": "m.",
+"ga": 1,
+"vol": "asinī, m.",
 "a": [
 "asini"
 ],
 "ac": [
-"asini"
+"asini, m."
 ],
 "ta": [
 "de ezel",
@@ -6258,8 +6370,8 @@
 "c": "Caput 1 · Geluk",
 "s": "1.7",
 "soort": "znw",
-"vol": "arboris, v.",
 "g": "v.",
+"vol": "arboris, v.",
 "a": [
 "arboris"
 ],
@@ -8911,12 +9023,14 @@
 "c": "Caput 2 · Liefde",
 "s": "2.1",
 "soort": "znw",
-"vol": "ventī",
+"g": "m.",
+"ga": 1,
+"vol": "ventī, m.",
 "a": [
 "venti"
 ],
 "ac": [
-"venti"
+"venti, m."
 ],
 "ta": [
 "de wind",
@@ -8935,12 +9049,14 @@
 "c": "Caput 2 · Liefde",
 "s": "2.1",
 "soort": "znw",
-"vol": "vesperī",
+"g": "m.",
+"ga": 1,
+"vol": "vesperī, m.",
 "a": [
 "vesperi"
 ],
 "ac": [
-"vesperi"
+"vesperi, m."
 ],
 "ta": [
 "avond",
@@ -8959,12 +9075,14 @@
 "c": "Caput 2 · Liefde",
 "s": "2.1",
 "soort": "znw",
-"vol": "nuptiārum",
+"g": "v. mv.",
+"ga": 1,
+"vol": "nuptiārum, v. mv.",
 "a": [
 "nuptiarum"
 ],
 "ac": [
-"nuptiarum"
+"nuptiarum, v. mv."
 ],
 "ta": [
 "bruiloft",
@@ -8989,12 +9107,14 @@
 "c": "Caput 2 · Liefde",
 "s": "2.1",
 "soort": "znw",
-"vol": "bracchiī",
+"g": "o.",
+"ga": 1,
+"vol": "bracchiī, o.",
 "a": [
 "bracchii"
 ],
 "ac": [
-"bracchii"
+"bracchii, o."
 ],
 "ta": [
 "arm",
@@ -9013,12 +9133,14 @@
 "c": "Caput 2 · Liefde",
 "s": "2.1",
 "soort": "znw",
-"vol": "impedīmentī",
+"g": "o.",
+"ga": 1,
+"vol": "impedīmentī, o.",
 "a": [
 "impedimenti"
 ],
 "ac": [
-"impedimenti"
+"impedimenti, o."
 ],
 "ta": [
 "de hindernis",
@@ -9037,8 +9159,8 @@
 "c": "Caput 2 · Liefde",
 "s": "2.1",
 "soort": "znw",
-"vol": "sacerdōtis, m./v.",
 "g": "m./v.",
+"vol": "sacerdōtis, m./v.",
 "a": [
 "sacerdotis"
 ],
@@ -9064,8 +9186,8 @@
 "c": "Caput 2 · Liefde",
 "s": "2.1",
 "soort": "znw",
-"vol": "tempestātis, v.",
 "g": "v.",
+"vol": "tempestātis, v.",
 "a": [
 "tempestatis"
 ],
@@ -9095,8 +9217,8 @@
 "c": "Caput 2 · Liefde",
 "s": "2.1",
 "soort": "znw",
-"vol": "turris, v.",
 "g": "v.",
+"vol": "turris, v.",
 "a": [
 "turris"
 ],
@@ -9120,8 +9242,8 @@
 "c": "Caput 2 · Liefde",
 "s": "2.1",
 "soort": "znw",
-"vol": "virginis, v.",
 "g": "v.",
+"vol": "virginis, v.",
 "a": [
 "virginis"
 ],
@@ -9529,12 +9651,14 @@
 "c": "Caput 2 · Liefde",
 "s": "2.2",
 "soort": "znw",
-"vol": "mātrimōniī",
+"g": "o.",
+"ga": 1,
+"vol": "mātrimōniī, o.",
 "a": [
 "matrimonii"
 ],
 "ac": [
-"matrimonii"
+"matrimonii, o."
 ],
 "ta": [
 "het huwelijk",
@@ -9584,8 +9708,8 @@
 "c": "Caput 2 · Liefde",
 "s": "2.2",
 "soort": "znw",
-"vol": "plēbis, v.",
 "g": "v.",
+"vol": "plēbis, v.",
 "a": [
 "plebis"
 ],
@@ -9615,8 +9739,8 @@
 "c": "Caput 2 · Liefde",
 "s": "2.2",
 "soort": "znw",
-"vol": "sēdis, v.",
 "g": "v.",
+"vol": "sēdis, v.",
 "a": [
 "sedis"
 ],
@@ -9646,8 +9770,8 @@
 "c": "Caput 2 · Liefde",
 "s": "2.2",
 "soort": "znw",
-"vol": "facinoris, o.",
 "g": "o.",
+"vol": "facinoris, o.",
 "a": [
 "facinoris"
 ],
@@ -9677,8 +9801,8 @@
 "c": "Caput 2 · Liefde",
 "s": "2.2",
 "soort": "znw",
-"vol": "nūminis, o.",
 "g": "o.",
+"vol": "nūminis, o.",
 "a": [
 "numinis"
 ],
@@ -9702,12 +9826,14 @@
 "c": "Caput 2 · Liefde",
 "s": "2.2",
 "soort": "znw",
-"vol": "speciēī",
+"g": "v.",
+"ga": 1,
+"vol": "speciēī, v.",
 "a": [
 "speciei"
 ],
 "ac": [
-"speciei"
+"speciei, v."
 ],
 "ta": [
 "aanblik",
@@ -9813,8 +9939,8 @@
 "c": "Caput 2 · Liefde",
 "s": "2.3-2.7",
 "soort": "znw",
-"vol": "auctōritātis, v.",
 "g": "v.",
+"vol": "auctōritātis, v.",
 "a": [
 "auctoritatis"
 ],
@@ -9838,8 +9964,8 @@
 "c": "Caput 2 · Liefde",
 "s": "2.3-2.7",
 "soort": "znw",
-"vol": "hiemis, v.",
 "g": "v.",
+"vol": "hiemis, v.",
 "a": [
 "hiemis"
 ],
@@ -10064,12 +10190,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.1",
 "soort": "znw",
-"vol": "praedae",
+"g": "v.",
+"ga": 1,
+"vol": "praedae, v.",
 "a": [
 "praedae"
 ],
 "ac": [
-"praedae"
+"praedae, v."
 ],
 "ta": [
 "buit",
@@ -10094,12 +10222,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.1",
 "soort": "znw",
-"vol": "sagittae",
+"g": "v.",
+"ga": 1,
+"vol": "sagittae, v.",
 "a": [
 "sagittae"
 ],
 "ac": [
-"sagittae"
+"sagittae, v."
 ],
 "ta": [
 "de pijl",
@@ -10118,12 +10248,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.1",
 "soort": "znw",
-"vol": "silvae",
+"g": "v.",
+"ga": 1,
+"vol": "silvae, v.",
 "a": [
 "silvae"
 ],
 "ac": [
-"silvae"
+"silvae, v."
 ],
 "ta": [
 "bos",
@@ -10142,12 +10274,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.1",
 "soort": "znw",
-"vol": "spectāculī",
+"g": "o.",
+"ga": 1,
+"vol": "spectāculī, o.",
 "a": [
 "spectaculi"
 ],
 "ac": [
-"spectaculi"
+"spectaculi, o."
 ],
 "ta": [
 "het schouwspel",
@@ -10273,8 +10407,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.1",
 "soort": "znw",
-"vol": "canis, m.",
 "g": "m.",
+"vol": "canis, m.",
 "a": [
 "canis"
 ],
@@ -10298,8 +10432,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.1",
 "soort": "znw",
-"vol": "comitis, m.",
 "g": "m.",
+"vol": "comitis, m.",
 "a": [
 "comitis"
 ],
@@ -10323,8 +10457,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.1",
 "soort": "znw",
-"vol": "pudōris, m.",
 "g": "m.",
+"vol": "pudōris, m.",
 "a": [
 "pudoris"
 ],
@@ -10354,8 +10488,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.1",
 "soort": "znw",
-"vol": "auris, v.",
 "g": "v.",
+"vol": "auris, v.",
 "a": [
 "auris"
 ],
@@ -10379,8 +10513,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.1",
 "soort": "znw",
-"vol": "mentis, v.",
 "g": "v.",
+"vol": "mentis, v.",
 "a": [
 "mentis"
 ],
@@ -10410,8 +10544,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.1",
 "soort": "znw",
-"vol": "pellis, v.",
 "g": "v.",
+"vol": "pellis, v.",
 "a": [
 "pellis"
 ],
@@ -10435,8 +10569,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.1",
 "soort": "znw",
-"vol": "agminis, o.",
 "g": "o.",
+"vol": "agminis, o.",
 "a": [
 "agminis"
 ],
@@ -10466,8 +10600,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.1",
 "soort": "znw",
-"vol": "vulneris, o.",
 "g": "o.",
+"vol": "vulneris, o.",
 "a": [
 "vulneris"
 ],
@@ -10520,12 +10654,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.1",
 "soort": "znw",
-"vol": "passūs",
+"g": "m.",
+"ga": 1,
+"vol": "passūs, m.",
 "a": [
 "passus"
 ],
 "ac": [
-"passus"
+"passus, m."
 ],
 "ta": [
 "de pas",
@@ -10546,12 +10682,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.1",
 "soort": "znw",
-"vol": "vultūs",
+"g": "m.",
+"ga": 1,
+"vol": "vultūs, m.",
 "a": [
 "vultus"
 ],
 "ac": [
-"vultus"
+"vultus, m."
 ],
 "ta": [
 "gezicht",
@@ -10570,8 +10708,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.1",
 "soort": "znw",
-"vol": "cornūs, o.",
 "g": "o.",
+"vol": "cornūs, o.",
 "a": [
 "cornus"
 ],
@@ -11168,12 +11306,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "lēgātī",
+"g": "m.",
+"ga": 1,
+"vol": "lēgātī, m.",
 "a": [
 "legati"
 ],
 "ac": [
-"legati"
+"legati, m."
 ],
 "ta": [
 "de gezant",
@@ -11198,12 +11338,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "marītī",
+"g": "m.",
+"ga": 1,
+"vol": "marītī, m.",
 "a": [
 "mariti"
 ],
 "ac": [
-"mariti"
+"mariti, m."
 ],
 "ta": [
 "de echtgenoot",
@@ -11222,12 +11364,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "cūrae",
+"g": "v.",
+"ga": 1,
+"vol": "cūrae, v.",
 "a": [
 "curae"
 ],
 "ac": [
-"curae"
+"curae, v."
 ],
 "ta": [
 "de zorg",
@@ -11246,12 +11390,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "auxiliī",
+"g": "o.",
+"ga": 1,
+"vol": "auxiliī, o.",
 "a": [
 "auxilii"
 ],
 "ac": [
-"auxilii"
+"auxilii, o."
 ],
 "ta": [
 "de hulp",
@@ -11270,12 +11416,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "armōrum",
+"g": "o. mv.",
+"ga": 1,
+"vol": "armōrum, o. mv.",
 "a": [
 "armorum"
 ],
 "ac": [
-"armorum"
+"armorum, o. mv."
 ],
 "ta": [
 "de wapens",
@@ -11294,12 +11442,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "iugī",
+"g": "o.",
+"ga": 1,
+"vol": "iugī, o.",
 "a": [
 "iugi"
 ],
 "ac": [
-"iugi"
+"iugi, o."
 ],
 "ta": [
 "bergkam",
@@ -11324,12 +11474,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "perīculī",
+"g": "o.",
+"ga": 1,
+"vol": "perīculī, o.",
 "a": [
 "periculi"
 ],
 "ac": [
-"periculi"
+"periculi, o."
 ],
 "ta": [
 "gevaar",
@@ -11348,12 +11500,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "vallī",
+"g": "o.",
+"ga": 1,
+"vol": "vallī, o.",
 "a": [
 "valli"
 ],
 "ac": [
-"valli"
+"valli, o."
 ],
 "ta": [
 "de wal",
@@ -11424,8 +11578,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "cōnsulis, m.",
 "g": "m.",
+"vol": "cōnsulis, m.",
 "a": [
 "consulis"
 ],
@@ -11449,8 +11603,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "senātōris, m.",
 "g": "m.",
+"vol": "senātōris, m.",
 "a": [
 "senatoris"
 ],
@@ -11474,8 +11628,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "senis, m.",
 "g": "m.",
+"vol": "senis, m.",
 "a": [
 "senis"
 ],
@@ -11499,8 +11653,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "caedis, v.",
 "g": "v.",
+"vol": "caedis, v.",
 "a": [
 "caedis"
 ],
@@ -11530,8 +11684,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "legiōnis, v.",
 "g": "v.",
+"vol": "legiōnis, v.",
 "a": [
 "legionis"
 ],
@@ -11555,8 +11709,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "lūcis, v.",
 "g": "v.",
+"vol": "lūcis, v.",
 "a": [
 "lucis"
 ],
@@ -11580,8 +11734,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "nāvis, v.",
 "g": "v.",
+"vol": "nāvis, v.",
 "a": [
 "navis"
 ],
@@ -11605,8 +11759,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "ōrātiōnis, v.",
 "g": "v.",
+"vol": "ōrātiōnis, v.",
 "a": [
 "orationis"
 ],
@@ -11630,8 +11784,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "salūtis, v.",
 "g": "v.",
+"vol": "salūtis, v.",
 "a": [
 "salutis"
 ],
@@ -11661,8 +11815,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "precum, v. mv.",
 "g": "v. mv.",
+"vol": "precum, v. mv.",
 "a": [
 "precum"
 ],
@@ -11686,8 +11840,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "maris, o.",
 "g": "o.",
+"vol": "maris, o.",
 "a": [
 "maris"
 ],
@@ -11761,12 +11915,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "cōnsēnsūs",
+"g": "m.",
+"ga": 1,
+"vol": "cōnsēnsūs, m.",
 "a": [
 "consensus"
 ],
 "ac": [
-"consensus"
+"consensus, m."
 ],
 "ta": [
 "de eensgezindheid",
@@ -11785,12 +11941,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.2",
 "soort": "znw",
-"vol": "senātūs",
+"g": "m.",
+"ga": 1,
+"vol": "senātūs, m.",
 "a": [
 "senatus"
 ],
 "ac": [
-"senatus"
+"senatus, m."
 ],
 "ta": [
 "de senaat",
@@ -12233,12 +12391,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.3",
 "soort": "znw",
-"vol": "causae",
+"g": "v.",
+"ga": 1,
+"vol": "causae, v.",
 "a": [
 "causae"
 ],
 "ac": [
-"causae"
+"causae, v."
 ],
 "ta": [
 "de oorzaak",
@@ -12266,12 +12426,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.3",
 "soort": "znw",
-"vol": "linguae",
+"g": "v.",
+"ga": 1,
+"vol": "linguae, v.",
 "a": [
 "linguae"
 ],
 "ac": [
-"linguae"
+"linguae, v."
 ],
 "ta": [
 "de taal",
@@ -12296,12 +12458,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.3",
 "soort": "znw",
-"vol": "summae",
+"g": "v.",
+"ga": 1,
+"vol": "summae, v.",
 "a": [
 "summae"
 ],
 "ac": [
-"summae"
+"summae, v."
 ],
 "ta": [
 "de hoofdzaak",
@@ -12326,12 +12490,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.3",
 "soort": "znw",
-"vol": "bellī",
+"g": "o.",
+"ga": 1,
+"vol": "bellī, o.",
 "a": [
 "belli"
 ],
 "ac": [
-"belli"
+"belli, o."
 ],
 "ta": [
 "de oorlog",
@@ -12350,12 +12516,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.3",
 "soort": "znw",
-"vol": "caelī",
+"g": "o.",
+"ga": 1,
+"vol": "caelī, o.",
 "a": [
 "caeli"
 ],
 "ac": [
-"caeli"
+"caeli, o."
 ],
 "ta": [
 "de hemel",
@@ -12374,12 +12542,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.3",
 "soort": "znw",
-"vol": "negōtiī",
+"g": "o.",
+"ga": 1,
+"vol": "negōtiī, o.",
 "a": [
 "negotii"
 ],
 "ac": [
-"negotii"
+"negotii, o."
 ],
 "ta": [
 "bezigheid",
@@ -12429,8 +12599,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.3",
 "soort": "znw",
-"vol": "nātiōnis, v.",
 "g": "v.",
+"vol": "nātiōnis, v.",
 "a": [
 "nationis"
 ],
@@ -12460,8 +12630,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.3",
 "soort": "znw",
-"vol": "pācis, v.",
 "g": "v.",
+"vol": "pācis, v.",
 "a": [
 "pacis"
 ],
@@ -12485,12 +12655,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.3",
 "soort": "znw",
-"vol": "faciēī",
+"g": "v.",
+"ga": 1,
+"vol": "faciēī, v.",
 "a": [
 "faciei"
 ],
 "ac": [
-"faciei"
+"faciei, v."
 ],
 "ta": [
 "gezicht",
@@ -12715,12 +12887,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.4",
 "soort": "znw",
-"vol": "signī",
+"g": "o.",
+"ga": 1,
+"vol": "signī, o.",
 "a": [
 "signi"
 ],
 "ac": [
-"signi"
+"signi, o."
 ],
 "ta": [
 "het teken",
@@ -12739,12 +12913,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.4",
 "soort": "znw",
-"vol": "tēctī",
+"g": "o.",
+"ga": 1,
+"vol": "tēctī, o.",
 "a": [
 "tecti"
 ],
 "ac": [
-"tecti"
+"tecti, o."
 ],
 "ta": [
 "dak",
@@ -12798,8 +12974,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.4",
 "soort": "znw",
-"vol": "carminis, o.",
 "g": "o.",
+"vol": "carminis, o.",
 "a": [
 "carminis"
 ],
@@ -13001,12 +13177,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.6-3.7",
 "soort": "znw",
-"vol": "līberōrum",
+"g": "m. mv.",
+"ga": 1,
+"vol": "līberōrum, m. mv.",
 "a": [
 "liberorum"
 ],
 "ac": [
-"liberorum"
+"liberorum, m. mv."
 ],
 "ta": [
 "de kinderen",
@@ -13025,8 +13203,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.6-3.7",
 "soort": "znw",
-"vol": "pontis, m.",
 "g": "m.",
+"vol": "pontis, m.",
 "a": [
 "pontis"
 ],
@@ -13050,8 +13228,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.6-3.7",
 "soort": "znw",
-"vol": "Tiberis, m.",
 "g": "m.",
+"vol": "Tiberis, m.",
 "a": [
 "tiberis"
 ],
@@ -13075,12 +13253,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.6-3.7",
 "soort": "znw",
-"vol": "reī pūblicae",
+"g": "v.",
+"ga": 1,
+"vol": "reī pūblicae, v.",
 "a": [
 "rei publicae"
 ],
 "ac": [
-"rei publicae"
+"rei publicae, v."
 ],
 "ta": [
 "de politiek",
@@ -13105,8 +13285,8 @@
 "c": "Caput 3 · Helden",
 "s": "3.6-3.7",
 "soort": "znw",
-"vol": "sceleris, o.",
 "g": "o.",
+"vol": "sceleris, o.",
 "a": [
 "sceleris"
 ],
@@ -13130,12 +13310,14 @@
 "c": "Caput 3 · Helden",
 "s": "3.6-3.7",
 "soort": "znw",
-"vol": "portūs",
+"g": "m.",
+"ga": 1,
+"vol": "portūs, m.",
 "a": [
 "portus"
 ],
 "ac": [
-"portus"
+"portus, m."
 ],
 "ta": [
 "de haven",
@@ -13221,12 +13403,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "sociī",
+"g": "m.",
+"ga": 1,
+"vol": "sociī, m.",
 "a": [
 "socii"
 ],
 "ac": [
-"socii"
+"socii, m."
 ],
 "ta": [
 "bondgenoot",
@@ -13251,12 +13435,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "taurī",
+"g": "m.",
+"ga": 1,
+"vol": "taurī, m.",
 "a": [
 "tauri"
 ],
 "ac": [
-"tauri"
+"tauri, m."
 ],
 "ta": [
 "de stier",
@@ -13275,12 +13461,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "flammae",
+"g": "v.",
+"ga": 1,
+"vol": "flammae, v.",
 "a": [
 "flammae"
 ],
 "ac": [
-"flammae"
+"flammae, v."
 ],
 "ta": [
 "de vlam",
@@ -13299,12 +13487,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "rīpae",
+"g": "v.",
+"ga": 1,
+"vol": "rīpae, v.",
 "a": [
 "ripae"
 ],
 "ac": [
-"ripae"
+"ripae, v."
 ],
 "ta": [
 "de oever",
@@ -13323,12 +13513,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "viae",
+"g": "v.",
+"ga": 1,
+"vol": "viae, v.",
 "a": [
 "viae"
 ],
 "ac": [
-"viae"
+"viae, v."
 ],
 "ta": [
 "de weg",
@@ -13347,12 +13539,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "cōnsiliī",
+"g": "o.",
+"ga": 1,
+"vol": "cōnsiliī, o.",
 "a": [
 "consilii"
 ],
 "ac": [
-"consilii"
+"consilii, o."
 ],
 "ta": [
 "de raad",
@@ -13380,12 +13574,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "mōnstrī",
+"g": "o.",
+"ga": 1,
+"vol": "mōnstrī, o.",
 "a": [
 "monstri"
 ],
 "ac": [
-"monstri"
+"monstri, o."
 ],
 "ta": [
 "het monster",
@@ -13410,12 +13606,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "praemiī",
+"g": "o.",
+"ga": 1,
+"vol": "praemiī, o.",
 "a": [
 "praemii"
 ],
 "ac": [
-"praemii"
+"praemii, o."
 ],
 "ta": [
 "beloning",
@@ -13595,8 +13793,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "custōdis, m.",
 "g": "m.",
+"vol": "custōdis, m.",
 "a": [
 "custodis"
 ],
@@ -13620,8 +13818,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "dentis, m.",
 "g": "m.",
+"vol": "dentis, m.",
 "a": [
 "dentis"
 ],
@@ -13645,8 +13843,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "flōris, m.",
 "g": "m.",
+"vol": "flōris, m.",
 "a": [
 "floris"
 ],
@@ -13670,8 +13868,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "hospitis, m.",
 "g": "m.",
+"vol": "hospitis, m.",
 "a": [
 "hospitis"
 ],
@@ -13701,8 +13899,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "vātis, m.",
 "g": "m.",
+"vol": "vātis, m.",
 "a": [
 "vatis"
 ],
@@ -13732,8 +13930,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "condiciōnis, v.",
 "g": "v.",
+"vol": "condiciōnis, v.",
 "a": [
 "condicionis"
 ],
@@ -13763,8 +13961,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "vōcis, v.",
 "g": "v.",
+"vol": "vōcis, v.",
 "a": [
 "vocis"
 ],
@@ -13794,8 +13992,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "decoris, o.",
 "g": "o.",
+"vol": "decoris, o.",
 "a": [
 "decoris"
 ],
@@ -13825,8 +14023,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "mūneris, o.",
 "g": "o.",
+"vol": "mūneris, o.",
 "a": [
 "muneris"
 ],
@@ -13856,8 +14054,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "sīderis, o.",
 "g": "o.",
+"vol": "sīderis, o.",
 "a": [
 "sideris"
 ],
@@ -14000,12 +14198,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.1",
 "soort": "znw",
-"vol": "metūs",
+"g": "m.",
+"ga": 1,
+"vol": "metūs, m.",
 "a": [
 "metus"
 ],
 "ac": [
-"metus"
+"metus, m."
 ],
 "ta": [
 "de vrees",
@@ -14540,12 +14740,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.2",
 "soort": "znw",
-"vol": "dolī",
+"g": "m.",
+"ga": 1,
+"vol": "dolī, m.",
 "a": [
 "doli"
 ],
 "ac": [
-"doli"
+"doli, m."
 ],
 "ta": [
 "de list",
@@ -14564,12 +14766,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.2",
 "soort": "znw",
-"vol": "fēminae",
+"g": "v.",
+"ga": 1,
+"vol": "fēminae, v.",
 "a": [
 "feminae"
 ],
 "ac": [
-"feminae"
+"feminae, v."
 ],
 "ta": [
 "de vrouw",
@@ -14641,8 +14845,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.2",
 "soort": "znw",
-"vol": "fraudis, v.",
 "g": "v.",
+"vol": "fraudis, v.",
 "a": [
 "fraudis"
 ],
@@ -14666,8 +14870,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.2",
 "soort": "znw",
-"vol": "ōris, o.",
 "g": "o.",
+"vol": "ōris, o.",
 "a": [
 "oris"
 ],
@@ -14933,12 +15137,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.3",
 "soort": "znw",
-"vol": "capillī",
+"g": "m.",
+"ga": 1,
+"vol": "capillī, m.",
 "a": [
 "capilli"
 ],
 "ac": [
-"capilli"
+"capilli, m."
 ],
 "ta": [
 "haar",
@@ -14957,12 +15163,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.3",
 "soort": "znw",
-"vol": "lectī",
+"g": "m.",
+"ga": 1,
+"vol": "lectī, m.",
 "a": [
 "lecti"
 ],
 "ac": [
-"lecti"
+"lecti, m."
 ],
 "ta": [
 "bed",
@@ -14981,12 +15189,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.3",
 "soort": "znw",
-"vol": "lūnae",
+"g": "v.",
+"ga": 1,
+"vol": "lūnae, v.",
 "a": [
 "lunae"
 ],
 "ac": [
-"lunae"
+"lunae, v."
 ],
 "ta": [
 "de maan",
@@ -15005,12 +15215,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.3",
 "soort": "znw",
-"vol": "umbrae",
+"g": "v.",
+"ga": 1,
+"vol": "umbrae, v.",
 "a": [
 "umbrae"
 ],
 "ac": [
-"umbrae"
+"umbrae, v."
 ],
 "ta": [
 "de schaduw",
@@ -15035,12 +15247,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.3",
 "soort": "znw",
-"vol": "vīllae",
+"g": "v.",
+"ga": 1,
+"vol": "vīllae, v.",
 "a": [
 "villae"
 ],
 "ac": [
-"villae"
+"villae, v."
 ],
 "ta": [
 "de villa",
@@ -15065,12 +15279,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.3",
 "soort": "znw",
-"vol": "initiī",
+"g": "o.",
+"ga": 1,
+"vol": "initiī, o.",
 "a": [
 "initii"
 ],
 "ac": [
-"initii"
+"initii, o."
 ],
 "ta": [
 "begin",
@@ -15089,12 +15305,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.3",
 "soort": "znw",
-"vol": "silentiī",
+"g": "o.",
+"ga": 1,
+"vol": "silentiī, o.",
 "a": [
 "silentii"
 ],
 "ac": [
-"silentii"
+"silentii, o."
 ],
 "ta": [
 "de stilte",
@@ -15113,12 +15331,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.3",
 "soort": "znw",
-"vol": "spatiī",
+"g": "o.",
+"ga": 1,
+"vol": "spatiī, o.",
 "a": [
 "spatii"
 ],
 "ac": [
-"spatii"
+"spatii, o."
 ],
 "ta": [
 "afstand",
@@ -15146,12 +15366,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.3",
 "soort": "znw",
-"vol": "vinculī",
+"g": "o.",
+"ga": 1,
+"vol": "vinculī, o.",
 "a": [
 "vinculi"
 ],
 "ac": [
-"vinculi"
+"vinculi, o."
 ],
 "ta": [
 "band",
@@ -15230,8 +15452,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.3",
 "soort": "znw",
-"vol": "imāginis, v.",
 "g": "v.",
+"vol": "imāginis, v.",
 "a": [
 "imaginis"
 ],
@@ -15255,8 +15477,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.3",
 "soort": "znw",
-"vol": "animālis, o.",
 "g": "o.",
+"vol": "animālis, o.",
 "a": [
 "animalis"
 ],
@@ -15286,8 +15508,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.3",
 "soort": "znw",
-"vol": "lūminis, o.",
 "g": "o.",
+"vol": "lūminis, o.",
 "a": [
 "luminis"
 ],
@@ -15311,8 +15533,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.3",
 "soort": "znw",
-"vol": "pecoris, o.",
 "g": "o.",
+"vol": "pecoris, o.",
 "a": [
 "pecoris"
 ],
@@ -15336,12 +15558,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.3",
 "soort": "znw",
-"vol": "magistrātūs",
+"g": "m.",
+"ga": 1,
+"vol": "magistrātūs, m.",
 "a": [
 "magistratus"
 ],
 "ac": [
-"magistratus"
+"magistratus, m."
 ],
 "ta": [
 "ambt",
@@ -15720,12 +15944,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.4",
 "soort": "znw",
-"vol": "odiī",
+"g": "o.",
+"ga": 1,
+"vol": "odiī, o.",
 "a": [
 "odii"
 ],
 "ac": [
-"odii"
+"odii, o."
 ],
 "ta": [
 "de haat",
@@ -15744,12 +15970,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.4",
 "soort": "znw",
-"vol": "oppidī",
+"g": "o.",
+"ga": 1,
+"vol": "oppidī, o.",
 "a": [
 "oppidi"
 ],
 "ac": [
-"oppidi"
+"oppidi, o."
 ],
 "ta": [
 "de stad",
@@ -15793,8 +16021,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.4",
 "soort": "znw",
-"vol": "pāstōris, m.",
 "g": "m.",
+"vol": "pāstōris, m.",
 "a": [
 "pastoris"
 ],
@@ -15959,12 +16187,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.6-4.8",
 "soort": "znw",
-"vol": "studiī",
+"g": "o.",
+"ga": 1,
+"vol": "studiī, o.",
 "a": [
 "studii"
 ],
 "ac": [
-"studii"
+"studii, o."
 ],
 "ta": [
 "de ijver",
@@ -15992,8 +16222,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.6-4.8",
 "soort": "znw",
-"vol": "centuriōnis, m.",
 "g": "m.",
+"vol": "centuriōnis, m.",
 "a": [
 "centurionis"
 ],
@@ -16017,8 +16247,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.6-4.8",
 "soort": "znw",
-"vol": "collis, m.",
 "g": "m.",
+"vol": "collis, m.",
 "a": [
 "collis"
 ],
@@ -16042,8 +16272,8 @@
 "c": "Caput 4 · Magie",
 "s": "4.6-4.8",
 "soort": "znw",
-"vol": "cohortis, v.",
 "g": "v.",
+"vol": "cohortis, v.",
 "a": [
 "cohortis"
 ],
@@ -16092,12 +16322,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.6-4.8",
 "soort": "znw",
-"vol": "equitātūs",
+"g": "m.",
+"ga": 1,
+"vol": "equitātūs, m.",
 "a": [
 "equitatus"
 ],
 "ac": [
-"equitatus"
+"equitatus, m."
 ],
 "ta": [
 "de ruiterij",
@@ -16116,12 +16348,14 @@
 "c": "Caput 4 · Magie",
 "s": "4.6-4.8",
 "soort": "znw",
-"vol": "impetūs",
+"g": "m.",
+"ga": 1,
+"vol": "impetūs, m.",
 "a": [
 "impetus"
 ],
 "ac": [
-"impetus"
+"impetus, m."
 ],
 "ta": [
 "aanval",
@@ -16386,12 +16620,14 @@
 "c": "Caput 5 · Dood",
 "s": "5.1",
 "soort": "znw",
-"vol": "cibī",
+"g": "m.",
+"ga": 1,
+"vol": "cibī, m.",
 "a": [
 "cibi"
 ],
 "ac": [
-"cibi"
+"cibi, m."
 ],
 "ta": [
 "het voedsel",
@@ -16410,12 +16646,14 @@
 "c": "Caput 5 · Dood",
 "s": "5.1",
 "soort": "znw",
-"vol": "lībertī",
+"g": "m.",
+"ga": 1,
+"vol": "lībertī, m.",
 "a": [
 "liberti"
 ],
 "ac": [
-"liberti"
+"liberti, m."
 ],
 "ta": [
 "de vrijgelatene",
@@ -16434,12 +16672,14 @@
 "c": "Caput 5 · Dood",
 "s": "5.1",
 "soort": "znw",
-"vol": "familiae",
+"g": "v.",
+"ga": 1,
+"vol": "familiae, v.",
 "a": [
 "familiae"
 ],
 "ac": [
-"familiae"
+"familiae, v."
 ],
 "ta": [
 "gezin",
@@ -16464,12 +16704,14 @@
 "c": "Caput 5 · Dood",
 "s": "5.1",
 "soort": "znw",
-"vol": "hōrae",
+"g": "v.",
+"ga": 1,
+"vol": "hōrae, v.",
 "a": [
 "horae"
 ],
 "ac": [
-"horae"
+"horae, v."
 ],
 "ta": [
 "het uur",
@@ -16488,12 +16730,14 @@
 "c": "Caput 5 · Dood",
 "s": "5.1",
 "soort": "znw",
-"vol": "lacrimae",
+"g": "v.",
+"ga": 1,
+"vol": "lacrimae, v.",
 "a": [
 "lacrimae"
 ],
 "ac": [
-"lacrimae"
+"lacrimae, v."
 ],
 "ta": [
 "de traan",
@@ -16512,12 +16756,14 @@
 "c": "Caput 5 · Dood",
 "s": "5.1",
 "soort": "znw",
-"vol": "morae",
+"g": "v.",
+"ga": 1,
+"vol": "morae, v.",
 "a": [
 "morae"
 ],
 "ac": [
-"morae"
+"morae, v."
 ],
 "ta": [
 "de vertraging",
@@ -16542,12 +16788,14 @@
 "c": "Caput 5 · Dood",
 "s": "5.1",
 "soort": "znw",
-"vol": "statuae",
+"g": "v.",
+"ga": 1,
+"vol": "statuae, v.",
 "a": [
 "statuae"
 ],
 "ac": [
-"statuae"
+"statuae, v."
 ],
 "ta": [
 "het standbeeld",
@@ -16566,12 +16814,14 @@
 "c": "Caput 5 · Dood",
 "s": "5.1",
 "soort": "znw",
-"vol": "beneficiī",
+"g": "o.",
+"ga": 1,
+"vol": "beneficiī, o.",
 "a": [
 "beneficii"
 ],
 "ac": [
-"beneficii"
+"beneficii, o."
 ],
 "ta": [
 "de weldaad",
@@ -16590,12 +16840,14 @@
 "c": "Caput 5 · Dood",
 "s": "5.1",
 "soort": "znw",
-"vol": "cubiculī",
+"g": "o.",
+"ga": 1,
+"vol": "cubiculī, o.",
 "a": [
 "cubiculi"
 ],
 "ac": [
-"cubiculi"
+"cubiculi, o."
 ],
 "ta": [
 "de slaapkamer",
@@ -16614,12 +16866,14 @@
 "c": "Caput 5 · Dood",
 "s": "5.1",
 "soort": "znw",
-"vol": "ingeniī",
+"g": "o.",
+"ga": 1,
+"vol": "ingeniī, o.",
 "a": [
 "ingenii"
 ],
 "ac": [
-"ingenii"
+"ingenii, o."
 ],
 "ta": [
 "het karakter",
@@ -16647,12 +16901,14 @@
 "c": "Caput 5 · Dood",
 "s": "5.1",
 "soort": "znw",
-"vol": "verbī",
+"g": "o.",
+"ga": 1,
+"vol": "verbī, o.",
 "a": [
 "verbi"
 ],
 "ac": [
-"verbi"
+"verbi, o."
 ],
 "ta": [
 "het woord",
@@ -16881,8 +17137,8 @@
 "c": "Caput 5 · Dood",
 "s": "5.1",
 "soort": "znw",
-"vol": "iuvenis, m.",
 "g": "m.",
+"vol": "iuvenis, m.",
 "a": [
 "iuvenis"
 ],
@@ -16906,8 +17162,8 @@
 "c": "Caput 5 · Dood",
 "s": "5.1",
 "soort": "znw",
-"vol": "mōris, m.",
 "g": "m.",
+"vol": "mōris, m.",
 "a": [
 "moris"
 ],
@@ -16931,8 +17187,8 @@
 "c": "Caput 5 · Dood",
 "s": "5.1",
 "soort": "znw",
-"vol": "parentum, m. mv.",
 "g": "m. mv.",
+"vol": "parentum, m. mv.",
 "a": [
 "parentum"
 ],
@@ -16956,8 +17212,8 @@
 "c": "Caput 5 · Dood",
 "s": "5.1",
 "soort": "znw",
-"vol": "famis, v.",
 "g": "v.",
+"vol": "famis, v.",
 "a": [
 "famis"
 ],
@@ -16981,8 +17237,8 @@
 "c": "Caput 5 · Dood",
 "s": "5.1",
 "soort": "znw",
-"vol": "gentis, v.",
 "g": "v.",
+"vol": "gentis, v.",
 "a": [
 "gentis"
 ],
@@ -17012,8 +17268,8 @@
 "c": "Caput 5 · Dood",
 "s": "5.1",
 "soort": "znw",
-"vol": "generis, o.",
 "g": "o.",
+"vol": "generis, o.",
 "a": [
 "generis"
 ],
@@ -17959,12 +18215,14 @@
 "c": "Caput 5 · Dood",
 "s": "5.2",
 "soort": "znw",
-"vol": "oculī",
+"g": "m.",
+"ga": 1,
+"vol": "oculī, m.",
 "a": [
 "oculi"
 ],
 "ac": [
-"oculi"
+"oculi, m."
 ],
 "ta": [
 "het oog",
@@ -17983,12 +18241,14 @@
 "c": "Caput 5 · Dood",
 "s": "5.2",
 "soort": "znw",
-"vol": "agrī",
+"g": "m.",
+"ga": 1,
+"vol": "agrī, m.",
 "a": [
 "agri"
 ],
 "ac": [
-"agri"
+"agri, m."
 ],
 "ta": [
 "het veld",
@@ -18007,12 +18267,14 @@
 "c": "Caput 5 · Dood",
 "s": "5.2",
 "soort": "znw",
-"vol": "nātūrae",
+"g": "v.",
+"ga": 1,
+"vol": "nātūrae, v.",
 "a": [
 "naturae"
 ],
 "ac": [
-"naturae"
+"naturae, v."
 ],
 "ta": [
 "aard",
@@ -18037,12 +18299,14 @@
 "c": "Caput 5 · Dood",
 "s": "5.2",
 "soort": "znw",
-"vol": "poenae",
+"g": "v.",
+"ga": 1,
+"vol": "poenae, v.",
 "a": [
 "poenae"
 ],
 "ac": [
-"poenae"
+"poenae, v."
 ],
 "ta": [
 "boete",
@@ -18117,8 +18381,8 @@
 "c": "Caput 5 · Dood",
 "s": "5.2",
 "soort": "znw",
-"vol": "coniugis, m. en v.",
 "g": "m. en v.",
+"vol": "coniugis, m. en v.",
 "a": [
 "coniugis"
 ],
@@ -18148,8 +18412,8 @@
 "c": "Caput 5 · Dood",
 "s": "5.2",
 "soort": "znw",
-"vol": "lēgis, m. en v.",
 "g": "m. en v.",
+"vol": "lēgis, m. en v.",
 "a": [
 "legis"
 ],
@@ -18478,12 +18742,14 @@
 "c": "Caput 5 · Dood",
 "s": "5.3",
 "soort": "znw",
-"vol": "dextrae",
+"g": "v.",
+"ga": 1,
+"vol": "dextrae, v.",
 "a": [
 "dextrae"
 ],
 "ac": [
-"dextrae"
+"dextrae, v."
 ],
 "ta": [
 "de rechterhand",
@@ -18598,8 +18864,8 @@
 "c": "Caput 5 · Dood",
 "s": "5.3",
 "soort": "znw",
-"vol": "mēnsis, m.",
 "g": "m.",
+"vol": "mēnsis, m.",
 "a": [
 "mensis"
 ],
@@ -18623,8 +18889,8 @@
 "c": "Caput 5 · Dood",
 "s": "5.3",
 "soort": "znw",
-"vol": "sōlis, m.",
 "g": "m.",
+"vol": "sōlis, m.",
 "a": [
 "solis"
 ],
@@ -18648,8 +18914,8 @@
 "c": "Caput 5 · Dood",
 "s": "5.3",
 "soort": "znw",
-"vol": "quiētis, v.",
 "g": "v.",
+"vol": "quiētis, v.",
 "a": [
 "quietis"
 ],
@@ -18673,8 +18939,8 @@
 "c": "Caput 5 · Dood",
 "s": "5.3",
 "soort": "znw",
-"vol": "ratiōnis, v.",
 "g": "v.",
+"vol": "ratiōnis, v.",
 "a": [
 "rationis"
 ],
@@ -18704,8 +18970,8 @@
 "c": "Caput 5 · Dood",
 "s": "5.3",
 "soort": "znw",
-"vol": "aciēī, v.",
 "g": "v.",
+"vol": "aciēī, v.",
 "a": [
 "aciei"
 ],
@@ -18939,8 +19205,8 @@
 "c": "Caput 5 · Dood",
 "s": "5.4",
 "soort": "znw",
-"vol": "ignis, m.",
 "g": "m.",
+"vol": "ignis, m.",
 "a": [
 "ignis"
 ],
@@ -18964,8 +19230,8 @@
 "c": "Caput 5 · Dood",
 "s": "5.4",
 "soort": "znw",
-"vol": "sanguinis, m.",
 "g": "m.",
+"vol": "sanguinis, m.",
 "a": [
 "sanguinis"
 ],
@@ -19043,12 +19309,14 @@
 "c": "Caput 5 · Dood",
 "s": "5.5-5.8",
 "soort": "znw",
-"vol": "cēnae",
+"g": "v.",
+"ga": 1,
+"vol": "cēnae, v.",
 "a": [
 "cenae"
 ],
 "ac": [
-"cenae"
+"cenae, v."
 ],
 "ta": [
 "avondmaal",
@@ -19067,12 +19335,14 @@
 "c": "Caput 5 · Dood",
 "s": "5.5-5.8",
 "soort": "znw",
-"vol": "prōvinciae",
+"g": "v.",
+"ga": 1,
+"vol": "prōvinciae, v.",
 "a": [
 "provinciae"
 ],
 "ac": [
-"provinciae"
+"provinciae, v."
 ],
 "ta": [
 "de provincie",
@@ -19183,12 +19453,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.1",
 "soort": "znw",
-"vol": "annī",
+"g": "m.",
+"ga": 1,
+"vol": "annī, m.",
 "a": [
 "anni"
 ],
 "ac": [
-"anni"
+"anni, m."
 ],
 "ta": [
 "het jaar",
@@ -19207,12 +19479,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.1",
 "soort": "znw",
-"vol": "campī",
+"g": "m.",
+"ga": 1,
+"vol": "campī, m.",
 "a": [
 "campi"
 ],
 "ac": [
-"campi"
+"campi, m."
 ],
 "ta": [
 "de vlakte",
@@ -19231,12 +19505,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.1",
 "soort": "znw",
-"vol": "modī",
+"g": "m.",
+"ga": 1,
+"vol": "modī, m.",
 "a": [
 "modi"
 ],
 "ac": [
-"modi"
+"modi, m."
 ],
 "ta": [
 "de maat",
@@ -19261,12 +19537,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.1",
 "soort": "znw",
-"vol": "praefectī",
+"g": "m.",
+"ga": 1,
+"vol": "praefectī, m.",
 "a": [
 "praefecti"
 ],
 "ac": [
-"praefecti"
+"praefecti, m."
 ],
 "ta": [
 "bevelhebber",
@@ -19285,12 +19563,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.1",
 "soort": "znw",
-"vol": "ārae",
+"g": "v.",
+"ga": 1,
+"vol": "ārae, v.",
 "a": [
 "arae"
 ],
 "ac": [
-"arae"
+"arae, v."
 ],
 "ta": [
 "altaar",
@@ -19309,12 +19589,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.1",
 "soort": "znw",
-"vol": "proeliī",
+"g": "o.",
+"ga": 1,
+"vol": "proeliī, o.",
 "a": [
 "proelii"
 ],
 "ac": [
-"proelii"
+"proelii, o."
 ],
 "ta": [
 "de veldslag",
@@ -19496,8 +19778,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.1",
 "soort": "znw",
-"vol": "equitis, m.",
 "g": "m.",
+"vol": "equitis, m.",
 "a": [
 "equitis"
 ],
@@ -19527,8 +19809,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.1",
 "soort": "znw",
-"vol": "aetātis, v.",
 "g": "v.",
+"vol": "aetātis, v.",
 "a": [
 "aetatis"
 ],
@@ -19558,8 +19840,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.1",
 "soort": "znw",
-"vol": "cōnsuētūdinis, v.",
 "g": "v.",
+"vol": "cōnsuētūdinis, v.",
 "a": [
 "consuetudinis"
 ],
@@ -19583,8 +19865,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.1",
 "soort": "znw",
-"vol": "laudis, v.",
 "g": "v.",
+"vol": "laudis, v.",
 "a": [
 "laudis"
 ],
@@ -19614,8 +19896,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.1",
 "soort": "znw",
-"vol": "voluntātis, v.",
 "g": "v.",
+"vol": "voluntātis, v.",
 "a": [
 "voluntatis"
 ],
@@ -19639,8 +19921,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.1",
 "soort": "znw",
-"vol": "capitis, o.",
 "g": "o.",
+"vol": "capitis, o.",
 "a": [
 "capitis"
 ],
@@ -19670,8 +19952,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.1",
 "soort": "znw",
-"vol": "itineris, o.",
 "g": "o.",
+"vol": "itineris, o.",
 "a": [
 "itineris"
 ],
@@ -19701,8 +19983,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.1",
 "soort": "znw",
-"vol": "operis, o.",
 "g": "o.",
+"vol": "operis, o.",
 "a": [
 "operis"
 ],
@@ -19743,8 +20025,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.1",
 "soort": "znw",
-"vol": "moenium, o. mv.",
 "g": "o. mv.",
+"vol": "moenium, o. mv.",
 "a": [
 "moenium"
 ],
@@ -19768,12 +20050,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.1",
 "soort": "znw",
-"vol": "adventūs",
+"g": "m.",
+"ga": 1,
+"vol": "adventūs, m.",
 "a": [
 "adventus"
 ],
 "ac": [
-"adventus"
+"adventus, m."
 ],
 "ta": [
 "aankomst",
@@ -19792,12 +20076,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.1",
 "soort": "znw",
-"vol": "exercitūs",
+"g": "m.",
+"ga": 1,
+"vol": "exercitūs, m.",
 "a": [
 "exercitus"
 ],
 "ac": [
-"exercitus"
+"exercitus, m."
 ],
 "ta": [
 "het leger",
@@ -20441,12 +20727,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.2",
 "soort": "znw",
-"vol": "somnī",
+"g": "m.",
+"ga": 1,
+"vol": "somnī, m.",
 "a": [
 "somni"
 ],
 "ac": [
-"somni"
+"somni, m."
 ],
 "ta": [
 "de slaap",
@@ -20465,12 +20753,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.2",
 "soort": "znw",
-"vol": "rēgiae",
+"g": "v.",
+"ga": 1,
+"vol": "rēgiae, v.",
 "a": [
 "regiae"
 ],
 "ac": [
-"regiae"
+"regiae, v."
 ],
 "ta": [
 "het paleis",
@@ -20489,12 +20779,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.2",
 "soort": "znw",
-"vol": "rēgīnae",
+"g": "v.",
+"ga": 1,
+"vol": "rēgīnae, v.",
 "a": [
 "reginae"
 ],
 "ac": [
-"reginae"
+"reginae, v."
 ],
 "ta": [
 "de koningin",
@@ -20513,12 +20805,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.2",
 "soort": "znw",
-"vol": "pretiī",
+"g": "o.",
+"ga": 1,
+"vol": "pretiī, o.",
 "a": [
 "pretii"
 ],
 "ac": [
-"pretii"
+"pretii, o."
 ],
 "ta": [
 "de prijs",
@@ -20537,12 +20831,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.2",
 "soort": "znw",
-"vol": "rēgnī",
+"g": "o.",
+"ga": 1,
+"vol": "rēgnī, o.",
 "a": [
 "regni"
 ],
 "ac": [
-"regni"
+"regni, o."
 ],
 "ta": [
 "de heerschappij",
@@ -20669,8 +20965,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.2",
 "soort": "znw",
-"vol": "lapidis, m.",
 "g": "m.",
+"vol": "lapidis, m.",
 "a": [
 "lapidis"
 ],
@@ -20694,8 +20990,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.2",
 "soort": "znw",
-"vol": "pedis, m.",
 "g": "m.",
+"vol": "pedis, m.",
 "a": [
 "pedis"
 ],
@@ -20721,8 +21017,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.2",
 "soort": "znw",
-"vol": "prīncipis, m.",
 "g": "m.",
+"vol": "prīncipis, m.",
 "a": [
 "principis"
 ],
@@ -20752,8 +21048,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.2",
 "soort": "znw",
-"vol": "rēgis, m.",
 "g": "m.",
+"vol": "rēgis, m.",
 "a": [
 "regis"
 ],
@@ -20777,8 +21073,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.2",
 "soort": "znw",
-"vol": "sermōnis, m.",
 "g": "m.",
+"vol": "sermōnis, m.",
 "a": [
 "sermonis"
 ],
@@ -20808,8 +21104,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.2",
 "soort": "znw",
-"vol": "regiōnis, v.",
 "g": "v.",
+"vol": "regiōnis, v.",
 "a": [
 "regionis"
 ],
@@ -20833,8 +21129,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.2",
 "soort": "znw",
-"vol": "pectoris, o.",
 "g": "o.",
+"vol": "pectoris, o.",
 "a": [
 "pectoris"
 ],
@@ -21271,12 +21567,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.3-6.4",
 "soort": "znw",
-"vol": "aquae",
+"g": "v.",
+"ga": 1,
+"vol": "aquae, v.",
 "a": [
 "aquae"
 ],
 "ac": [
-"aquae"
+"aquae, v."
 ],
 "ta": [
 "het water",
@@ -21295,12 +21593,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.3-6.4",
 "soort": "znw",
-"vol": "ferae",
+"g": "v.",
+"ga": 1,
+"vol": "ferae, v.",
 "a": [
 "ferae"
 ],
 "ac": [
-"ferae"
+"ferae, v."
 ],
 "ta": [
 "het wilde dier",
@@ -21319,12 +21619,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.3-6.4",
 "soort": "znw",
-"vol": "fugae",
+"g": "v.",
+"ga": 1,
+"vol": "fugae, v.",
 "a": [
 "fugae"
 ],
 "ac": [
-"fugae"
+"fugae, v."
 ],
 "ta": [
 "de vlucht",
@@ -21343,12 +21645,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.3-6.4",
 "soort": "znw",
-"vol": "inopiae",
+"g": "v.",
+"ga": 1,
+"vol": "inopiae, v.",
 "a": [
 "inopiae"
 ],
 "ac": [
-"inopiae"
+"inopiae, v."
 ],
 "ta": [
 "armoede",
@@ -21373,12 +21677,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.3-6.4",
 "soort": "znw",
-"vol": "īrae",
+"g": "v.",
+"ga": 1,
+"vol": "īrae, v.",
 "a": [
 "irae"
 ],
 "ac": [
-"irae"
+"irae, v."
 ],
 "ta": [
 "de woede",
@@ -21397,12 +21703,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.3-6.4",
 "soort": "znw",
-"vol": "memoriae",
+"g": "v.",
+"ga": 1,
+"vol": "memoriae, v.",
 "a": [
 "memoriae"
 ],
 "ac": [
-"memoriae"
+"memoriae, v."
 ],
 "ta": [
 "de herinnering",
@@ -21427,12 +21735,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.3-6.4",
 "soort": "znw",
-"vol": "tēlī",
+"g": "o.",
+"ga": 1,
+"vol": "tēlī, o.",
 "a": [
 "teli"
 ],
 "ac": [
-"teli"
+"teli, o."
 ],
 "ta": [
 "aanvalswapen",
@@ -21486,8 +21796,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.3-6.4",
 "soort": "znw",
-"vol": "auctōris, m.",
 "g": "m.",
+"vol": "auctōris, m.",
 "a": [
 "auctoris"
 ],
@@ -21511,8 +21821,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.3-6.4",
 "soort": "znw",
-"vol": "gregis, m.",
 "g": "m.",
+"vol": "gregis, m.",
 "a": [
 "gregis"
 ],
@@ -21536,8 +21846,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.3-6.4",
 "soort": "znw",
-"vol": "leōnis, m.",
 "g": "m.",
+"vol": "leōnis, m.",
 "a": [
 "leonis"
 ],
@@ -21561,8 +21871,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.3-6.4",
 "soort": "znw",
-"vol": "orbis, m.",
 "g": "m.",
+"vol": "orbis, m.",
 "a": [
 "orbis"
 ],
@@ -21592,12 +21902,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.3-6.4",
 "soort": "znw",
-"vol": "aestūs",
+"g": "m.",
+"ga": 1,
+"vol": "aestūs, m.",
 "a": [
 "aestus"
 ],
 "ac": [
-"aestus"
+"aestus, m."
 ],
 "ta": [
 "branding",
@@ -21622,12 +21934,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.3-6.4",
 "soort": "znw",
-"vol": "spēī",
+"g": "v.",
+"ga": 1,
+"vol": "spēī, v.",
 "a": [
 "spei"
 ],
 "ac": [
-"spei"
+"spei, v."
 ],
 "ta": [
 "de hoop",
@@ -21685,12 +21999,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.5-6.7",
 "soort": "znw",
-"vol": "equī",
+"g": "m.",
+"ga": 1,
+"vol": "equī, m.",
 "a": [
 "equi"
 ],
 "ac": [
-"equi"
+"equi, m."
 ],
 "ta": [
 "het paard",
@@ -21709,12 +22025,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.5-6.7",
 "soort": "znw",
-"vol": "numerī",
+"g": "m.",
+"ga": 1,
+"vol": "numerī, m.",
 "a": [
 "numeri"
 ],
 "ac": [
-"numeri"
+"numeri, m."
 ],
 "ta": [
 "aantal",
@@ -21739,12 +22057,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.5-6.7",
 "soort": "znw",
-"vol": "alae",
+"g": "v.",
+"ga": 1,
+"vol": "alae, v.",
 "a": [
 "alae"
 ],
 "ac": [
-"alae"
+"alae, v."
 ],
 "ta": [
 "de vleugel",
@@ -21763,12 +22083,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.5-6.7",
 "soort": "znw",
-"vol": "cūriae",
+"g": "v.",
+"ga": 1,
+"vol": "cūriae, v.",
 "a": [
 "curiae"
 ],
 "ac": [
-"curiae"
+"curiae, v."
 ],
 "ta": [
 "curia",
@@ -21789,12 +22111,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.5-6.7",
 "soort": "znw",
-"vol": "fāmae",
+"g": "v.",
+"ga": 1,
+"vol": "fāmae, v.",
 "a": [
 "famae"
 ],
 "ac": [
-"famae"
+"famae, v."
 ],
 "ta": [
 "de reputatie",
@@ -21819,12 +22143,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.5-6.7",
 "soort": "znw",
-"vol": "pecūniae",
+"g": "v.",
+"ga": 1,
+"vol": "pecūniae, v.",
 "a": [
 "pecuniae"
 ],
 "ac": [
-"pecuniae"
+"pecuniae, v."
 ],
 "ta": [
 "geld",
@@ -21843,12 +22169,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.5-6.7",
 "soort": "znw",
-"vol": "īnsidiārum",
+"g": "v. mv.",
+"ga": 1,
+"vol": "īnsidiārum, v. mv.",
 "a": [
 "insidiarum"
 ],
 "ac": [
-"insidiarum"
+"insidiarum, v. mv."
 ],
 "ta": [
 "de hinderlaag",
@@ -21873,12 +22201,14 @@
 "c": "Caput 6 · Afrika",
 "s": "6.5-6.7",
 "soort": "znw",
-"vol": "suppliciī",
+"g": "o.",
+"ga": 1,
+"vol": "suppliciī, o.",
 "a": [
 "supplicii"
 ],
 "ac": [
-"supplicii"
+"supplicii, o."
 ],
 "ta": [
 "de doodstraf",
@@ -21953,8 +22283,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.5-6.7",
 "soort": "znw",
-"vol": "amnis, m.",
 "g": "m.",
+"vol": "amnis, m.",
 "a": [
 "amnis"
 ],
@@ -21978,8 +22308,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.5-6.7",
 "soort": "znw",
-"vol": "fūris, m.",
 "g": "m.",
+"vol": "fūris, m.",
 "a": [
 "furis"
 ],
@@ -22003,8 +22333,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.5-6.7",
 "soort": "znw",
-"vol": "ōrdinis, m.",
 "g": "m.",
+"vol": "ōrdinis, m.",
 "a": [
 "ordinis"
 ],
@@ -22034,8 +22364,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.5-6.7",
 "soort": "znw",
-"vol": "classis, v.",
 "g": "v.",
+"vol": "classis, v.",
 "a": [
 "classis"
 ],
@@ -22059,8 +22389,8 @@
 "c": "Caput 6 · Afrika",
 "s": "6.5-6.7",
 "soort": "znw",
-"vol": "palūdis, v.",
 "g": "v.",
+"vol": "palūdis, v.",
 "a": [
 "paludis"
 ],
@@ -22393,12 +22723,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "animī",
+"g": "m.",
+"ga": 1,
+"vol": "animī, m.",
 "a": [
 "animi"
 ],
 "ac": [
-"animi"
+"animi, m."
 ],
 "ta": [
 "de geest",
@@ -22426,12 +22758,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "gladiī",
+"g": "m.",
+"ga": 1,
+"vol": "gladiī, m.",
 "a": [
 "gladii"
 ],
 "ac": [
-"gladii"
+"gladii, m."
 ],
 "ta": [
 "het zwaard",
@@ -22450,12 +22784,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "nūntiī",
+"g": "m.",
+"ga": 1,
+"vol": "nūntiī, m.",
 "a": [
 "nuntii"
 ],
 "ac": [
-"nuntii"
+"nuntii, m."
 ],
 "ta": [
 "bericht",
@@ -22480,12 +22816,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "ministrī",
+"g": "m.",
+"ga": 1,
+"vol": "ministrī, m.",
 "a": [
 "ministri"
 ],
 "ac": [
-"ministri"
+"ministri, m."
 ],
 "ta": [
 "de dienaar",
@@ -22504,12 +22842,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "hastae",
+"g": "v.",
+"ga": 1,
+"vol": "hastae, v.",
 "a": [
 "hastae"
 ],
 "ac": [
-"hastae"
+"hastae, v."
 ],
 "ta": [
 "de lans",
@@ -22528,12 +22868,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "invidiae",
+"g": "v.",
+"ga": 1,
+"vol": "invidiae, v.",
 "a": [
 "invidiae"
 ],
 "ac": [
-"invidiae"
+"invidiae, v."
 ],
 "ta": [
 "de haat",
@@ -22558,12 +22900,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "litterae",
+"g": "v.",
+"ga": 1,
+"vol": "litterae, v.",
 "a": [
 "litterae"
 ],
 "ac": [
-"litterae"
+"litterae, v."
 ],
 "ta": [
 "de letter",
@@ -22582,12 +22926,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "litterārum",
+"g": "v. mv.",
+"ga": 1,
+"vol": "litterārum, v. mv.",
 "a": [
 "litterarum"
 ],
 "ac": [
-"litterarum"
+"litterarum, v. mv."
 ],
 "ta": [
 "brief",
@@ -22615,12 +22961,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "patriae",
+"g": "v.",
+"ga": 1,
+"vol": "patriae, v.",
 "a": [
 "patriae"
 ],
 "ac": [
-"patriae"
+"patriae, v."
 ],
 "ta": [
 "het vaderland",
@@ -22639,12 +22987,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "aurī",
+"g": "o.",
+"ga": 1,
+"vol": "aurī, o.",
 "a": [
 "auri"
 ],
 "ac": [
-"auri"
+"auri, o."
 ],
 "ta": [
 "goud",
@@ -22663,12 +23013,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "ferrī",
+"g": "o.",
+"ga": 1,
+"vol": "ferrī, o.",
 "a": [
 "ferri"
 ],
 "ac": [
-"ferri"
+"ferri, o."
 ],
 "ta": [
 "het ijzer",
@@ -22693,12 +23045,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "membrī",
+"g": "o.",
+"ga": 1,
+"vol": "membrī, o.",
 "a": [
 "membri"
 ],
 "ac": [
-"membri"
+"membri, o."
 ],
 "ta": [
 "het lid",
@@ -22717,12 +23071,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "officiī",
+"g": "o.",
+"ga": 1,
+"vol": "officiī, o.",
 "a": [
 "officii"
 ],
 "ac": [
-"officii"
+"officii, o."
 ],
 "ta": [
 "de taak",
@@ -22747,12 +23103,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "ōrāculī",
+"g": "o.",
+"ga": 1,
+"vol": "ōrāculī, o.",
 "a": [
 "oraculi"
 ],
 "ac": [
-"oraculi"
+"oraculi, o."
 ],
 "ta": [
 "het orakel",
@@ -22771,12 +23129,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "tergī",
+"g": "o.",
+"ga": 1,
+"vol": "tergī, o.",
 "a": [
 "tergi"
 ],
 "ac": [
-"tergi"
+"tergi, o."
 ],
 "ta": [
 "de rug",
@@ -22849,8 +23209,8 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "fīnis, m.",
 "g": "m.",
+"vol": "fīnis, m.",
 "a": [
 "finis"
 ],
@@ -22883,8 +23243,8 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "vestis, v.",
 "g": "v.",
+"vol": "vestis, v.",
 "a": [
 "vestis"
 ],
@@ -22908,8 +23268,8 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "opum, v. mv.",
 "g": "v. mv.",
+"vol": "opum, v. mv.",
 "a": [
 "opum"
 ],
@@ -22939,8 +23299,8 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "crīminis, o.",
 "g": "o.",
+"vol": "crīminis, o.",
 "a": [
 "criminis"
 ],
@@ -22970,8 +23330,8 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "iūris, o.",
 "g": "o.",
+"vol": "iūris, o.",
 "a": [
 "iuris"
 ],
@@ -22995,8 +23355,8 @@
 "c": "Caput 7 · Alexander",
 "s": "7.1",
 "soort": "znw",
-"vol": "lateris, o.",
 "g": "o.",
+"vol": "lateris, o.",
 "a": [
 "lateris"
 ],
@@ -23789,12 +24149,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.2",
 "soort": "znw",
-"vol": "mūrī",
+"g": "m.",
+"ga": 1,
+"vol": "mūrī, m.",
 "a": [
 "muri"
 ],
 "ac": [
-"muri"
+"muri, m."
 ],
 "ta": [
 "de muur",
@@ -23813,12 +24175,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.2",
 "soort": "znw",
-"vol": "librī",
+"g": "m.",
+"ga": 1,
+"vol": "librī, m.",
 "a": [
 "libri"
 ],
 "ac": [
-"libri"
+"libri, m."
 ],
 "ta": [
 "boek",
@@ -23837,12 +24201,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.2",
 "soort": "znw",
-"vol": "fōrmae",
+"g": "v.",
+"ga": 1,
+"vol": "fōrmae, v.",
 "a": [
 "formae"
 ],
 "ac": [
-"formae"
+"formae, v."
 ],
 "ta": [
 "de schoonheid",
@@ -23867,12 +24233,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.2",
 "soort": "znw",
-"vol": "portae",
+"g": "v.",
+"ga": 1,
+"vol": "portae, v.",
 "a": [
 "portae"
 ],
 "ac": [
-"portae"
+"portae, v."
 ],
 "ta": [
 "de poort",
@@ -23891,12 +24259,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.2",
 "soort": "znw",
-"vol": "undae",
+"g": "v.",
+"ga": 1,
+"vol": "undae, v.",
 "a": [
 "undae"
 ],
 "ac": [
-"undae"
+"undae, v."
 ],
 "ta": [
 "de golf",
@@ -23915,12 +24285,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.2",
 "soort": "znw",
-"vol": "fūrtī",
+"g": "o.",
+"ga": 1,
+"vol": "fūrtī, o.",
 "a": [
 "furti"
 ],
 "ac": [
-"furti"
+"furti, o."
 ],
 "ta": [
 "de diefstal",
@@ -23939,12 +24311,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.2",
 "soort": "znw",
-"vol": "saxī",
+"g": "o.",
+"ga": 1,
+"vol": "saxī, o.",
 "a": [
 "saxi"
 ],
 "ac": [
-"saxi"
+"saxi, o."
 ],
 "ta": [
 "het rotsblok",
@@ -24017,8 +24391,8 @@
 "c": "Caput 7 · Alexander",
 "s": "7.2",
 "soort": "znw",
-"vol": "artis, v.",
 "g": "v.",
+"vol": "artis, v.",
 "a": [
 "artis"
 ],
@@ -24647,12 +25021,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.4-7.5",
 "soort": "znw",
-"vol": "magistrī",
+"g": "m.",
+"ga": 1,
+"vol": "magistrī, m.",
 "a": [
 "magistri"
 ],
 "ac": [
-"magistri"
+"magistri, m."
 ],
 "ta": [
 "de meester",
@@ -24671,12 +25047,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.4-7.5",
 "soort": "znw",
-"vol": "discordiae",
+"g": "v.",
+"ga": 1,
+"vol": "discordiae, v.",
 "a": [
 "discordiae"
 ],
 "ac": [
-"discordiae"
+"discordiae, v."
 ],
 "ta": [
 "de ruzie",
@@ -24724,8 +25102,8 @@
 "c": "Caput 7 · Alexander",
 "s": "7.4-7.5",
 "soort": "znw",
-"vol": "mercātōris, m.",
 "g": "m.",
+"vol": "mercātōris, m.",
 "a": [
 "mercatoris"
 ],
@@ -24774,12 +25152,14 @@
 "c": "Caput 7 · Alexander",
 "s": "7.4-7.5",
 "soort": "znw",
-"vol": "currūs",
+"g": "m.",
+"ga": 1,
+"vol": "currūs, m.",
 "a": [
 "currus"
 ],
 "ac": [
-"currus"
+"currus, m."
 ],
 "ta": [
 "de renwagen",

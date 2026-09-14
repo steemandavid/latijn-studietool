@@ -888,7 +888,7 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
     <hr style="border:0;border-top:1px solid var(--lijn);margin:4px 0 0">
     <div class="rij" style="justify-content:space-between;align-items:baseline">
       <button class="wissel" id="btnZelftest">Werkt het niet? Klik hier</button>
-      <span class="sub" id="bouwStempel" style="margin:0">bouw 14-09 17:14</span>
+      <span class="sub" id="bouwStempel" style="margin:0">bouw 14-09 17:29</span>
     </div>
     <pre id="zelftestUit" hidden style="white-space:pre-wrap;font-size:12px;margin:0;
       padding:10px;border:1px solid var(--lijn);border-radius:8px;overflow-x:auto"></pre>
@@ -2121,11 +2121,13 @@ function aanvaard(w, r, streng){
 }
 
 /* ======================= GESLACHT (§7.2a) =======================
-   Bij een zelfstandig naamwoord waarvan het boek het geslacht drukt, hoort dat bij het
-   antwoord: `ducis, m.`, niet `ducis`. Het boek drukt het alleen waar het niet uit de
-   verbuiging volgt — bij `avus, avī`, `rosa, rosae` en `templum, templī` staat het
-   nergens, ook niet in het alfabetisch register achterin, en dan vraagt de app er ook
-   niet naar. Dat zijn 153 van de 345 zelfstandige naamwoorden; `w.g` draagt het label.
+   Bij een zelfstandig naamwoord hoort het geslacht bij het antwoord: `ducis, m.`, niet
+   `ducis`. Het boek drukt het alleen waar het niet uit de verbuiging volgt (`dux, ducis,
+   m.`); bij `avus, avī` staat het nergens, ook niet in het register achterin. Die 190
+   geslachten zijn uit de verbuiging afgeleid, met de regel erbij in `woordenlijst.md`,
+   en dragen `ga: 1`. Ze stilzwijgend weglaten was geen optie: dan werd `amīcī, v.` als
+   juist gescoord en oefende de app een fout antwoord in. `w.g` draagt het label; 343 van
+   de 345 hebben er een (`alter` en `plērīque` zijn voornaamwoordelijke adjectieven).
 
    Hóé hij het opschrijft is geen leerstof. `ducis, m.`, `ducis m`, `ducis (m.)` en
    `ducis mannelijk` zijn hetzelfde antwoord. De staart wordt er daarom afgeknipt en
@@ -2168,9 +2170,9 @@ function geslKern(s){
 function beoordeelVorm(g, w){
   const lijst = aanvaard(w, "L2V", false);
   const sp = splitsGeslacht(g);
-  /* Drukt het boek het geslacht niet (avus, rosa, templum), dan vraagt de app er niet
-     naar — maar wie het uit zichzelf meegeeft, hoort daar niet voor gestraft te worden.
-     Zo'n staart wordt dan stil genegeerd: we hebben de gegevens niet om ze na te kijken. */
+  /* Elk zelfstandig naamwoord draagt een geslacht (§7.2a), gedrukt of afgeleid. Blijft
+     `w.g` leeg, dan is het er een met alle drie de geslachten — `alter`, `plērīque` —
+     en valt er niets na te kijken; zo'n staart wordt dan stil genegeerd. */
   const vorm = sp.vorm || g;
   const gesl = w.g ? geslKern(sp.gesl) : null;
   // Een punt is een afkortingsteken, geen leerstof: "geen gen." = "geen gen".
@@ -2919,6 +2921,8 @@ function toonWoord(nr){
       <dt>Sectie</dt><dd>${w.s}</dd>
       <dt>Soort</dt><dd>${SOORTNAAM[w.soort]}</dd>
       ${w.vol && w.vol !== w.v ? `<dt>Zoals gedrukt</dt><dd class="lat">${w.v}</dd>` : ""}
+      ${w.ga ? `<dt>Geslacht</dt><dd>${w.g} — het boek geeft het niet bij dit woord;
+                afgeleid uit de verbuiging (§7.2a)</dd>` : ""}
       <dt>Vertaling</dt><dd>${a.juist} juist · ${a.fout} fout (box ${a.box})</dd>
       ${b ? `<dt>Vorm</dt><dd>${b.juist} juist · ${b.fout} fout (box ${b.box})</dd>` : ""}
     </dl>

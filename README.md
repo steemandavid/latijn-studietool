@@ -45,12 +45,13 @@ builds uit dezelfde bron**:
   geen leerstof**: een vertaling wordt opgedeeld in aanvaarde betekenissen, dus bij
   `(z.) wie?, wat?; (b.) welke?` zijn `wie, wat, welke` en `wie wat welke` net zo juist.
   Labels (`(z.)`, `(b.)`, `mv.:`) en optionele letters (`sommige(n)`) mogen weg (§7.4).
-- **Het geslacht hoort bij de genitiefvraag.** Drukt het boek het (`dux, ducis, m.`), dan
-  moet hij het meegeven — bij 153 van de 345 zelfstandige naamwoorden. Bij de regelmatige
-  (`avus, avī`, `rosa, rosae`, `templum, templī`) staat het nergens in het boek, ook niet
-  in het register, en dan vraagt de app er ook niet naar. Hoe hij het opschrijft is vrij:
-  `ducis, m.`, `ducis m`, `ducis (m.)` en `ducis mannelijk` zijn alle vier juist; `ducis`
-  alleen is fout, met een feedbackregel die zegt waaróm (§7.2a).
+- **Het geslacht hoort bij de genitiefvraag** — bij 343 van de 345 zelfstandige
+  naamwoorden. Het boek drukt er 153 (`dux, ducis, m.`); het drukt het alleen waar het niet
+  uit de verbuiging volgt, dus de overige 190 zijn **afgeleid** en staan in een aparte, als
+  afgeleid gemarkeerde tabel achterin `woordenlijst.md`, met per woord de regel erbij
+  (`1 v`, `2 m`, `4 m`, …). Hoe hij het opschrijft is vrij: `ducis, m.`, `ducis m`,
+  `ducis (m.)` en `ducis mannelijk` zijn alle vier juist; `ducis` alleen is fout, en
+  `ducis, v.` ook — met een feedbackregel die zegt waaróm (§7.2a).
 - Meerkeuze bij een vormvraag varieert op de **uitgang**, niet op de stam: de vier opties
   zijn vormen van hetzelfde woord (`amīcī / amīcae / amīcis / amīcūs`), zodat de juiste
   stam herkennen niet meer volstaat.
@@ -77,7 +78,7 @@ regels op het scherm, zonder devtools (§13.8b).
 | Bestand | Wat |
 |---|---|
 | `FUNCTIONELE-SPECIFICATIE.md` | de bindende specificatie; alles wat de app doet staat hier |
-| `woordenlijst.md` | de woordenlijst als bron, overgetypt uit scans en gecontroleerd tegen het register |
+| `woordenlijst.md` | de woordenlijst als bron, overgetypt uit scans en gecontroleerd tegen het register; achterin één afgescheiden tabel met de 190 **afgeleide** geslachten |
 | `maak-data.py` | `woordenlijst.md` → `latijn.json` (incl. de aanvaarde antwoordvarianten en het geslacht) |
 | `sjabloon.html` | de app zelf, met een `/*__DATA__*/`-placeholder |
 | `bouw.py` | `sjabloon.html` + `latijn.json` → beide builds + `server/woorden.php`; leest ook het versienummer uit de spec |
@@ -112,7 +113,7 @@ al op de machine stond — pas `executablePath` aan als die er niet meer is.
 for t in test/smoke-*.js; do node "$t" || break; done
 ```
 
-Elf offline suites, samen 157 checks; groen = exit 0. Daarnaast voor de online modus
+Elf offline suites, samen 163 checks; groen = exit 0. Daarnaast voor de online modus
 `php test/samenvoegen-test.php` en `php test/grenzen-test.php` (geen server nodig), en met
 een beheersleutel `node test/api-test.js` en `node test/smoke-10-online-sync.js` tegen de
 echte server — zie `test/LEESMIJ.txt`. De belangrijkste test is de invariant in

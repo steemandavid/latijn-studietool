@@ -44,8 +44,11 @@ const check = (naam, ok, detail) => {
       const hic = BY_NR[126];      // "deze, dit" — elk kommadeel apart
       const nul = BY_NR[45];       // "nulla, nullius; geen" — ; als , en andersom
       return {
-        macronloos:   beoordeel("amici", w, "L2V").uit,
-        metMacron:    beoordeel("amīcī", w, "L2V").uit,
+        // Macrons blijven optioneel; het geslacht hoort er sinds §7.2a wél bij, ook waar
+        // het boek het niet drukt (amīcus krijgt m. uit de afgeleide tabel).
+        macronloos:   beoordeel("amici, m.", w, "L2V").uit,
+        metMacron:    beoordeel("amīcī, m.", w, "L2V").uit,
+        macronlozeGesl: beoordeel("amici", w, "L2V").uit,
         lidwoordWeg:  beoordeel("vriend", w, "L2N").uit,
         metLidwoord:  beoordeel("de vriend", w, "L2N").uit,
         tweedeBetek:  beoordeel("de gelegenheid", loc, "L2N").uit,
@@ -73,7 +76,7 @@ const check = (naam, ok, detail) => {
     });
     console.log('BEOORDELING', JSON.stringify(beo));
     for(const [k, verwacht] of Object.entries({
-      macronloos:'juist', metMacron:'juist', lidwoordWeg:'juist', metLidwoord:'juist',
+      macronloos:'juist', metMacron:'juist', macronlozeGesl:'fout', lidwoordWeg:'juist', metLidwoord:'juist',
       tweedeBetek:'juist', eersteBetek:'juist', genderWeg:'fout', genderMee:'juist',
       genderWegReden:'vergeten', genderLos:'juist', genderVoluit:'juist', genderFout:'fout',
       tildeVorm:'juist', uitgeschreven:'juist', stamtijden:'juist', typfout:'bijna',

@@ -1,5 +1,106 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-14 (f) — De ontbrekende geslachten afgeleid, en nu bij élk woord gecontroleerd
+
+### Gevraagd
+Terechte terugkoppeling op de vorige sectie: *"Zou je niet beter op voorhand de geslachten
+toevoegen aan de lijst voor de woorden waarbij het nu ontbreekt, die grondig aftoetsen op
+juistheid, en dan voor alle woorden het geslacht mee controleren in het antwoord? Want
+zoals je het nu verwoordt kan er eender welk geslacht worden ingetypt voor woorden waarbij
+het ontbreekt, die dan vervolgens als correct worden gescoord. Dat versterkt het leren van
+een fout als een correct antwoord."*
+
+Dat klopt, en het is de zwaarste van de twee fouten die je kunt maken. Een gemiste
+oefenkans is vervelend; een fout antwoord dat als juist gescoord wordt, is schadelijk.
+
+### 190 geslachten afgeleid
+Niet geraden: **afgeleid uit de verbuiging**, met per woord de regel erbij. De derde
+verbuiging zit er bewust niet bij — daar volgt het geslacht níét uit de uitgang, en precies
+daarom drukt het boek het daar wél.
+
+| Code | Regel | Aantal |
+| --- | --- | ---: |
+| `1 v` | 1e verbuiging, `-a` / gen. `-ae` → vrouwelijk | 64 |
+| `1 v mv` | 1e verbuiging, alleen mv., `-ae` / gen. `-ārum` → vrouwelijk | 5 |
+| `2 m` | 2e verbuiging, `-us`/`-er`/`-ir` / gen. `-ī` → mannelijk | 39 |
+| `2 o` | 2e verbuiging, `-um` / gen. `-ī` → onzijdig | 53 |
+| `2 m mv` | 2e verbuiging, alleen mv., `-ī` / gen. `-ōrum` → mannelijk | 1 |
+| `2 o mv` | 2e verbuiging, alleen mv., `-a` / gen. `-ōrum` → onzijdig | 2 |
+| `4 m` | 4e verbuiging, `-us` / gen. `-ūs` → mannelijk | 21 |
+| `5 v` | 5e verbuiging, `-ēs` / gen. `-ēī` → vrouwelijk | 5 |
+
+**Grondig afgetoetst** betekende drie dingen:
+
+1. **De bekende uitzonderingen vooraf opgelijst** en er machinaal op gecontroleerd:
+   mannelijke personen van de 1e (`agricola`, `nauta`, `poēta`, `incola`, `collēga`,
+   `pīrāta`), onzijdige en vrouwelijke van de 2e op `-us` (`vulgus`, `virus`, `pelagus`,
+   `humus`, boomnamen), vrouwelijke van de 4e (`manus`, `domus`, `porticus`, `tribus`) en
+   `diēs`/`merīdiēs` van de 5e. **Geen enkele vuurde** — ze komen in deze woordenlijst niet
+   voor, en waar ze wél voorkomen (`domus`, `manus`, `diēs`) drukt het boek het geslacht al.
+2. **Alle 190 met de hand nagelopen**, per groep. De valkuil die ik expliciet heb
+   gecontroleerd: het Nederlandse lidwoord zegt niets over het Latijnse geslacht.
+   `īnsula` is "het eiland" en toch vrouwelijk, `gladius` "het zwaard" en toch mannelijk,
+   `capillus` "het haar", `annus` "het jaar", `oculus` "het oog", `exercitus` "het leger",
+   `faciēs` "het gezicht" — allemaal niet-onzijdig. De afleiding kijkt dan ook alleen naar
+   de verbuiging.
+3. **Twee woorden eruit gehaald:** 174 `alter` en 247 `plērīque`. De woordsoort-heuristiek
+   zet die op `znw`, maar het zijn voornaamwoordelijke bijvoeglijke naamwoorden met alle
+   drie de geslachten. Blijft 343 van de 345.
+
+### Waar ze staan, en waar ze nadrukkelijk níét staan
+`woordenlijst.md` is "overgetypt uit scans" en dat moet het blijven. De afgeleide waarden
+zijn daarom **niet** in de woordrijen geschoven, maar staan in één afgescheiden sectie
+achterin: *"Afgeleide geslachten — NIET uit het boek"*, met de regels, de nagegane
+uitzonderingen, en een tabel `nr · woord · genitief · geslacht · regel` — 190 rijen, stuk
+voor stuk na te rekenen.
+
+`maak-data.py` leest die tabel apart in (de sectie telt niet als woordenlijst mee), zet het
+geslacht in `vol` — het antwoord dat de app toont en verwacht — en markeert het met
+`ga: 1`. Het veld `v` blijft de letterlijke transcriptie, dus in Ontdek staat er naast
+*"Zoals gedrukt: avī"* nu ook *"Geslacht: m. — het boek geeft het niet bij dit woord;
+afgeleid uit de verbuiging"*. De herkomst blijft zichtbaar voor wie ernaar zoekt.
+
+**En het bouwscript laat geen gat meer toe.** `maak-data.py` stopt met een foutmelding als
+een `znw` geen geslacht heeft en ook niet in de twee-lijst staat, als een rij uit de
+afgeleide tabel niet bestaat, geen `znw` is, of al een gedrukt geslacht heeft. Een nieuw
+woord kan dus niet stil zonder geslacht binnenglippen.
+
+### Twee gaten die hierdoor zichtbaar werden
+1. **Strenge modus was soepeler dan de soepele.** `ac` werd gebouwd uit `{vorm, vol}`, en
+   `vorm` is de transcriptie zonder geslacht — dus `avi` werd in strenge modus aanvaard
+   terwijl de soepele het afkeurde. `ac` draagt het geslacht nu altijd mee.
+2. **Een fout geslacht moest overal fout zijn.** De veegtest probeert nu bij alle 343
+   woorden élk ánder geslacht en eist dat het fout is. Dat is de check die het oorspronkelijke
+   probleem van deze sectie afdekt: zonder die garantie kan de app een fout antwoord inoefenen.
+
+### Tests
+`smoke-14` van 18 naar 21 checks: de nieuwe telling (343 = 153 gedrukt + 190 afgeleid, en
+precies 174/247 zonder), de eis dat een afgeleid geslacht wél in `vol` maar nooit in `v`
+staat, en de "elk ander geslacht is fout"-veeg over alle 343. De meerkeuzevalstrik dekt nu
+341 van de 343; de twee zonder zijn `vīs` (geen genitief) en `rēs pūblica` (twee woorden).
+
+`smoke-1` (46) en `smoke-7` (17) hadden checks die `amīcī` zonder geslacht als juist
+verwachtten — dat is nu de nieuwe regel, geen regressie. Beide typen het geslacht er nu bij
+en kregen er een check bij die bewaakt dat een vergeten geslacht fout blijft, ook met een
+verder juiste vorm en zelfs met een tikfout erin.
+
+**Elf offline suites, samen 163 checks**, allemaal groen, plus 42/42 en 25/25 op de
+servertests.
+
+### Spec
+§7.2a herschreven: waar de 153 vandaan komen, waar de 190 vandaan komen, de regeltabel, de
+nagegane uitzonderingen, de twee uitzonderingswoorden, en de hardheid van het bouwscript.
+Aangepast: §3.1 (wat er in `woordenlijst.md` staat en wat er nadrukkelijk niet in hoort),
+§3.2 (`g`, nieuw `ga`, en `vol` dat het geslacht draagt), §7.2 (valstrik bij 341 van 343)
+en aanvaardingscriterium 48.
+
+### Wat dit betekent voor Robbe
+Elke genitiefvraag vraagt er vanaf nu naar — niet meer 153 maar 343 woorden. Zijn bestaande
+voortgang blijft staan en zakt terug waar ze niet meer klopt. Eén ding om in het oog te
+houden: bij die 190 woorden staat het geslacht **niet in zijn boek**. Als zijn leerkracht
+alleen toetst wat er gedrukt staat, oefent hij hier iets extra's — juist Latijn, maar meer
+dan gevraagd.
+
 ## 2026-09-14 (e) — Het geslacht hoort bij de genitief (§7.2a)
 
 ### Gevraagd
@@ -67,10 +168,9 @@ doet het geslacht er niet meer toe: `ducēs, m.` blijft "bijna".
    m. (mannelijk)."*
 
 ### Twee afwegingen
-- **Waar het boek zwijgt, straft de app niet.** Typt hij `amīcī, m.` bij een woord zonder
-  gedrukt geslacht, dan telt dat gewoon als juist. We hebben de gegevens niet om het na te
-  kijken en hebben er ook niet naar gevraagd; een juist antwoord fout rekenen omdat er
-  ongevraagde extra informatie bij staat, is de verkeerde kant om.
+- ~~**Waar het boek zwijgt, straft de app niet.**~~ Deze afweging is nog dezelfde dag
+  teruggedraaid — zie de volgende sectie. Ze was fout: stil "juist" zeggen tegen
+  `amīcī, v.` oefent een verkeerd geslacht in.
 - **Bestaande voortgang blijft staan** (David's keuze). Een genitiefvraag die op box 5
   stond en waar hij het geslacht vergeet, gaat gewoon fout en zakt naar box 1. Dat voelt de
   eerste ronde als een terugslag, maar het is wel de eerlijke stand: die vraag was nooit
