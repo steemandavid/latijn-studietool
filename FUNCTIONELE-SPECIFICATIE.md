@@ -4,8 +4,9 @@
 
 | | |
 |---|---|
-| Versie | 1.6 |
+| Versie | 1.7 |
 | Datum | 14 september 2026 |
+| Wijziging t.o.v. 1.6 | Twee correcties op de leermotor. **Antwoordbeoordeling** (§7.4): de leestekens tussen de betekenissen zijn geen leerstof meer — een vertaling wordt *opgedeeld* in aanvaarde betekenissen in plaats van op `, ` gesplitst, en labels (`(z.)`, `(b.)`, `mv.:`) en optionele letters (`sommige(n)`) mogen weg. Daardoor is `wie wat welke` bij `(z.) wie?, wat?; (b.) welke?` gewoon juist. **Beheerste items** (§4.3/§4.5): een item op box 5 dat de laatste beurten foutloos was, verdwijnt uit de onderhoudsvulling tot het echt due is, en onderhoud kiest het langst niet gestelde item in plaats van blind te loten. |
 | Wijziging t.o.v. 1.5 | Eigenaarsstempel op de lokale opslag: een tweede gebruiker op hetzelfde toestel begint met een schone lei en sleept de voortgang van zijn voorganger niet zijn account in (nieuw §13.5a). De caputs in "Jouw woordenlijst" klappen in en uit (§6.1), met `settings.mozDicht` in de save (§8.2). Het **versienummer van deze specificatie is het versienummer van de app**: het staat in de colofon (§6.0) en `bouw.py` leest het hiervandaan. |
 | Wijziging t.o.v. 1.4 | **Online modus** toegevoegd (nieuw hoofdstuk 13): centrale voortgang over meerdere toestellen, accounts met klascode + naam + PIN, meerdere klassen, een leesbaar logboek van alle spelers en hun acties. De app wordt vanaf nu in **twee builds** gemaakt uit hetzelfde `sjabloon.html` — offline (ongewijzigd, nul netwerkrequests) en online. Aangepast: §1.1, §2, §2.1, §2.2, §6.8, nieuw §8.5, §10, §11. Verantwoording en de meetresultaten op de echte hosting staan in `ONLINE-PLAN.md`. |
 | Wijziging t.o.v. 1.3 | Codereview-fixes doorgevoerd (zie `Code_Review_Phase1_20260910_2217.md`). Normering §7.4 aangescherpt (haakjes, kommadelen, `?`). Save krijgt een `app`-marker (§8.2/§8.3). Due-criteria in §4.3 eenduidig gemaakt (**én**, niet óf). Levelformule §5.1 verduidelijkt, examen-XP in de tabel opgenomen, tessera-ontgrendeling na een veroveringstoets expliciet toegestaan (§5.7). |
@@ -195,6 +196,12 @@ Identiek aan FLUO §4.2. Elk leeritem zit in box 0 t/m 5:
 - "Bijna juist" (§7.4) → box blijft gelijk, telt niet als fout.
 - Een item is **due** als de wachttijd verstreken is; er gelden **beide** criteria (aantal vragen én tijd). Box 1 kent geen tijdgrens, alleen de vier tussenliggende vragen.
 - **Vervroegd** heet een item dat de vragendrempel wel haalt maar de tijdgrens nog niet. Zo'n item mag gesteld worden wanneer het alternatief een herhaling binnen dezelfde ronde is (§4.5), niet eerder.
+- **Beheerst** heet een item op box 5 waarvan ook de **laatste twee beurten** foutloos waren (`opRij >= 2`, teller in de save, §8.2). De teller telt juist en tikfout mee, en gaat op **nul** bij fout én bij "bijna" — box 5 alléén is geen bewijs, want een "bijna" laat de box staan. Een beheerst item doet **niet** mee aan de onderhoudsvulling van §4.5 en komt dus pas terug wanneer het echt due is (≥ 70 vragen én ≥ 7 dagen).
+
+> Waarom: de onderhoudsvulling van §4.5 negeerde de wachttijd van box 5 volledig. In een
+> klein pakket bleef daardoor een woord dat hij twaalf keer op rij juist had elke ronde
+> terugkomen — vooral de vormvragen, die als tweede richting het langst in de rotatie
+> zitten. Beheerst zijn hoort te betekenen dat je ermee klaar bent.
 
 ### 4.4 Introductietempo — adaptief
 
@@ -262,13 +269,17 @@ Twee begrippen sturen het geheel:
    gesteld zijn en buiten het herhalingsvenster liggen:
      a. een due item, gewogen willekeurig, gewicht = (6 - box);
      b. een introductie uit box 0 op woordnummer, als er < `L` items in de lucht zijn (§4.4);
-     c. een onderhoudsvraag uit box 4 of 5;
+     c. een onderhoudsvraag uit box 4 of 5, **behalve beheerste items** (§4.3), en
+        daarbinnen het item dat het **langst niet gesteld** is (niet blind geloot: in
+        een klein pakket trok de loting telkens dezelfde handvol items);
      d. een vervroegd item, gewogen als in (a).
 4. Pas als dat alles niets oplevert mag herhaald worden: opnieuw (a), (d), (c),
    nu met de rondecap en een venster dat krimpt van 3 naar 2 woorden.
 5. Levert ook dat niets op, dan liever een nieuwe introductie — ook boven het
    plafond van tien — dan een derde beurt voor hetzelfde woord.
-6. Laatste redmiddel: om het even welk item behalve dat van de vorige vraag.
+6. Laatste redmiddel: om het even welk item behalve dat van de vorige vraag; nu
+   mogen de beheerste items er ook bij (langst niet gesteld eerst), anders staat
+   een volledig beheerst pakket stil.
 ```
 
 Extra regels:
@@ -676,10 +687,29 @@ Normalisatie vóór vergelijking (soepele modus, de standaard):
 - Elk deel van een opsomming is apart juist: bij `deze, dit` volstaat `deze`.
 - Bij meerdere betekenissen (`de plaats; de gelegenheid`) is **één correcte betekenis genoeg**. De feedback toont dan wel de volledige vertaling, met de melding *"Ook juist: de gelegenheid."*
 - Betekenissen zijn een **verzameling, geen rij**: geeft hij er meerdere, dan maakt de volgorde niet uit (`verzorgen, zorgen voor` = `zorgen voor, verzorgen`). Elk deel dat hij geeft moet wel kloppen en elk deel mag maar één keer voorkomen — een verkeerde betekenis erbij is fout.
+- De **scheidingstekens tussen de betekenissen zijn geen leerstof**. `,`, `;` en gewoon
+  een spatie zijn inwisselbaar, en ze mogen door elkaar gebruikt worden. Het antwoord
+  wordt daarom niet op `, ` gesplitst maar **opgedeeld**: bestaat er een manier om de hele
+  woordenreeks te dekken met aanvaarde betekenissen, elk hoogstens één keer gebruikt, dan
+  is het antwoord juist. Bij `(z.) wie?, wat?; (b.) welke?` zijn `wie, wat, welke`,
+  `wie wat welke` en `wie?, wat? welke?` dus alle drie juist; `wie wie` en
+  `wie wat welke dat` blijven fout.
+- **Labels en toeslicht mogen weg.** Haakjes en hun inhoud (`(z.)`, `(b.)`,
+  `(romeins marktplein)`) en een label met dubbele punt (`mv.:`) zijn optioneel. Staat er
+  een optionele letter tussen haakjes (`sommige(n)`), dan zijn beide vormen juist:
+  `sommige` en `sommigen`.
+
+> Waarom zo: met een vaste split op `, ` werd elke afwijkende scheiding één lang,
+> onherkenbaar deel — en dus fout. Wie bij `(z.) wie?, wat?; (b.) welke?` alle drie de
+> betekenissen kende maar de puntkomma en het label anders zette, kreeg fout. Dat toetst
+> leestekens, geen Latijn.
 
 **Bij `L2V` (vorm):**
 - Zowel de gedrukte (`~a, ~um`) als de uitgeschreven vorm (`bona, bonum`) is juist.
 - De geslachtsaanduiding is optioneel: `ducis` en `ducis, m.` zijn beide juist.
+- Een vorm is **één geheel, geen opsomming**: volgorde en volledigheid tellen wél. Maar
+  ook hier is de scheiding geen leerstof — `ūnus, ūna, ūnum; ūnīus` en `unus una unum unius`
+  zijn hetzelfde antwoord, `unus una unum` blijft onvolledig en dus fout.
 
 **Tikfouten.** Een tikfout is een motorische misser, geen kennisfout: ze mag een reeks
 niet breken. Ze telt daarom **als juist**, met alleen een kleine XP-korting en de juiste
@@ -780,8 +810,8 @@ dan is dat geen kennisfout maar een leesfout.
   },
   "items": {
     // sleutel = "<nr>:<richting>"
-    "2:L2N": { "box": 4, "juist": 7, "fout": 1, "laatstGezien": "...", "vragenSindsdien": 0 },
-    "2:L2V": { "box": 2, "juist": 3, "fout": 2, "laatstGezien": "...", "vragenSindsdien": 0 }
+    "2:L2N": { "box": 4, "juist": 7, "fout": 1, "laatstGezien": "...", "vragenSindsdien": 0, "mcSinds": 0, "opRij": 4 },
+    "2:L2V": { "box": 2, "juist": 3, "fout": 2, "laatstGezien": "...", "vragenSindsdien": 0, "mcSinds": 1, "opRij": 0 }
     // items in box 0 mogen ontbreken
   },
   "badges":   { "primus-gradus": "2026-09-01T19:12:00.000Z" },
@@ -803,6 +833,7 @@ dan is dat geen kennisfout maar een leesfout.
 - Corrupte JSON → veilig terugvallen op een leeg profiel, zonder crash.
 - Wegschrijven na elke beantwoorde vraag én bij het einde van een ronde.
 - Onbekende woordnummers in een geladen save (bv. na een correctie in de woordenlijst) worden stil genegeerd, niet als crash.
+- Een save van vóór versie 1.7 kent `opRij` (§4.3) niet. Die items krijgen bij het inlezen `opRij = 2` als ze op **box 5** staan, en anders `0`: box 5 is alleen langs juiste antwoorden te bereiken (een fout zet terug naar box 1), dus zo'n item was al beheerst. Zowel de app als het samenvoegen op de server (§13.5) past diezelfde regel toe, zodat een sync die aanname niet ongedaan maakt.
 
 ### 8.5 Synchronisatie (alleen de online build)
 
@@ -1017,6 +1048,8 @@ latijn-studietool/
 43. De beheerpagina toont nooit gegevens zonder geldige beheersleutel, voert namen en logregels nooit als HTML uit, en toont bij een gekozen klas alleen die klas (§13.8c). Smoke-11 controleert dit.
 44. De mozaïeken van §13.10 komen vrij op gouden woorden van de hele klas: hetzelfde woord telt nooit twee keer, een leerling ziet zijn eigen aandeel en dat van niemand anders, en per leerling tellen er hoogstens 40 woorden per dag mee.
 45. De steentjes vallen verspreid: bij een stand van 4 % raken ze minstens tien van de vierentwintig vakken van het vlak en heeft een gelegd steentje gemiddeld minder dan anderhalve gelegde buur — een aaneengesloten vlek zit rond 3,5. Smoke-12 meet dit.
+46. De leestekens tussen de betekenissen tellen niet mee (§7.4): bij `(z.) wie?, wat?; (b.) welke?` zijn `wie, wat, welke`, `wie wat welke` en `wie?, wat? welke?` alle drie juist, terwijl `wie wie` en `wie wat welke dat` fout blijven. Voor elk van de 1051 woorden wordt de eigen gedrukte vertaling ook zonder komma's en puntkomma's aanvaard, en een vorm ook zonder zijn scheidingstekens — zonder dat de vertaling van een ánder woord daardoor juist wordt. Smoke-13 meet dit.
+47. Een beheerst item (§4.3) komt niet terug als onderhoudsvulling: zolang er nog due of niet-beheerste onderhoudsitems buiten het herhalingsvenster liggen, wordt er geen enkel beheerst item gesteld, en de vulling rouleert — twintig vragen op rij leveren twintig verschillende items op in plaats van dezelfde handvol. Onderhoud kiest telkens het item dat het langst niet gesteld is. Alleen als er echt niets anders over is (stap 6 van §4.5) mag een beheerst item er weer bij, zodat een volledig beheerst pakket niet stilvalt. Smoke-13 meet dit.
 
 ---
 
@@ -1130,7 +1163,7 @@ De client stuurt de **wijziging sinds zijn laatste sync**. De server voegt samen
 
 | Veld | Regel |
 |---|---|
-| `items["<nr>:<richting>"]` | per item: de kant met de nieuwste `laatstGezien` bepaalt `box`, `vragenSindsdien` en `mcSinds`; `juist` en `fout` nemen het **maximum** |
+| `items["<nr>:<richting>"]` | per item: de kant met de nieuwste `laatstGezien` bepaalt `box`, `vragenSindsdien`, `mcSinds` en `opRij` (§4.3); `juist` en `fout` nemen het **maximum** |
 | `profiel.xp`, `besteCombo`, `blitzRecord`, `totaalJuist`, `totaalFout`, `vormJuist`, `vormFout`, `totaalRondes`, `totaleTijdMs` | **maximum** (monotoon stijgende tellers) |
 | `profiel.streakGeschiedenis` | vereniging van de dagen; `streak` en `laatsteActieveDag` worden daaruit **herberekend**, niet overgenomen |
 | `profiel.tempo` | van de kant met de nieuwste activiteit |

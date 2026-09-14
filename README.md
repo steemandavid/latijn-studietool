@@ -27,6 +27,10 @@ builds uit dezelfde bron**:
 - **Het mozaïek** op het beginscherm — alle 1051 woorden als één cel per woord, dat
   langzaam goud kleurt naarmate je ze beheerst.
 - XP, levels, combo's, dagstreak, 20 badges en 20 tesserae.
+- **Beheerste woorden komen niet meer terug** zolang ze niet écht aan herhaling toe zijn:
+  een item op box 5 waarvan ook de laatste beurten foutloos waren, valt uit de
+  onderhoudsvulling en wacht zijn 70 vragen én 7 dagen af. De vulling kiest bovendien het
+  item dat het langst niet gesteld is, in plaats van te loten (§4.3/§4.5).
 - **Adaptief leertempo**: hoe juist én hoe snel je antwoordt bepaalt hoeveel nieuwe woorden
   er tegelijk in behandeling zijn (5 tot 14, standaard automatisch) en hoe ver twee beurten
   van hetzelfde woord uit elkaar liggen. Minder nieuw materiaal betekent vanzelf meer
@@ -37,7 +41,10 @@ builds uit dezelfde bron**:
 - Antwoordbeoordeling die macrons nooit verplicht, meerdere betekenissen in gelijk welke
   volgorde aanvaardt en een tikfout als juist rekent (met de juiste spelling in de
   feedback) — behalve wanneer het een geldig antwoord van een ánder woord is, of wanneer
-  bij een vormvraag de uitgang niet klopt.
+  bij een vormvraag de uitgang niet klopt. Ook de **leestekens tussen de betekenissen zijn
+  geen leerstof**: een vertaling wordt opgedeeld in aanvaarde betekenissen, dus bij
+  `(z.) wie?, wat?; (b.) welke?` zijn `wie, wat, welke` en `wie wat welke` net zo juist.
+  Labels (`(z.)`, `(b.)`, `mv.:`) en optionele letters (`sommige(n)`) mogen weg (§7.4).
 - Meerkeuze bij een vormvraag varieert op de **uitgang**, niet op de stam: de vier opties
   zijn vormen van hetzelfde woord (`amīcī / amīcae / amīcis / amīcūs`), zodat de juiste
   stam herkennen niet meer volstaat.
@@ -99,15 +106,16 @@ al op de machine stond — pas `executablePath` aan als die er niet meer is.
 for t in test/smoke-*.js; do node "$t" || break; done
 ```
 
-Negen suites, samen 124 checks; groen = exit 0. Daarnaast voor de online modus
+Tien offline suites, samen 135 checks; groen = exit 0. Daarnaast voor de online modus
 `php test/samenvoegen-test.php` en `php test/grenzen-test.php` (geen server nodig), en met
 een beheersleutel `node test/api-test.js` en `node test/smoke-10-online-sync.js` tegen de
 echte server — zie `test/LEESMIJ.txt`. De belangrijkste test is de invariant in
 smoke-1 en smoke-3: voor alle 1806 leeritems moet het antwoord dat de app zelf toont ook
 door de app aanvaard worden, met en zonder macrons, in soepele en in strenge modus.
 Smoke-8 legt het adaptieve tempo vast (grenswaarden, lengtecorrectie bij typen, een echte
-ronde door de UI) en smoke-9 de herkansing bij een misgelezen vraag (alle tellers vóór en
-ná vergeleken).
+ronde door de UI), smoke-9 de herkansing bij een misgelezen vraag (alle tellers vóór en
+ná vergeleken) en smoke-13 het opdelen van een vertaling in betekenissen plus het uit de
+rotatie vallen van beheerste items.
 
 ## Herkomst van de woordenlijst
 

@@ -799,7 +799,7 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
 
 
 <footer class="colofon"><div class="wrap">
-  © 2026 Robbe en David Steeman<span class="sep">·</span>v1.6<span class="sep">·</span><a
+  © 2026 Robbe en David Steeman<span class="sep">·</span>v1.7<span class="sep">·</span><a
     href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener"
     >CC BY-NC-SA 4.0</a><span class="sep">·</span><a
     href="https://github.com/steemandavid/latijn-studietool" target="_blank" rel="noopener"
@@ -1443,7 +1443,11 @@ function zetSave(d, uitBestand){
       juist: Math.max(0, it.juist|0), fout: Math.max(0, it.fout|0),
       laatstGezien: typeof it.laatstGezien === "string" ? it.laatstGezien : null,
       vragenSindsdien: Number.isFinite(+it.vragenSindsdien) ? (+it.vragenSindsdien|0) : 99,
-      mcSinds: Math.max(0, it.mcSinds|0)
+      mcSinds: Math.max(0, it.mcSinds|0),
+      // Oudere saves kennen opRij niet. Box 5 is alleen langs juiste antwoorden te
+      // bereiken (een fout zet terug naar box 1), dus die items golden al als beheerst.
+      opRij: Math.max(0, Number.isFinite(+it.opRij) ? (+it.opRij|0)
+                                                    : ((it.box|0) === 5 ? BEHEERST_OPRIJ : 0))
     };
   }
   S.badges = {}; S.tesserae = {};
@@ -1529,8 +1533,15 @@ const RICHTINGEN = w => w.soort === "geen" ? ["L2N"] : ["L2N","L2V"];
 const iKey = (nr, r) => nr + ":" + r;
 function item(nr, r){
   const k = iKey(nr, r);
-  return S.items[k] || (S.items[k] = {box:0, juist:0, fout:0, laatstGezien:null, vragenSindsdien:99, mcSinds:0});
+  return S.items[k] || (S.items[k] = {box:0, juist:0, fout:0, laatstGezien:null,
+                                      vragenSindsdien:99, mcSinds:0, opRij:0});
 }
+/* Beheerst (§4.3): box 5 én de laatste beurten foutloos. Zo'n item verdwijnt uit de
+   onderhoudsvulling van §4.5 en komt pas terug wanneer het écht due is — anders blijft
+   een woord dat hij twaalf keer op rij juist had toch elke ronde langskomen. Een "bijna"
+   zet de teller terug: box 5 alléén is geen bewijs, want een bijna laat de box staan. */
+const BEHEERST_OPRIJ = 2;
+const isBeheerst = it => it.box === 5 && (it.opRij|0) >= BEHEERST_OPRIJ;
 let vraagTeller = 0;
 let NIEUW_GOUD = new Set();   // woorden die deze ronde goud werden -> flits in het mozaïek
 
@@ -1652,24 +1663,37 @@ function gewogenKeuze(pool){
   for(const x of pool){ p -= (6 - x.it.box); if(p <= 0) return x; }
   return pool[pool.length - 1];
 }
+/* Onderhoud wordt op ouderdom gekozen, niet blind willekeurig: in een klein pakket
+   trok de loting telkens dezelfde handvol items, zodat hetzelfde woord bleef komen
+   terwijl even goede buren wachtten. Wie het langst niet aan bod kwam, gaat voor. */
+function oudsteKeuze(pool){
+  let best = -1, top = [];
+  for(const x of pool){
+    const n = x.it.vragenSindsdien|0;
+    if(n > best){ best = n; top = [x]; }
+    else if(n === best) top.push(x);
+  }
+  return kies(top);
+}
 
 function kiesVraag(){
-  const due = [], onderhoud = [], vervroegd = [];
+  const due = [], onderhoud = [], vervroegd = [], beheerst = [];
   for(const nr of PAK){
     const w = BY_NR[nr];
     for(const r of RICHTINGEN(w)){
       const it = item(nr, r);
       if(r === "L2V" && item(nr,"L2N").box < 2) continue;
       if(isDue(it)) due.push({nr, r, it});
+      else if(isBeheerst(it)) beheerst.push({nr, r, it});   // uit de rotatie tot het due is
       else if(it.box >= 4) onderhoud.push({nr, r, it});
       else if(it.box >= 2 && isDueOpVragen(it)) vervroegd.push({nr, r, it});
     }
   }
   // cap 1 = deze ronde nog niet aan bod geweest; het venster wordt pas versoepeld
   // als er echt niets vers meer over is.
-  const probeer = (lijst, venster, cap, gewogen) => {
+  const probeer = (lijst, venster, cap, pik) => {
     const pool = lijst.filter(x => rondeTel(x.nr) < cap && nietRecent(x.nr, venster));
-    return pool.length ? (gewogen ? gewogenKeuze(pool) : kies(pool)) : null;
+    return pool.length ? (pik || kies)(pool) : null;
   };
   const intro = venster => {
     const n = volgendeIntro(nr => nietRecent(nr, venster));
@@ -1677,22 +1701,25 @@ function kiesVraag(){
   };
   let v;
   const VENSTER = vensterNu();                                  // §4.4: 4, 5 of 6
-  if((v = probeer(due, VENSTER, 1, true))) return v;            // 1. gewoon due
+  if((v = probeer(due, VENSTER, 1, gewogenKeuze))) return v;    // 1. gewoon due
   if(inLucht() < luchtMax() && (v = intro(VENSTER))) return v;  // 2. vers materiaal
-  if((v = probeer(onderhoud, VENSTER, 1, false))) return v;     // 3. onderhoud uit box 4/5
+  // 3. onderhoud uit box 4/5, het langst niet gestelde item eerst — beheerste items
+  //    (§4.3) zitten hier niet bij: die wachten tot ze echt due zijn.
+  if((v = probeer(onderhoud, VENSTER, 1, oudsteKeuze))) return v;
   // 4. vervroegd: genoeg vragen ertussen, alleen de klok is nog niet rond — beter
   //    dan hetzelfde woord een tweede keer, en meteen een typvraag.
-  if((v = probeer(vervroegd, VENSTER, 1, true))) return v;
+  if((v = probeer(vervroegd, VENSTER, 1, gewogenKeuze))) return v;
   // 5. herhalen mag nu, begrensd op MAX_RONDE en met een krimpend venster
   for(const venster of [3, 2]){
-    if((v = probeer(due, venster, MAX_RONDE, true))) return v;
-    if((v = probeer(vervroegd, venster, MAX_RONDE, true))) return v;
-    if((v = probeer(onderhoud, venster, MAX_RONDE, false))) return v;
+    if((v = probeer(due, venster, MAX_RONDE, gewogenKeuze))) return v;
+    if((v = probeer(vervroegd, venster, MAX_RONDE, gewogenKeuze))) return v;
+    if((v = probeer(onderhoud, venster, MAX_RONDE, oudsteKeuze))) return v;
   }
   // 6. liever een nieuw woord dan een derde beurt, ook boven het introductieplafond
   if((v = intro(2))) return v;
-  // 7. laatste redmiddel: de ronde moet door
-  if((v = probeer(due.concat(vervroegd, onderhoud), 1, 99, true))) return v;
+  // 7. laatste redmiddel: de ronde moet door — nu mogen de beheerste items er ook bij,
+  //    het langst niet gestelde eerst, anders staat een volledig beheerst pakket stil.
+  if((v = probeer(due.concat(vervroegd, onderhoud, beheerst), 1, 99, oudsteKeuze))) return v;
   const nrs = PAK.filter(n => nietRecent(n, 1));
   const nr = kies(nrs.length ? nrs : PAK);
   return nr != null ? {nr, r:"L2N", it:item(nr,"L2N")} : null;
@@ -1743,9 +1770,21 @@ function aanvaard(w, r, streng){
 const ontdubbel  = s => s.replace(/(.)\1+/g, "$1");
 const tolerantie = a => a.length >= 10 ? 2 : a.length >= 4 ? 1 : 0;
 const deelLijst  = s => s.split(", ").map(x => x.trim()).filter(Boolean);
+/* Haakjestoeslicht en labels — "(z.)", "(b.)", "(romeins marktplein)", "mv.:" — horen
+   niet bij het antwoord (§7.4) en mogen dus ook wegvallen in wat hij typt. `kaal` gooit
+   ze weg; `ontHaak` haalt alleen de haakjes weg en houdt de inhoud, want in
+   "sommige(n)" staat er een optionele létter tussen, geen toelichting. */
+const LABEL = /^(?:[a-z]{1,3}\.)+:\s*/;
+const kaal    = s => s.replace(/\s*\([^)]*\)/g, " ").replace(/\s+/g, " ").trim().replace(LABEL, "");
+const ontHaak = s => s.replace(/[()]/g, "").replace(/\s+/g, " ").trim();
 function deelSet(lijst){
   const uit = new Set();
-  for(const a of lijst) for(const d of deelLijst(a)) uit.add(d);
+  const voeg = x => { if(x && x.length >= 2) uit.add(x); };
+  for(const a of lijst) for(const d of deelLijst(a)){
+    voeg(d); voeg(kaal(d));
+    const h = ontHaak(d);
+    if(h !== d){ voeg(h); voeg(kaal(h)); }
+  }
   return uit;
 }
 function staart(a, b){                     // lengte van het gemeenschappelijke einde
@@ -1805,6 +1844,38 @@ function tikfout(g, kandidaten, r){
   return best || bijna;
 }
 
+/* --- opdelen van een vertaling in aanvaarde betekenissen (§7.4) ---------------
+   De leestekens tússen de betekenissen zijn geen leerstof. "wie, wat; welke",
+   "wie wat welke" en "wie?, wat? welke?" zijn hetzelfde antwoord, maar een vaste
+   split op ", " maakte van elke afwijkende scheiding één lang onherkenbaar deel —
+   en dus fout. Daarom worden alle scheidingstekens tot spaties herleid en zoekt
+   `opdeling()` een manier om de woordenreeks helemaal te dekken met aanvaarde
+   betekenissen. Elke betekenis mag daarbij hoogstens één keer meedoen, zodat
+   "wie wie" fout blijft, en een deel dat alleen binnen de tikfoutmarge past maakt
+   het geheel een tikfout — precies zoals bij een enkele betekenis. */
+const woordenVan = g => g.replace(/[,;]\s/g, " ").split(" ").filter(Boolean);
+const MAX_DELEN = 14;                    // langer dan de langste gedrukte vertaling
+function opdeling(wrd, i, set, gebruikt){
+  if(i >= wrd.length) return [];
+  for(let j = wrd.length; j > i; j--){   // langste stuk eerst: "(z.) wie" vóór "wie"
+    const stuk = wrd.slice(i, j).join(" ");
+    const k = kaal(stuk);
+    let naam = set.has(stuk) ? stuk : (k !== stuk && set.has(k)) ? k : null;
+    let tik = null;
+    if(!naam){
+      const t = tikfout(stuk, set, "L2N");
+      if(!t || t.uit !== "tikfout") continue;
+      naam = t.bedoeld; tik = t;
+    }
+    if(gebruikt.has(naam)) continue;
+    gebruikt.add(naam);
+    const rest = opdeling(wrd, j, set, gebruikt);
+    if(rest) return tik ? [tik].concat(rest) : rest;
+    gebruikt.delete(naam);
+  }
+  return null;
+}
+
 function beoordeel(invoer, w, r){
   const streng = S.settings.strengheid === "streng";
   const g = streng ? normStreng(invoer) : norm(invoer);
@@ -1814,23 +1885,22 @@ function beoordeel(invoer, w, r){
   if(streng) return {uit:"fout"};
 
   if(r === "L2V"){                         // een vorm is één geheel, geen opsomming
+    /* Wel is ook hier de scheiding tussen de vormen geen leerstof: "unus una unum"
+       is dezelfde reeks als "unus, una, unum". Volgorde en volledigheid tellen nog. */
+    const kern = s => s.replace(/[,;]/g, " ").replace(/\s+/g, " ").trim();
+    const gk = kern(g);
+    if(lijst.some(a => kern(a) === gk)) return {uit:"juist"};
     const k = tikfout(g, lijst, r);
     return k ? {uit:k.uit, bedoeld:k.bedoeld} : {uit:"fout"};
   }
   /* Betekenissen zijn een verzameling, geen rij: "verzorgen, zorgen voor" is even juist
      als "zorgen voor, verzorgen", en één betekenis volstaat nog altijd. Elk deel dat hij
      geeft moet wel kloppen, anders is een verkeerde betekenis er gratis bij. */
-  const delen = deelLijst(g);
-  if(new Set(delen).size !== delen.length) return {uit:"fout"};
-  const set = deelSet(lijst);
-  let tik = null;
-  for(const d of delen){
-    if(set.has(d)) continue;
-    const k = tikfout(d, set, r);
-    if(!k || k.uit !== "tikfout") return {uit:"fout"};
-    tik = tik || k;
-  }
-  return tik ? {uit:"tikfout", bedoeld:tik.bedoeld} : {uit:"juist"};
+  const wrd = woordenVan(g);
+  if(!wrd.length || wrd.length > MAX_DELEN) return {uit:"fout"};
+  const tikken = opdeling(wrd, 0, deelSet(lijst), new Set());
+  if(!tikken) return {uit:"fout"};
+  return tikken.length ? {uit:"tikfout", bedoeld:tikken[0].bedoeld} : {uit:"juist"};
 }
 
 /* --- afleiders voor meerkeuze --- */
@@ -2611,7 +2681,7 @@ function verwerk(uit, w, v, ctx){
      gewoon door. Alleen de XP is iets lager, zodat spelling nog iets betekent. */
   const goed = uit === "juist" || uit === "tikfout";
   if(goed){
-    it.juist++; p.totaalJuist++;
+    it.juist++; p.totaalJuist++; it.opRij = (it.opRij|0) + 1;
     if(v.r === "L2V") p.vormJuist++;
     const oud = it.box;
     if(Q.modus === "blitz"){
@@ -2636,12 +2706,13 @@ function verwerk(uit, w, v, ctx){
     if(ctx.getypt){ p.typStreak++; if(p.typStreak > p.besteTypStreak) p.besteTypStreak = p.typStreak; }
     if(!stil){ sfx("goed"); flits("var(--goed)"); }
   } else if(uit === "bijna"){
+    it.opRij = 0;                          // de box blijft staan, de reeks niet
     xp = Math.round((ctx.getypt ? 10 : 5) * comboMult(combo));
     Q.bijna++;
     if(stil) Q.missers.push({nr:w.nr, r:v.r, bijna:true});  // ook bijna haalt de 100 % niet
     if(!stil){ sfx("bijna"); flits("var(--bijna)"); }
   } else {
-    it.fout++; p.totaalFout++;
+    it.fout++; p.totaalFout++; it.opRij = 0;
     if(v.r === "L2V") p.vormFout++;
     const inp = $("#tIn");
     if(!stil && inp && magBewegen()){ inp.classList.add("schud");

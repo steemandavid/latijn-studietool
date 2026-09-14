@@ -14,6 +14,7 @@ const VERBA_MONOTOON = ['xp','level','besteCombo','blitzRecord','totaalJuist','t
                         'vormJuist','vormFout','besteTypStreak','totaalRondes','totaleTijdMs'];
 const VERBA_NU_VELDEN = ['combo','typStreak','tempo'];   // van de kant met de nieuwste activiteit
 const VERBA_HISTORIEK_MAX = 60;                          // zoals de app zelf (§5.3)
+const VERBA_BEHEERST_OPRIJ = 2;                          // zoals de app zelf (§4.3)
 
 function vgObject(mixed $x): ?array {
   return (is_array($x) && !array_is_list($x)) ? $x : null;
@@ -84,7 +85,17 @@ function vgVoegItemSamen(?array $a, ?array $b, string $nu): array {
     'laatstGezien'    => ($tb > $ta) ? ($tb ?: null) : ($ta ?: null),
     'vragenSindsdien' => (int) vgGetal($nieuwste['vragenSindsdien'] ?? 99),
     'mcSinds'         => (int) vgGetal($nieuwste['mcSinds'] ?? 0),
+    // De reeks foutloze beurten (§4.3) hoort bij waar het item stáát, net als de box:
+    // de nieuwste kant weet dat, de som van twee toestellen zou hem verzinnen.
+    'opRij'           => vgOpRij($nieuwste),
   ];
+}
+/** Saves van vóór §4.3 kennen opRij niet. Box 5 is alleen langs juiste antwoorden te
+ *  bereiken (een fout zet terug naar box 1), dus zo'n item gold al als beheerst — net
+ *  zoals de app zelf die oude saves leest. */
+function vgOpRij(array $it): int {
+  if (isset($it['opRij']) && is_numeric($it['opRij'])) return (int) max(0, vgGetal($it['opRij']));
+  return ((int) vgGetal($it['box'] ?? 0) === 5) ? VERBA_BEHEERST_OPRIJ : 0;
 }
 function vgSchoonItem(array $it, string $nu): array {
   return [
@@ -94,6 +105,7 @@ function vgSchoonItem(array $it, string $nu): array {
     'laatstGezien'    => vgKlemTijd($it['laatstGezien'] ?? null, $nu),
     'vragenSindsdien' => (int) vgGetal($it['vragenSindsdien'] ?? 99),
     'mcSinds'         => (int) vgGetal($it['mcSinds'] ?? 0),
+    'opRij'           => vgOpRij($it),
   ];
 }
 

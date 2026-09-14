@@ -27,7 +27,7 @@ op 0, en nooit dalend.
 
 Sinds de review van 2026-09-11:
 - Elke suite heeft echte asserts en een exit-code: groen = exit 0, rood = exit 1.
-  Draai ze alle negen met:  for t in test/smoke-*.js; do node "$t" || break; done
+  Draai ze allemaal met:  for t in test/smoke-*.js; do node "$t" || break; done
 - smoke-3 schrijft zijn screenshots naar test/shots/ (automatisch aangemaakt),
   niet meer naar een tijdelijk /tmp-pad.
 
@@ -101,3 +101,14 @@ wacht een kwartier, of draai tegen /verba-test/.
 De beheersleutel staat niet in de repo. Kwijt? Dan maak je een nieuwe hash met
 `php -r 'echo password_hash("nieuwe-sleutel", PASSWORD_ARGON2ID);'` en zet je die in
 server/config.php op de server.
+
+smoke-13 (2026-09-14) bewaakt de twee correcties van spec 1.7, criteria 46 en 47:
+- De antwoordbeoordeling deelt een vertaling OP in aanvaarde betekenissen in plaats van
+  ze op ", " te splitsen (§7.4). Hij legt het voorbeeld uit de spec vast — bij
+  "(z.) wie?, wat?; (b.) welke?" zijn "wie, wat, welke", "wie wat welke" en
+  "wie?, wat? welke?" alle drie juist, terwijl "wie wie" fout blijft — en veegt daarna
+  de hele lijst: elke gedrukte vertaling en elke gedrukte vorm wordt ook zonder haar
+  scheidingstekens aanvaard, zonder dat de vertaling van een ánder woord juist wordt.
+- Een beheerst item (box 5 + twee foutloze beurten, §4.3) verdwijnt uit de
+  onderhoudsvulling van §4.5, de teller overleeft een oude save zonder `opRij`, en
+  onderhoud kiest het item dat het langst niet gesteld is.

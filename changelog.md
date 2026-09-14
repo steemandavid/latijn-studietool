@@ -1,5 +1,115 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-14 (d) — Antwoorden met meerdere betekenissen, en woorden die blijven terugkomen
+
+### Gevraagd
+Twee klachten uit het echte gebruik:
+
+1. Bij `quis?, quid?; quī, quae, quod?` is het antwoord `(z.) wie?, wat?; (b.) welke?`.
+   Meer dan één afwijking — de `(b.)` vergeten bijvoorbeeld — scoorde fout. Er moest een
+   betere manier van nakijken komen.
+2. Robbe heeft woorden waarvan hij **4 keer** de vertaling juist had en **12 keer** de
+   vorm. Vormvragen die hij consistent juist beantwoordt, horen niet te blijven komen.
+
+### 1. De oorzaak was de splitsing, niet de tolerantie
+`beoordeel()` splitste een getypte vertaling op `", "` en keek elk deel op in de
+verzameling aanvaarde betekenissen. Dat werkt zolang hij precies dezelfde leestekens
+gebruikt als het boek. Zet hij de puntkomma anders of laat hij de komma's weg, dan wordt
+het hele antwoord **één lang onherkenbaar deel** — en dus fout. Gemeten op woord 162:
+
+| getypt | vroeger | nu |
+| --- | --- | --- |
+| `wie, wat, welke` | juist | juist |
+| `wie wat welke` | **fout** | juist |
+| `wie?, wat? welke?` | **fout** | juist |
+| `(z) wie, wat; (b) welke` | tikfout (gered door de tikfoutmarge) | juist |
+| `wie wie` | fout | fout |
+| `wie wat welke dat` | fout | fout |
+
+De nieuwe regel: `,`, `;` en een gewone spatie zijn inwisselbaar, en het antwoord wordt
+**opgedeeld** in plaats van gesplitst. `opdeling()` zoekt met backtracking (langste stuk
+eerst) een manier om de hele woordenreeks te dekken met aanvaarde betekenissen, elk
+hoogstens één keer gebruikt — dus blijft `wie wie` fout en een verzonnen betekenis erbij
+ook. Daarbovenop zijn labels optioneel: haakjes en hun inhoud (`(z.)`, `(b.)`,
+`(romeins marktplein)`), een label met dubbele punt (`mv.:`), en een optionele letter
+tussen haakjes, waardoor `sommige(n)`, `sommige` én `sommigen` alle drie juist zijn.
+
+Bij een vormvraag (`L2V`) blijven volgorde en volledigheid wél tellen — een vorm is één
+geheel — maar ook daar is de scheiding geen leerstof: `unus una unum unius` =
+`ūnus, ūna, ūnum; ūnīus`, terwijl `unus una unum` onvolledig en dus fout blijft.
+
+> Waarom dit de goede grens is: een vaste split toetst leestekens, geen Latijn. Een
+> opdeling toetst of hij de betekenissen kent, en niets anders.
+
+### 2. Beheerst zijn moet betekenen dat je ermee klaar bent
+De onderhoudsvulling van §4.5 (stap 3) nam **elk** item met box ≥ 4, los van de wachttijd.
+De boxtabel belooft voor box 5 "na ≥ 70 andere vragen én ≥ 7 dagen", maar die belofte werd
+elke ronde door de vulling overreden. En de keuze eruit was blinde loting, dus in een klein
+pakket trok ze telkens dezelfde handvol items. Vandaar twaalf keer dezelfde vormvraag —
+vooral vormvragen, omdat die als tweede richting het langst in de rotatie zitten.
+
+Twee ingrepen:
+
+- **Beheerst** (nieuw begrip in §4.3): box 5 **én** de laatste twee beurten foutloos, geteld
+  in `opRij` per item. De teller telt juist en tikfout mee en gaat op nul bij fout én bij
+  "bijna" — box 5 alléén is geen bewijs, want een "bijna" laat de box staan. Een beheerst
+  item doet niet meer mee aan de onderhoudsvulling en komt pas terug als het écht due is.
+- **Onderhoud kiest op ouderdom** (`oudsteKeuze`), niet op loting: het item dat het langst
+  niet gesteld is, gaat voor.
+
+Valt er echt niets anders meer te vragen, dan mogen de beheerste items er in stap 6 weer
+bij — een volledig beheerst pakket mag niet stilvallen.
+
+**Migratie zonder werk voor Robbe.** Oude saves kennen `opRij` niet. Items op box 5 krijgen
+hem bij het inlezen op 2: box 5 is alleen langs juiste antwoorden te bereiken (een fout zet
+terug naar box 1), dus die golden al als beheerst. Dezelfde regel staat in
+`server/samenvoegen.php` (`vgOpRij()`), anders zou de eerste sync de aanname weer wissen.
+
+### Spec naar 1.7
+Bijgewerkt: §4.3 (beheerst + waarom), §4.5 (stap 3c en stap 6), §7.4 (opdelen, labels, de
+scheiding bij `L2V`), §8.2 (`opRij` in het schema), §8.4 (migratie), §13.5 (samenvoegen) en
+twee nieuwe aanvaardingscriteria, 46 en 47.
+
+### Tests
+Nieuw: `test/smoke-13-beoordeling-en-beheerst.js`, 11 checks — het voorbeeld uit de spec,
+een veegtest over de hele lijst (elke gedrukte vertaling en elke gedrukte vorm ook zónder
+haar scheidingstekens aanvaard, zonder dat de vertaling van een ánder woord juist wordt),
+de `opRij`-teller met de bijna-reset, de migratie van een save zonder `opRij`, en twintig
+vragen op rij die twintig verschillende items opleveren zonder één beheerst item.
+
+Twee checks faalden eerst; beide keren was de test fout, niet de code:
+
+- `omdat` bij `toen; omdat; hoewel` is een echt synoniem, geen vals positief.
+- Een pakket waarvan álles op één item na beheerst is, *moet* terugvallen op stap 6 — het
+  herhalingsvenster laat dat ene item niet twee keer na elkaar toe. De test zet nu één
+  woord op de vier niet-beheerst.
+
+Alle bestaande suites groen: smoke-1 t/m 9 samen 124 checks (waaronder de invariant over
+alle 1806 leeritems), `samenvoegen-test.php` 42/42, `grenzen-test.php` 25/25. Totaal
+**135 offline checks**. Smoke-10 t/m 12 vragen een `VERBA_BEHEER`-sleutel en zijn niet
+gedraaid.
+
+### Gepubliceerd
+Build `14-09 16:54`, per curl over FTP (`~/.netrc`), en live geverifieerd:
+
+| Bestand | Doel | Grootte |
+| --- | --- | --- |
+| `verba-online/index.html` | `/verba/index.html` | 740 117 B |
+| `verba-online/index.html` | `/verba-test/index.html` (voor smoke-10) | 740 117 B |
+| `verba/index.html` | `/verba/verba-offline.html` | 936 266 B |
+| `server/samenvoegen.php` | `/verba/api/v1/samenvoegen.php` | 8 969 B |
+
+Controle met cache-bust (`?v=$RANDOM`): alle drie HTTP 200 en byte-identiek aan de lokale
+build, colofon `v1.7`, `api/v1/index.php?r=ping` HTTP 200. In headless Chromium op de
+**live** offline build: `wie wat welke` → juist, `wie?, wat? welke?` → juist, `wie wie` →
+fout, `isBeheerst` werkt, nul JS-fouten. Op `/verba/` staat bouwstempel `14-09 16:54` en de
+enige console-melding is de eigen stop `verba: eerst aanmelden` — dat is het ontwerp.
+
+### Wat dit niet oplost
+Een vormvraag die hij regelmatig *fout* heeft, blijft vaak terugkomen. Dat is Leitner zoals
+bedoeld: een fout zet het item op box 1 en box 1 is na vier tussenliggende vragen alweer
+due. Het verschil is dat een reeks juiste antwoorden nu wél beloond wordt met rust.
+
 ## 2026-09-14 (c) — Een versienummer in de colofon, en maar één versieladder
 
 ### Gevraagd
