@@ -1278,19 +1278,49 @@ markeert het in `latijn.json` met `ga: 1` ("geslacht afgeleid").
 
 De regel per rij staat erbij, zodat elke waarde na te rekenen is:
 
-| Code | Regel |
-|---|---|
-| `1 v` | 1e verbuiging, `-a` / gen. `-ae` → vrouwelijk |
-| `1 v mv` | 1e verbuiging, alleen meervoud, `-ae` / gen. `-ārum` → vrouwelijk |
-| `2 m` | 2e verbuiging, `-us` / `-er` / `-ir` / gen. `-ī` → mannelijk |
-| `2 o` | 2e verbuiging, `-um` / gen. `-ī` → onzijdig |
-| `2 m mv` | 2e verbuiging, alleen meervoud, `-ī` / gen. `-ōrum` → mannelijk |
-| `2 o mv` | 2e verbuiging, alleen meervoud, `-a` / gen. `-ōrum` → onzijdig |
-| `4 m` | 4e verbuiging, `-us` / gen. `-ūs` → mannelijk |
-| `5 v` | 5e verbuiging, `-ēs` / gen. `-ēī` → vrouwelijk |
+| Code | Regel | Aantal |
+|---|---|---:|
+| `1 v` | 1e verbuiging, `-a` / gen. `-ae` → vrouwelijk | 63 |
+| `1 v mv` | 1e verbuiging, alleen meervoud, `-ae` / gen. `-ārum` → vrouwelijk | 5 |
+| `2 m` | 2e verbuiging, `-us` / `-er` / `-ir` / gen. `-ī` → mannelijk | 39 |
+| `2 o` | 2e verbuiging, `-um` / gen. `-ī` → onzijdig | 53 |
+| `2 m mv` | 2e verbuiging, alleen meervoud, `-ī` / gen. `-ōrum` → mannelijk | 1 |
+| `2 o mv` | 2e verbuiging, alleen meervoud, `-a` / gen. `-ōrum` → onzijdig | 2 |
+| `4 m` | 4e verbuiging, `-us` / gen. `-ūs` → mannelijk | 21 |
+| `5 v` | 5e verbuiging, `-ēs` / gen. `-ēī` → vrouwelijk | 6 |
+
+`rēs pūblica` (552) staat onder `5 v`: de kern is `rēs` (5e verbuiging, vrouwelijk) met een
+bijvoeglijk naamwoord erbij, niet een woord van de 1e verbuiging.
 
 De **derde verbuiging staat er niet bij**: daar volgt het geslacht níét uit de uitgang, en
 precies daarom drukt het boek het daar wel. Geen enkele waarde hieronder is dus geraden.
+
+### Controle tegen externe bronnen (14 september 2026)
+
+Alle 190 waarden zijn machinaal getoetst aan **twee onafhankelijke bronnen**, telkens met
+de genitief als sleutel zodat een homoniem niet stilletjes de verkeerde rij bevestigt
+(`populus, populī` m. "volk" tegenover `pōpulus, pōpulī` v. "populier"):
+
+| Bron | Wat ze geeft | Uitkomst |
+|---|---|---|
+| **en.wiktionary.org** (REST-API) | headwordregel met geslacht en genitief | 187 automatisch bevestigd, 3 met de hand nagelezen (`cōpiae`, `nuptiae`, `litterae`) — **190/190, nul tegenspraak** |
+| **online-latin-dictionary.com** (Olivetti) | geslacht **én verbuiging** | 184 automatisch bevestigd op geslacht én verbuiging, 5 met de hand nagelezen (`puer`, `cōpiae`, `līberī`, `praefectus`, `litterae`) — **190/190 op geslacht, nul tegenspraak** |
+
+De verbuigingscontrole van de tweede bron ving één fout label: `rēs pūblica` stond als
+`1 v` genoteerd en is `5 v`. Het geslacht (v.) klopte wel.
+
+Twee waarden waar de bronnen genuanceerder zijn dan de tabel, zonder dat de waarde verandert:
+
+- **9 `puer`** — Olivetti noteert "masculin and feminine noun II declension"; Wiktionary
+  geeft `puer m` met een apart vrouwelijk lemma `puera`. Het boek vertaalt "de jongen".
+  Blijft `m.`
+- **952 `litterae`** — Wiktionary behandelt het als de meervoudsvorm van `littera` (v., 1e
+  verbuiging) en niet als een eigen lemma. Het geslacht is hoe dan ook vrouwelijk.
+  Blijft `v. mv.`
+
+De derde bron die geprobeerd is, **Whitaker's Words** (`latin-words.com`), bevestigde de
+eerste 82 en begon daarna lege antwoorden te geven (snelheidslimiet). Die is dus niet
+volledig doorlopen en telt niet mee in de cijfers hierboven.
 
 De bekende uitzonderingen op deze regels zijn stuk voor stuk nagegaan en komen in deze
 woordenlijst **niet** voor: mannelijke personen van de 1e verbuiging (`agricola`, `nauta`,
@@ -1397,7 +1427,7 @@ geslacht naar te vragen.
 | 537 | signum | signī | o. | `2 o` |
 | 538 | tēctum | tēctī | o. | `2 o` |
 | 549 | līberī | līberōrum | m. mv. | `2 m mv` |
-| 552 | rēs pūblica | reī pūblicae | v. | `1 v` |
+| 552 | rēs pūblica | reī pūblicae | v. | `5 v` |
 | 554 | portus | portūs | m. | `4 m` |
 | 558 | socius | sociī | m. | `2 m` |
 | 559 | taurus | taurī | m. | `2 m` |

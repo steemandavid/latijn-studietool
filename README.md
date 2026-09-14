@@ -49,7 +49,8 @@ builds uit dezelfde bron**:
   naamwoorden. Het boek drukt er 153 (`dux, ducis, m.`); het drukt het alleen waar het niet
   uit de verbuiging volgt, dus de overige 190 zijn **afgeleid** en staan in een aparte, als
   afgeleid gemarkeerde tabel achterin `woordenlijst.md`, met per woord de regel erbij
-  (`1 v`, `2 m`, `4 m`, …). Hoe hij het opschrijft is vrij: `ducis, m.`, `ducis m`,
+  (`1 v`, `2 m`, `4 m`, …). Die 190 zijn getoetst aan Wiktionary én
+  online-latin-dictionary.com, met de genitief als sleutel: **190/190, nul tegenspraak**. Hoe hij het opschrijft is vrij: `ducis, m.`, `ducis m`,
   `ducis (m.)` en `ducis mannelijk` zijn alle vier juist; `ducis` alleen is fout, en
   `ducis, v.` ook — met een feedbackregel die zegt waaróm (§7.2a).
 - Meerkeuze bij een vormvraag varieert op de **uitgang**, niet op de stam: de vier opties

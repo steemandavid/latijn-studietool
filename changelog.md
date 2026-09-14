@@ -1,5 +1,74 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-14 (g) — De 190 afgeleide geslachten getoetst aan externe bronnen
+
+### Gevraagd
+*"Toets de correctheid van de afgeleide geslachten af aan bronnen op internet."*
+
+Terecht: "ik heb de verbuigingsregels toegepast en het zelf nagelezen" is geen controle,
+het is dezelfde bewering twee keer.
+
+### Methode
+Twee onafhankelijke bronnen, machinaal doorlopen, met de **genitief als sleutel**. Dat
+laatste is het hele punt: zoek je alleen op het lemma, dan bevestigt `pōpulus, pōpulī` (v.,
+"populier") vrolijk de rij van `populus, populī` (m., "volk"). Door de genitief te eisen valt
+zo'n homoniem vanzelf af — bij `fidēs` gebeurde dat ook echt: Wiktionary's eerste treffer was
+`fidēs, fidis` (3e verbuiging, "snaar"), niet `fidēs, fideī` (5e, "trouw").
+
+| Bron | Wat ze geeft | Uitkomst |
+| --- | --- | --- |
+| **en.wiktionary.org** (REST-API, HTML) | headwordregel met geslacht en genitief | 187 automatisch, 3 met de hand (`cōpiae`, `nuptiae`, `litterae`) — **190/190, nul tegenspraak** |
+| **online-latin-dictionary.com** (Olivetti) | geslacht **én verbuiging** | 184 automatisch op beide, 5 met de hand (`puer`, `cōpiae`, `līberī`, `praefectus`, `litterae`) — **190/190 op geslacht, nul tegenspraak** |
+
+Een derde bron, **Whitaker's Words** (`latin-words.com`), bevestigde de eerste 82 en gaf
+daarna alleen nog lege antwoorden (snelheidslimiet). Die is niet volledig doorlopen en telt
+dus niet mee — vermeld omdat een half doorlopen bron makkelijk als bevestiging wordt
+meegeteld, en dat hoort niet.
+
+### Wat de controle opleverde
+**Nul foute geslachten.** Alle 190 waarden staan er goed. Maar de tweede bron gaf naast het
+geslacht ook de **verbuiging**, en daar sloeg er één aan:
+
+- **552 `rēs pūblica`** stond genoteerd onder regel `1 v` (1e verbuiging), terwijl `reī`
+  de 5e verbuiging is. De kern is `rēs` + een bijvoeglijk naamwoord; mijn afleidingsregel
+  had alleen naar de uitgangen `-a`/`-ae` van het tweede woord gekeken. Het geslacht (v.)
+  klopte, dus de app deed het goede — maar de verantwoording erbij was fout, en dat is in
+  een tabel die als bewijsstuk bedoeld is net zo erg.
+
+Twee waarden waar de bronnen genuanceerder zijn dan de tabel, zonder dat de waarde verandert
+(beide nu bij de tabel genoteerd):
+
+- **9 `puer`** — Olivetti noteert "masculin and feminine noun II declension"; Wiktionary
+  geeft `puer m` met een apart vrouwelijk lemma `puera`. Het boek vertaalt "de jongen".
+  Blijft `m.`
+- **952 `litterae`** — Wiktionary behandelt het als de meervoudsvorm van `littera` (v., 1e
+  verbuiging), niet als een eigen lemma. Vrouwelijk hoe dan ook. Blijft `v. mv.`
+
+### Wat er daarna hard gemaakt is
+Een fout label dat niemand opmerkt, is precies wat hier bijna gebeurde. `maak-data.py`
+weigert nu ook te bouwen als:
+
+- het geslacht van een rij niet overeenkomt met wat de **regelcode** van die rij voorschrijft;
+- de regelcode niet strookt met de verbuiging die **nominatief én genitief samen** aanwijzen.
+
+Die tweede was bij het schrijven meteen leerzaam: mijn eerste versie keek alleen naar de
+genitief en verklaarde `deus, deī` tot 5e verbuiging, want `deī` eindigt net als `reī` op
+`-ei`. De nominatief moet mee in de beslissing. Beide controles zijn getest door met de hand
+een fout label en een fout geslacht in te voeren — allebei worden ze afgevangen, met een
+melding die zegt wat er niet klopt.
+
+### Documentatie
+De tabel in `woordenlijst.md` heeft er een sectie **"Controle tegen externe bronnen"** bij:
+de twee bronnen, de methode, de uitkomst, het gecorrigeerde label, de twee genuanceerde
+gevallen en de niet-voltooide derde bron. Spec §7.2a kreeg dezelfde verantwoording plus een
+opsomming van wat het bouwscript nu hard maakt; de regeltabel gaat van `1 v` 64 → 63 en
+`5 v` 5 → 6.
+
+### Tests
+Ongewijzigd groen: elf offline suites, samen **163 checks**, plus 42/42 en 25/25 op de
+servertests. Er verandert niets aan de app — alleen `rēs pūblica` schoof van de ene
+regelcode naar de andere, en dat raakt geen enkele waarde in `latijn.json`.
+
 ## 2026-09-14 (f) — De ontbrekende geslachten afgeleid, en nu bij élk woord gecontroleerd
 
 ### Gevraagd

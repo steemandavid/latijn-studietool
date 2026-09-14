@@ -99,14 +99,37 @@ def onderdelen(vert):
 # het bij elk zelfstandig naamwoord leerstof (§7.2a), dus de rest wordt hier bijgezet —
 # afgeleid uit de verbuiging, met de regel erbij, en gemarkeerd als afgeleid (`ga`).
 GEEN_GESLACHT = {174, 247}          # alter, plērīque: voornaamwoordelijke adjectieven
-AFGELEID = {}
+# De regelcode zegt uit welke verbuiging het geslacht volgt; ze wordt gevalideerd zodat een
+# verkeerd label (rēs pūblica stond ooit als '1 v' i.p.v. '5 v') niet blijft staan.
+REGELS = {"1 v": ("I", "v."), "1 v mv": ("I", "v. mv."), "2 m": ("II", "m."),
+          "2 o": ("II", "o."), "2 m mv": ("II", "m. mv."), "2 o mv": ("II", "o. mv."),
+          "4 m": ("IV", "m."), "5 v": ("V", "v.")}
+def verbuiging_uit(kop, gen):
+    """De verbuiging zoals nominatief én genitief samen ze verraden. Zo kan een regelcode
+    niet naast de werkelijke verbuiging staan, ook niet als het geslacht toevallig
+    hetzelfde is — `rēs pūblica` stond ooit als `1 v` genoteerd terwijl `reī` de 5e is.
+    De genitief alléén volstaat niet: `deī` (van `deus`, 2e) en `reī` (van `rēs`, 5e)
+    eindigen allebei op -ei."""
+    n = deMacron(kop).lower().split()[0]
+    g = deMacron(gen).lower().split()[0]
+    if n.endswith("es") and g.endswith("ei"):                        return "V"
+    if n.endswith("ae") and g.endswith("arum"):                      return "I"
+    if n.endswith(("i", "a")) and g.endswith("orum"):                return "II"
+    if n.endswith("a") and g.endswith("ae"):                         return "I"
+    if n.endswith("us") and g.endswith("us"):                        return "IV"
+    if n.endswith(("us", "er", "ir", "um")) and g.endswith("i"):     return "II"
+    return None
+
+AFGELEID, AFG_REGEL = {}, {}
 _in_tabel = False
 for line in open(os.path.join(HIER, "woordenlijst.md"), encoding="utf-8"):
     if line.startswith("## Afgeleide geslachten"): _in_tabel = True; continue
     if _in_tabel and line.startswith("## "):       _in_tabel = False
     if not _in_tabel: continue
-    m = re.match(r"^\|\s*(\d+)\s*\|([^|]*)\|([^|]*)\|([^|]*)\|([^|]*)\|", line)
-    if m: AFGELEID[int(m.group(1))] = m.group(4).strip()
+    m = re.match(r"^\|\s*(\d+)\s*\|([^|]*)\|([^|]*)\|([^|]*)\|\s*`([^`]+)`\s*\|", line)
+    if m:
+        AFGELEID[int(m.group(1))] = m.group(4).strip()
+        AFG_REGEL[int(m.group(1))] = m.group(5).strip()
 
 rows, cap, sec = [], None, None
 _na_tabel = False
@@ -188,9 +211,16 @@ for nr in sorted(AFGELEID):
     if GENDER.search(r["v"]):
         sys.exit(f"Afgeleide geslachten: {nr} ({r['kop']}) heeft al een gedrukt geslacht — "
                  f"haal de rij uit de tabel")
-    if AFGELEID[nr] not in {"m.", "v.", "o.", "m./v.", "m. en v.",
-                            "m. mv.", "v. mv.", "o. mv."}:
-        sys.exit(f"Afgeleide geslachten: {nr} heeft een onbekend geslacht {AFGELEID[nr]!r}")
+    regel = AFG_REGEL.get(nr)
+    if regel not in REGELS:
+        sys.exit(f"Afgeleide geslachten: {nr} ({r['kop']}) heeft een onbekende regel {regel!r}")
+    if AFGELEID[nr] != REGELS[regel][1]:
+        sys.exit(f"Afgeleide geslachten: {nr} ({r['kop']}) staat als {AFGELEID[nr]!r} maar "
+                 f"regel {regel!r} geeft {REGELS[regel][1]!r}")
+    echt = verbuiging_uit(r["kop"], r["v"])
+    if echt != REGELS[regel][0]:
+        sys.exit(f"Afgeleide geslachten: {nr} ({r['kop']}, gen. {r['v']}) staat onder regel "
+                 f"{regel!r} (verbuiging {REGELS[regel][0]}), maar de genitief wijst op {echt}")
 zonder_g = [r["nr"] for r in rows
             if r["soort"] == "znw" and "g" not in r and r["nr"] not in GEEN_GESLACHT]
 if zonder_g:

@@ -684,14 +684,14 @@ nooit in verwerkt worden: de woordrijen blijven staan zoals het boek ze drukt.
 
 | Code | Regel | Aantal |
 |---|---|---:|
-| `1 v` | 1e verbuiging, `-a` / gen. `-ae` → vrouwelijk | 64 |
+| `1 v` | 1e verbuiging, `-a` / gen. `-ae` → vrouwelijk | 63 |
 | `1 v mv` | 1e verbuiging, alleen meervoud, `-ae` / gen. `-ārum` → vrouwelijk | 5 |
 | `2 m` | 2e verbuiging, `-us` / `-er` / `-ir` / gen. `-ī` → mannelijk | 39 |
 | `2 o` | 2e verbuiging, `-um` / gen. `-ī` → onzijdig | 53 |
 | `2 m mv` | 2e verbuiging, alleen meervoud, `-ī` / gen. `-ōrum` → mannelijk | 1 |
 | `2 o mv` | 2e verbuiging, alleen meervoud, `-a` / gen. `-ōrum` → onzijdig | 2 |
 | `4 m` | 4e verbuiging, `-us` / gen. `-ūs` → mannelijk | 21 |
-| `5 v` | 5e verbuiging, `-ēs` / gen. `-ēī` → vrouwelijk | 5 |
+| `5 v` | 5e verbuiging, `-ēs` / gen. `-ēī` → vrouwelijk | 6 |
 
 De **derde verbuiging staat er niet bij**: daar volgt het geslacht níét uit de uitgang, en
 precies daarom drukt het boek het daar wel. Geen enkele afgeleide waarde is dus geraden.
@@ -711,10 +711,35 @@ voornaamwoordelijke bijvoeglijke naamwoorden met alle drie de geslachten; de
 woordsoort-heuristiek van §3.3 zet ze op `znw`, maar er valt geen geslacht naar te vragen.
 Bij die twee wordt een meegetypte geslachtsstaart stil genegeerd.
 
-`maak-data.py` **weigert te bouwen** als een zelfstandig naamwoord geen geslacht heeft en
-ook niet in die twee-lijst staat, als een rij uit de afgeleide tabel niet bestaat, geen
-`znw` is, of het geslacht al gedrukt staat. Een nieuw woord kan dus niet stil zonder
-geslacht binnenglippen.
+#### Gecontroleerd tegen externe bronnen
+
+Alle 190 afgeleide waarden zijn op 14 september 2026 machinaal getoetst aan **twee
+onafhankelijke bronnen**, telkens met de **genitief als sleutel** zodat een homoniem niet
+stilletjes de verkeerde rij bevestigt (`populus, populī` m. "volk" tegenover `pōpulus,
+pōpulī` v. "populier"):
+
+| Bron | Wat ze geeft | Uitkomst |
+|---|---|---|
+| **en.wiktionary.org** (REST-API) | headwordregel met geslacht en genitief | 187 automatisch, 3 met de hand nagelezen — **190/190, nul tegenspraak** |
+| **online-latin-dictionary.com** (Olivetti) | geslacht **én verbuiging** | 184 automatisch op geslacht én verbuiging, 5 met de hand nagelezen — **190/190 op geslacht, nul tegenspraak** |
+
+De verbuigingscontrole van de tweede bron ving één fout label: `rēs pūblica` (552) stond
+als `1 v` genoteerd terwijl `reī` de 5e verbuiging is. Het geslacht klopte wel. De volledige
+verantwoording, met de twee woorden waar de bronnen genuanceerder zijn dan de tabel
+(`puer`, `litterae`), staat bij de tabel in `woordenlijst.md`.
+
+#### Wat het bouwscript hard maakt
+
+`maak-data.py` **weigert te bouwen** als:
+
+- een zelfstandig naamwoord geen geslacht heeft en ook niet in de twee-lijst staat;
+- een rij uit de afgeleide tabel niet bestaat, geen `znw` is, of het geslacht al gedrukt staat;
+- het geslacht in een rij niet overeenkomt met wat de regelcode van die rij voorschrijft;
+- de regelcode niet strookt met de verbuiging die **nominatief én genitief samen** aanwijzen.
+
+Die laatste twee zijn er gekomen na het fout gebleken label van `rēs pūblica`. De genitief
+alléén volstond daar niet: `deī` (van `deus`, 2e verbuiging) en `reī` (van `rēs`, 5e)
+eindigen allebei op `-ei`, dus de nominatief moet mee in de beslissing.
 
 #### Wat als antwoord telt
 
