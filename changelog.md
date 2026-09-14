@@ -2,6 +2,10 @@
 
 ## 2026-09-14 (g) — De 190 afgeleide geslachten getoetst aan externe bronnen
 
+> Correctie achteraf: de sessies (d) t/m (f) noteerden "163 offline checks". Het zijn er
+> **162** — nageteld door de elf suites te draaien en hun eigen samenvattingen op te tellen
+> (11 + 21 + 46 + 15 + 4 + 13 + 5 + 9 + 17 + 13 + 8). Overal rechtgezet.
+
 ### Gevraagd
 *"Toets de correctheid van de afgeleide geslachten af aan bronnen op internet."*
 
@@ -65,7 +69,7 @@ opsomming van wat het bouwscript nu hard maakt; de regeltabel gaat van `1 v` 64 
 `5 v` 5 → 6.
 
 ### Tests
-Ongewijzigd groen: elf offline suites, samen **163 checks**, plus 42/42 en 25/25 op de
+Ongewijzigd groen: elf offline suites, samen **162 checks**, plus 42/42 en 25/25 op de
 servertests. Er verandert niets aan de app — alleen `rēs pūblica` schoof van de ene
 regelcode naar de andere, en dat raakt geen enkele waarde in `latijn.json`.
 
@@ -153,7 +157,7 @@ verwachtten — dat is nu de nieuwe regel, geen regressie. Beide typen het gesla
 en kregen er een check bij die bewaakt dat een vergeten geslacht fout blijft, ook met een
 verder juiste vorm en zelfs met een tikfout erin.
 
-**Elf offline suites, samen 163 checks**, allemaal groen, plus 42/42 en 25/25 op de
+**Elf offline suites, samen 162 checks**, allemaal groen, plus 42/42 en 25/25 op de
 servertests.
 
 ### Spec
