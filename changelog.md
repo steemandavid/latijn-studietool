@@ -1,5 +1,101 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-14 (e) — Het geslacht hoort bij de genitief (§7.2a)
+
+### Gevraagd
+"Bij de vragen naar de genitief, vraag ook naar het geslacht want dat moeten ze ook
+kennen. Zorg dat de antwoorden correct gescoord worden (niet te strak qua vorm met
+comma's en haakjes etc)."
+
+### Eerst uitgezocht: waar staat het geslacht eigenlijk?
+De vraag "voor welke woorden?" bleek niet vanzelfsprekend. In `latijn.json` draagt maar
+**153 van de 345** zelfstandige naamwoorden een geslacht; bij de andere 192 staat er in de
+tweede kolom niets. Dat is geen transcriptiefout: het boek drukt het geslacht alleen waar
+het niet uit de verbuiging volgt.
+
+Gecontroleerd op de originele scans (de 30 `.msg`-bijlagen uit `/storage/fileshare/latijn/`,
+uitgepakt met `extract_msg` in een venv — het pakket is niet systeembreed te installeren):
+
+- **p. 10-11** (woorden 1-41): `avus avī`, `rosa rosae`, `dōnum dōnī`, `castra castrōrum` —
+  geen geslacht.
+- **p. 12-13** (woorden 42-125): `dux ducis, m.`, `māter mātris, v.`, `corpus corporis, o.` —
+  wél, bij de derde verbuiging. En binnen diezelfde bladzijde: `frūctus frūctūs` niet,
+  `domus domūs, v.` wél, `rēs reī` niet, `diēs diēī, m./v.` wél. Het boek drukt het dus
+  precies waar de regel het niet geeft.
+- **p. 84-85**, het alfabetisch register: `virtūs 179 de kwaliteit; de dapperheid` —
+  helemáál geen geslachten.
+
+Aan David voorgelegd met de keuze tussen afleiden (192 woorden erbij verzinnen) en
+beperken. Zijn antwoord: als het niet in het boek staat, dan **alleen de 153 uit het boek**.
+De app verzint geen leerstof die niet in zijn boek staat.
+
+### Wat het geworden is
+Nieuw veld `g` in `latijn.json` met het gedrukte label. `maak-data.py` haalt het geslacht
+voortaan uit de aanvaarde vormen (`a`) in plaats van het als optionele variant toe te
+voegen — vorm en geslacht worden apart nagekeken.
+
+**De notatie is vrij, het geslacht niet.** Alle zes hieronder zijn juist:
+
+```
+ducis, m.    ducis m.    ducis m    ducis (m.)    ducis;m    ducis mannelijk
+```
+
+en ook `mann.`, `masc.`, `masculinum`, `f.`, `n.`, `vrouwelijk`, `onzijdig`. Bij `m./v.`
+telt elke combinatie van een m- en een v-vorm; bij `m. mv.` mag het meervoudsmerk `mv.`
+wegblijven, want de vraag gaat over het geslacht. Wat er níét in staat, telt wel: `ducis`
+is fout ("vergeten"), `ducis, v.` is fout ("fout"), en bij `diēs` volstaat `m.` niet.
+
+### Eén ding dat het apart nakijken afdwong
+Bleef `, m.` aan de vorm plakken, dan werd **dát de uitgang**. De uitgangsregel van §7.4 —
+"bij een vormvraag moeten de laatste twee tekens kloppen, want de uitgang ís de leerstof" —
+zag dan `ducem, m.` en `ducis, m.` met dezelfde staart en rekende het als **tikfout**, dus
+als juist. Precies het tegenovergestelde van wat die regel moet doen. Daarom knipt
+`beoordeelVorm()` de geslachtsstaart er eerst af, laat de vorm door de gewone beoordeling
+gaan, en kijkt het geslacht daarna apart na. Klopt de uitgang niet, dan is dát de misser en
+doet het geslacht er niet meer toe: `ducēs, m.` blijft "bijna".
+
+### Drie dingen die meekwamen omdat ze anders niet klopten
+1. **De vraagkop moet het zeggen.** Anders verandert de eis zonder dat de vraag verandert.
+   *"Geef de genitief en het geslacht van"*, plus een tiphint onder het veld en
+   `de vorm + het geslacht` als plaatshouder. Past op 360 px zonder horizontale scroll.
+2. **De meerkeuze gaf het geslacht gratis weg.** `genAfleiders()` plakte hetzelfde `, m.`
+   aan alle vier de opties. Nu is één van de drie afleiders de júiste vorm met een verkeerd
+   geslacht (`ducis, o.` naast `ducis, m.`). Bij 152 van de 153; `vīs` (208) heeft geen
+   genitief om op te variëren en valt terug op de gewone afleiders.
+3. **De feedback moet zeggen waaróm.** Een kale "Fout" naast een antwoord dat er bijna
+   hetzelfde uitziet, leert niets: *"De vorm klopt — maar het geslacht hoort erbij:
+   m. (mannelijk)."*
+
+### Twee afwegingen
+- **Waar het boek zwijgt, straft de app niet.** Typt hij `amīcī, m.` bij een woord zonder
+  gedrukt geslacht, dan telt dat gewoon als juist. We hebben de gegevens niet om het na te
+  kijken en hebben er ook niet naar gevraagd; een juist antwoord fout rekenen omdat er
+  ongevraagde extra informatie bij staat, is de verkeerde kant om.
+- **Bestaande voortgang blijft staan** (David's keuze). Een genitiefvraag die op box 5
+  stond en waar hij het geslacht vergeet, gaat gewoon fout en zakt naar box 1. Dat voelt de
+  eerste ronde als een terugslag, maar het is wel de eerlijke stand: die vraag was nooit
+  gesteld.
+
+### Tests
+Nieuw: `test/smoke-14-geslacht.js`, 18 checks — de telling (153 van 345, en geen enkel
+ander woordsoort), alle notatievarianten, de reden bij een vergeten of fout geslacht,
+`m./v.` dat er twee vraagt, `mv.` dat mag wegblijven, het punt als afkortingsteken
+(`geen gen.` = `geen gen`), en een veegtest over alle 755 verbuigbare woorden: gedrukte
+vorm blijft juist (met/zonder macrons/scheidingstekens), streng blijft exact, bij alle 153
+is de kale vorm fout met "vergeten", alle notatievarianten worden aanvaard, en bij de 192
+zonder `g` straft een vrijwillig geslacht niet. Plus de vraagkop en de meerkeuzevalstrik.
+
+`smoke-1` van 41 naar 45 checks: `genderWeg` verwacht nu `fout` in plaats van `juist` —
+dat is de nieuwe regel, geen regressie — en er kwamen checks bij voor de reden, de losse
+notatie en een fout geslacht. **Elf offline suites, samen 157 checks**, allemaal groen,
+plus `samenvoegen-test.php` 42/42 en `grenzen-test.php` 25/25.
+
+### Spec naar 1.8
+Nieuw **§7.2a** met de volledige regels en de verantwoording waarom het bij 153 blijft.
+Aangepast: §3.2 (veld `g`, en `a` is voortaan zonder geslacht), §7.1.1 (de badge),
+§7.2 (de geslachtsvalstrik bij de afleiders), §7.4 (de geslachtsaanduiding is niet langer
+optioneel; een punt is geen leerstof), en aanvaardingscriterium 48.
+
 ## 2026-09-14 (d) — Antwoorden met meerdere betekenissen, en woorden die blijven terugkomen
 
 ### Gevraagd

@@ -112,3 +112,17 @@ smoke-13 (2026-09-14) bewaakt de twee correcties van spec 1.7, criteria 46 en 47
 - Een beheerst item (box 5 + twee foutloze beurten, §4.3) verdwijnt uit de
   onderhoudsvulling van §4.5, de teller overleeft een oude save zonder `opRij`, en
   onderhoud kiest het item dat het langst niet gesteld is.
+
+smoke-14 (2026-09-14) bewaakt §7.2a: het geslacht bij de genitiefvraag. Hij telt dat
+precies 153 van de 345 zelfstandige naamwoorden een gedrukt geslacht dragen (en geen
+enkel ander woord), legt de aanvaarde notaties vast (m / m. / mann. / masc. / mannelijk /
+masculinum, en m/v, m. en v., met of zonder mv.), controleert dat de vorm zónder geslacht
+fout is met "vergeten" als reden, en veegt daarna de hele lijst: elke gedrukte vorm blijft
+juist, strenge modus blijft exact, elke notatievariant wordt aanvaard, en bij de 192
+woorden zonder gedrukt geslacht straft een vrijwillig meegegeven geslacht niet. Tot slot
+kijkt hij naar de vraagkop (die noemt het geslacht alleen waar het gevraagd wordt) en naar
+de meerkeuze: 152 van de 153 dragen een geslachtsvalstrik — de juiste vorm met het
+verkeerde geslacht. De 153e is vīs (208): die heeft geen genitief om op te variëren.
+
+Let op bij smoke-1: de check `genderWeg` verwacht sinds spec 1.8 `fout` in plaats van
+`juist`. Dat is geen regressie maar de nieuwe regel.

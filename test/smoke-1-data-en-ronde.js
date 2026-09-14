@@ -50,8 +50,14 @@ const check = (naam, ok, detail) => {
         metLidwoord:  beoordeel("de vriend", w, "L2N").uit,
         tweedeBetek:  beoordeel("de gelegenheid", loc, "L2N").uit,
         eersteBetek:  beoordeel("de plaats", loc, "L2N").uit,
+        // §7.2a: het geslacht is leerstof geworden. Zonder is het fout, mét juist,
+        // en de notatie mag alle kanten op.
         genderWeg:    beoordeel("ducis", dux, "L2V").uit,
+        genderWegReden: beoordeel("ducis", dux, "L2V").geslacht,
         genderMee:    beoordeel("ducis, m.", dux, "L2V").uit,
+        genderLos:    beoordeel("ducis m", dux, "L2V").uit,
+        genderVoluit: beoordeel("ducis mannelijk", dux, "L2V").uit,
+        genderFout:   beoordeel("ducis, v.", dux, "L2V").uit,
         tildeVorm:    beoordeel("~a, ~um", bon, "L2V").uit,
         uitgeschreven:beoordeel("bona, bonum", bon, "L2V").uit,
         stamtijden:   beoordeel("vidi, visum", vid, "L2V").uit,
@@ -68,7 +74,8 @@ const check = (naam, ok, detail) => {
     console.log('BEOORDELING', JSON.stringify(beo));
     for(const [k, verwacht] of Object.entries({
       macronloos:'juist', metMacron:'juist', lidwoordWeg:'juist', metLidwoord:'juist',
-      tweedeBetek:'juist', eersteBetek:'juist', genderWeg:'juist', genderMee:'juist',
+      tweedeBetek:'juist', eersteBetek:'juist', genderWeg:'fout', genderMee:'juist',
+      genderWegReden:'vergeten', genderLos:'juist', genderVoluit:'juist', genderFout:'fout',
       tildeVorm:'juist', uitgeschreven:'juist', stamtijden:'juist', typfout:'bijna',
       onzin:'fout', hoofdletters:'juist', forumZonderHaakjes:'juist',
       wieZonderLabelEnVrageteken:'juist', kommaDeel:'juist',

@@ -113,9 +113,15 @@ for line in open(os.path.join(HIER, "woordenlijst.md"), encoding="utf-8"):
         else:
             vol = expandeer(vorm, kop)
         e["vol"] = vol
-        acc = {soepel(vorm), soepel(vol)}
-        zg = GENDER.sub("", vol); acc.add(soepel(zg))                 # zonder geslacht
-        acc.add(soepel(GENDER.sub("", vorm)))
+        # Het geslacht hoort bij de leerstof (§7.2a): staat het gedrukt, dan moet hij het
+        # meegeven. Het wordt apart nagekeken, dus de aanvaarde VORMEN staan er altijd
+        # zonder. Het boek drukt het alleen waar het niet uit de verbuiging volgt; bij
+        # `avus, avi` staat het nergens in het boek (ook niet in het register) en dan
+        # vraagt de app er ook niet naar.
+        gm = GENDER.search(vol) or GENDER.search(vorm)
+        if e["soort"] == "znw" and gm:
+            e["g"] = gm.group(1)
+        acc = {soepel(GENDER.sub("", vorm)), soepel(GENDER.sub("", vol))}
         e["a"]  = sorted(x for x in acc if x)
         e["ac"] = sorted({norm(vorm), norm(vol)} - {""})              # streng: alleen zoals gedrukt
     else:

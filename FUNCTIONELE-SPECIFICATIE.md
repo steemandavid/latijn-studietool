@@ -4,8 +4,9 @@
 
 | | |
 |---|---|
-| Versie | 1.7 |
+| Versie | 1.8 |
 | Datum | 14 september 2026 |
+| Wijziging t.o.v. 1.7 | **Het geslacht hoort bij de genitiefvraag** (nieuw §7.2a). Drukt het boek het geslacht — `dux, ducis, m.` — dan moet hij het meegeven; zonder is het antwoord fout. Dat geldt voor 153 van de 345 zelfstandige naamwoorden: bij de regelmatige (`avus, avī`, `rosa, rosae`, `templum, templī`) drukt het boek het nergens, ook niet in het alfabetisch register, en dan vraagt de app er ook niet naar. De **notatie is vrij** (`ducis, m.` = `ducis m` = `ducis (m.)` = `ducis mannelijk`), de vraagkop zegt het, de meerkeuze krijgt er een geslachtsvalstrik bij, en vorm en geslacht worden apart nagekeken. Aangepast: §7.1.1, §7.2, §7.4, §8.1. |
 | Wijziging t.o.v. 1.6 | Twee correcties op de leermotor. **Antwoordbeoordeling** (§7.4): de leestekens tussen de betekenissen zijn geen leerstof meer — een vertaling wordt *opgedeeld* in aanvaarde betekenissen in plaats van op `, ` gesplitst, en labels (`(z.)`, `(b.)`, `mv.:`) en optionele letters (`sommige(n)`) mogen weg. Daardoor is `wie wat welke` bij `(z.) wie?, wat?; (b.) welke?` gewoon juist. **Beheerste items** (§4.3/§4.5): een item op box 5 dat de laatste beurten foutloos was, verdwijnt uit de onderhoudsvulling tot het echt due is, en onderhoud kiest het langst niet gestelde item in plaats van blind te loten. |
 | Wijziging t.o.v. 1.5 | Eigenaarsstempel op de lokale opslag: een tweede gebruiker op hetzelfde toestel begint met een schone lei en sleept de voortgang van zijn voorganger niet zijn account in (nieuw §13.5a). De caputs in "Jouw woordenlijst" klappen in en uit (§6.1), met `settings.mozDicht` in de save (§8.2). Het **versienummer van deze specificatie is het versienummer van de app**: het staat in de colofon (§6.0) en `bouw.py` leest het hiervandaan. |
 | Wijziging t.o.v. 1.4 | **Online modus** toegevoegd (nieuw hoofdstuk 13): centrale voortgang over meerdere toestellen, accounts met klascode + naam + PIN, meerdere klassen, een leesbaar logboek van alle spelers en hun acties. De app wordt vanaf nu in **twee builds** gemaakt uit hetzelfde `sjabloon.html` — offline (ongewijzigd, nul netwerkrequests) en online. Aangepast: §1.1, §2, §2.1, §2.2, §6.8, nieuw §8.5, §10, §11. Verantwoording en de meetresultaten op de echte hosting staan in `ONLINE-PLAN.md`. |
@@ -121,7 +122,8 @@ Beide artefacten worden mee ingecheckt. Reden: de 1051 woorden mogen maar op é�
 | `s` | Sectie (bv. `1.0 Deze woorden ken je zeker nog. (WV 1-13)`) |
 | `soort` | `znw` · `adj` · `ww` · `geen` — zie §3.3 |
 | `vol` | De tweede vorm met de tildes uitgeschreven (`~a, ~um` → `bona, bonum`). Alleen als `soort ≠ geen`. |
-| `a` | Aanvaarde antwoorden voor de **vormvraag**, genormaliseerd — soepele modus |
+| `g` | Het gedrukte geslacht (`m.`, `v.`, `o.`, `m./v.`, `m. en v.`, `m. mv.`, `v. mv.`, `o. mv.`). Alleen bij een `znw` waar het boek het drukt: 153 van de 345 (§7.2a). Ontbreekt het veld, dan vraagt de app niet naar het geslacht. |
+| `a` | Aanvaarde antwoorden voor de **vormvraag**, genormaliseerd — soepele modus. Altijd **zonder** het geslacht: dat wordt apart nagekeken (§7.2a). |
 | `ac` | Idem, maar alleen de canonieke vormen (gedrukt en uitgeschreven) — **strenge** modus |
 | `ta` | Aanvaarde antwoorden voor de **vertaalvraag**, genormaliseerd — soepele modus |
 | `tc` | Idem, canoniek: de volledige vertaling of één volledige deelbetekenis — **strenge** modus |
@@ -610,7 +612,7 @@ als klein bijschrift. De twee richtingen zijn op drie manieren uit elkaar te hou
 | Richting | Badge | Kleur |
 |---|---|---|
 | `L2N` | 📜-icoon (volumen, papyrusrol) + Wat **BETEKENT** | blauw (`#5b89ae`-familie) |
-| `L2V` | zuil-icoon (Romeinse kolom) + Geef de **GENITIEF** van (resp. **OVERIGE VORMEN** / **STAMTIJDEN**) | goud (`--goud`) |
+| `L2V` | zuil-icoon (Romeinse kolom) + Geef de **GENITIEF** van (resp. **GENITIEF EN HET GESLACHT** bij een woord met een gedrukt geslacht (§7.2a), **OVERIGE VORMEN** / **STAMTIJDEN**) | goud (`--goud`) |
 
 Het kernwoord van de vraag staat vet, in hoofdletters en onderstreept. Reden: met een klein
 bijschrift in de caputkleur werd de vraag overgeslagen en antwoordde de leerling de
@@ -644,6 +646,7 @@ Geef de stamtijden van    vidēre ?    [ vīdī, vīsum ]  [ viduī, viditum ]
 - **Zelfstandige naamwoorden** — de uitgang van het juiste antwoord bepaalt de tegenkandidaten: enkelvoud `-ae / -ī / -is / -ūs` (en `-ēī` pas als vierde keuze), meervoud `-ārum / -ōrum / -ium / -um`. De eigen uitgang valt weg.
   Bij een **stamverandering** (`lītus → lītoris`, `ōrdō → ōrdinis`) krijgt hoogstens één afleider de nominatiefstam (`lītī`, `ōrdae`); anders zou de stamwissel zelf het antwoord verklappen, terwijl de rest op de genitiefstam blijft staan.
   Het geslachtsachtervoegsel (`, m.` / `, v. mv.`) staat bij élke optie, nooit alleen bij het juiste antwoord.
+  Is het geslacht leerstof (§7.2a), dan is **één van de drie afleiders de juiste vorm met een verkeerd geslacht** (`ducis, v.` naast `ducis, m.`). Zonder die valstrik dragen alle vier de opties hetzelfde achtervoegsel en is het geslacht in een meerkeuzevraag gratis. De valstrik staat er bij 152 van de 153; alleen `vīs` (208) valt niet te ontleden en heeft geen genitief om op te variëren.
 - **Bijvoeglijke naamwoorden** — het juiste antwoord verraadt het paradigma, dus de afleiders zetten dezelfde stam in een ánder paradigma dat hij kent: `bona, bonum` ↔ `bonis, bone; bonis` ↔ `bonae, bona` ↔ `bonum, bona` (omgekeerde volgorde) ↔ `bona, bonum; bonīus` (type `nūllus`) ↔ `bonēs, bona; bonium` (meervoud) ↔ `bonior, bonius; boniōris` (vergrotende trap).
   Waar de stam van de nominatief verschilt (`sacer → sacra`, `atrōx → atrōcis`) staat er altijd één afleider bij die die wissel *niet* maakt: `sacera, sacerum`, `atrōx, atrōx; atrōxis`.
 - **Werkwoorden** — de onregelmatige perfectumstam ís de leerstof, dus de afleiders regulariseren precies dat: de stamtijden zoals ze eruit zouden zien als het werkwoord braaf zijn vervoeging volgde (`vidēre → viduī, viditum`, `vidēvī, vidētum`), plus de ene stamtijd gevormd uit de andere (`vīsī, vīsum`, `vīdī, vīditum`). Deponentia variëren op het participium (`secūtus sum → sequītus sum`, `sequtus sum`), werkwoorden zonder supinum houden de `-` (`ārsī, - → ārduī, -`).
@@ -657,6 +660,58 @@ Geef de stamtijden van    vidēre ?    [ vīdī, vīsum ]  [ viduī, viditum ]
   3. Bij `L2V`: vormen van **dezelfde `soort`** met een gelijkaardige uitgang — een genitief mag nooit als afleider bij een werkwoord staan;
   4. Willekeurig uit het actieve pakket, aangevuld uit de volledige lijst als het pakket te klein is.
 - Afleiders mogen nooit **dezelfde** vertaling of vorm hebben als het juiste antwoord (dubbels als `slecht` bij 42 en 235 komen voor).
+
+### 7.2a Het geslacht hoort bij de genitief
+
+Bij een zelfstandig naamwoord is het geslacht leerstof: wie `dux` kent maar niet weet dat
+het mannelijk is, kan er geen zin mee bouwen. Staat het geslacht in het boek gedrukt, dan
+**hoort het bij het antwoord** en is de vorm alleen niet genoeg.
+
+**Waar wel en waar niet.** Het boek drukt het geslacht alleen waar het niet uit de
+verbuiging volgt — bij de derde, vierde en vijfde verbuiging dus, en bij de uitzonderingen
+(`domus, domūs, v.`). Bij `avus, avī`, `rosa, rosae` en `templum, templī` staat het
+**nergens**: niet in de woordenlijst en niet in het alfabetisch register achterin
+(gecontroleerd op de scans, p. 10–15 en p. 70–84). Die 192 woorden krijgen dus geen
+geslachtsvraag — de app verzint geen leerstof die niet in zijn boek staat. Blijven over:
+**153 van de 345** zelfstandige naamwoorden, herkenbaar aan het veld `g` in de data.
+
+| Gedrukt | Betekent | Aanvaard |
+|---|---|---|
+| `m.` | mannelijk | `m`, `m.`, `mann.`, `masc.`, `mannelijk`, `masculinum` |
+| `v.` | vrouwelijk | `v`, `v.`, `f.`, `vrouw.`, `vrouwelijk`, `femininum` |
+| `o.` | onzijdig | `o`, `o.`, `n.`, `neut.`, `onzijdig`, `neutrum` |
+| `m./v.`, `m. en v.` | beide | elke combinatie van een m- en een v-vorm, in gelijk welke volgorde |
+| `m. mv.`, `v. mv.`, `o. mv.` | geslacht + meervoud | idem; `mv.` is een meervoudsmerk en **mag wegblijven** |
+
+**De notatie is vrij, het geslacht niet.** Hoe hij het erbij zet, is geen leerstof:
+`ducis, m.`, `ducis m.`, `ducis m`, `ducis (m.)`, `ducis;m` en `ducis mannelijk` zijn
+alle zes juist. Wat er niet in staat, telt wel: `ducis` is **fout** (geslacht vergeten) en
+`ducis, v.` is **fout** (geslacht fout). Bij `m./v.` volstaat één van de twee niet.
+
+**Vorm en geslacht worden apart nagekeken.** De geslachtsstaart wordt er eerst afgeknipt;
+de vorm gaat daarna door de gewone beoordeling van §7.4 (tikfout, uitgangsregel, "bijna").
+Dat moet ook wel: bleef `, m.` aan de vorm plakken, dan werd dát de uitgang en ging
+`ducem, m.` als **tikfout** op `ducis, m.` door — precies waar de uitgangsregel van §7.4
+tegen beschermt. Klopt de uitgang niet, dan is dát de misser en doet het geslacht er niet
+meer toe: `ducēs, m.` blijft "bijna".
+
+**Waar het boek zwijgt, straft de app niet.** Typt hij `amīcī, m.` terwijl het boek bij
+`amīcus` geen geslacht drukt, dan telt dat gewoon als juist: de app heeft de gegevens niet
+om het na te kijken en heeft er ook niet naar gevraagd. De staart wordt stil genegeerd.
+
+**In beeld.** De vraagkop zegt het met zoveel woorden — *"Geef de **genitief en het
+geslacht** van"* in plaats van *"Geef de **genitief** van"* — de tiphint onder het
+invoerveld herhaalt het (*"Zet het geslacht erbij (m., v. of o.)."*), en de plaatshouder
+in het veld leest *"de vorm + het geslacht"*. Vergeet hij het toch, dan zegt de feedback
+niet alleen "Fout" maar ook waaróm: *"De vorm klopt — maar het **geslacht** hoort erbij:
+m. (mannelijk)."*
+
+**Strenge modus** (§7.4) verandert niet: daar geldt nog altijd alleen wat er letterlijk
+gedrukt staat, `ducis, m.` en niets anders.
+
+> Waarom fout en niet "bijna": een woord waarvan hij het geslacht niet kent, kent hij niet.
+> Dat de vraag daardoor strenger wordt dan ze was, is de bedoeling; bestaande voortgang
+> blijft staan en zakt vanzelf terug waar ze niet meer klopt.
 
 ### 7.3 Typevraag
 
@@ -706,7 +761,8 @@ Normalisatie vóór vergelijking (soepele modus, de standaard):
 
 **Bij `L2V` (vorm):**
 - Zowel de gedrukte (`~a, ~um`) als de uitgeschreven vorm (`bona, bonum`) is juist.
-- De geslachtsaanduiding is optioneel: `ducis` en `ducis, m.` zijn beide juist.
+- De geslachtsaanduiding is **verplicht** waar het boek ze drukt, en wordt apart nagekeken — de volledige regels staan in §7.2a. (Tot versie 1.7 was ze optioneel.)
+- Een punt is een afkortingsteken en geen leerstof: `geen gen.` en `geen gen` zijn hetzelfde antwoord.
 - Een vorm is **één geheel, geen opsomming**: volgorde en volledigheid tellen wél. Maar
   ook hier is de scheiding geen leerstof — `ūnus, ūna, ūnum; ūnīus` en `unus una unum unius`
   zijn hetzelfde antwoord, `unus una unum` blijft onvolledig en dus fout.
@@ -1050,6 +1106,7 @@ latijn-studietool/
 45. De steentjes vallen verspreid: bij een stand van 4 % raken ze minstens tien van de vierentwintig vakken van het vlak en heeft een gelegd steentje gemiddeld minder dan anderhalve gelegde buur — een aaneengesloten vlek zit rond 3,5. Smoke-12 meet dit.
 46. De leestekens tussen de betekenissen tellen niet mee (§7.4): bij `(z.) wie?, wat?; (b.) welke?` zijn `wie, wat, welke`, `wie wat welke` en `wie?, wat? welke?` alle drie juist, terwijl `wie wie` en `wie wat welke dat` fout blijven. Voor elk van de 1051 woorden wordt de eigen gedrukte vertaling ook zonder komma's en puntkomma's aanvaard, en een vorm ook zonder zijn scheidingstekens — zonder dat de vertaling van een ánder woord daardoor juist wordt. Smoke-13 meet dit.
 47. Een beheerst item (§4.3) komt niet terug als onderhoudsvulling: zolang er nog due of niet-beheerste onderhoudsitems buiten het herhalingsvenster liggen, wordt er geen enkel beheerst item gesteld, en de vulling rouleert — twintig vragen op rij leveren twintig verschillende items op in plaats van dezelfde handvol. Onderhoud kiest telkens het item dat het langst niet gesteld is. Alleen als er echt niets anders over is (stap 6 van §4.5) mag een beheerst item er weer bij, zodat een volledig beheerst pakket niet stilvalt. Smoke-13 meet dit.
+48. Het geslacht hoort bij de genitiefvraag waar het boek het drukt (§7.2a): bij alle 153 zelfstandige naamwoorden met een `g` is de vorm zonder geslacht **fout** met "vergeten" als reden, is elk van de notatievarianten (`m`, `m.`, `mannelijk`, `masc.`, `m/v`, `m. en v.`, met of zonder `mv.`) juist, en blijft de gedrukte vorm juist — met en zonder macrons en scheidingstekens, en in strenge modus precies zoals gedrukt. Bij de 192 zonder `g` wordt er niet naar gevraagd en straft een vrijwillig meegegeven geslacht niet. De vraagkop noemt het geslacht alleen waar het gevraagd wordt, en 152 van de 153 meerkeuzevragen dragen een geslachtsvalstrik. Smoke-14 meet dit.
 
 ---
 

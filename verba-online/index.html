@@ -888,7 +888,7 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
     <hr style="border:0;border-top:1px solid var(--lijn);margin:4px 0 0">
     <div class="rij" style="justify-content:space-between;align-items:baseline">
       <button class="wissel" id="btnZelftest">Werkt het niet? Klik hier</button>
-      <span class="sub" id="bouwStempel" style="margin:0">bouw 14-09 16:54</span>
+      <span class="sub" id="bouwStempel" style="margin:0">bouw 14-09 17:14</span>
     </div>
     <pre id="zelftestUit" hidden style="white-space:pre-wrap;font-size:12px;margin:0;
       padding:10px;border:1px solid var(--lijn);border-radius:8px;overflow-x:auto"></pre>
@@ -897,7 +897,7 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
 
 
 <footer class="colofon"><div class="wrap">
-  © 2026 Robbe en David Steeman<span class="sep">·</span>v1.7<span class="sep">·</span><a
+  © 2026 Robbe en David Steeman<span class="sep">·</span>v1.8<span class="sep">·</span><a
     href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener"
     >CC BY-NC-SA 4.0</a><span class="sep">·</span><a
     href="https://github.com/steemandavid/latijn-studietool" target="_blank" rel="noopener"
@@ -1211,6 +1211,10 @@ const VRAAGZIN  = {znw:"Geef de genitief van", adj:"Geef de overige vormen van",
 /* §7.1: het kernwoord van de vraag krijgt nadruk in de kop — zonder dat wordt
    "Geef de genitief van" als "Wat betekent" gelezen en volgt de vertaling. */
 const VRAAGKERN = {znw:"genitief", adj:"overige vormen", ww:"stamtijden"};
+/* §7.2a: drukt het boek het geslacht bij dit woord, dan vraagt de kop er zichtbaar naar.
+   Zo staat de eis in de vraag zelf en niet pas in de feedback. */
+const vraagZin  = w => w.g ? "Geef de genitief en het geslacht van" : VRAAGZIN[w.soort];
+const vraagKern = w => w.g ? "genitief en het geslacht" : VRAAGKERN[w.soort];
 /* §7.1.1: de iconen in de vraagkop zijn inline SVG in de lijnstijl van de app —
    een volumen (boekrol) voor de betekenis, een zuil voor de vorm. Ze erven de
    kleur van de badge via currentColor; emoji pasten niet bij het Romeinse thema. */
@@ -2116,6 +2120,73 @@ function aanvaard(w, r, streng){
   return (r === "L2N" ? w.ta : w.a) || [];
 }
 
+/* ======================= GESLACHT (§7.2a) =======================
+   Bij een zelfstandig naamwoord waarvan het boek het geslacht drukt, hoort dat bij het
+   antwoord: `ducis, m.`, niet `ducis`. Het boek drukt het alleen waar het niet uit de
+   verbuiging volgt — bij `avus, avī`, `rosa, rosae` en `templum, templī` staat het
+   nergens, ook niet in het alfabetisch register achterin, en dan vraagt de app er ook
+   niet naar. Dat zijn 153 van de 345 zelfstandige naamwoorden; `w.g` draagt het label.
+
+   Hóé hij het opschrijft is geen leerstof. `ducis, m.`, `ducis m`, `ducis (m.)` en
+   `ducis mannelijk` zijn hetzelfde antwoord. De staart wordt er daarom afgeknipt en
+   apart nagekeken. Dat moet ook wel: bleef ", m." aan de vorm plakken, dan werd dát de
+   uitgang, en ging `ducem, m.` als tikfout op `ducis, m.` door — precies waar de
+   uitgangsregel van §7.4 tegen beschermt. */
+const GESL_WOORD  = "mannelijk|masculinum|vrouwelijk|femininum|onzijdig|neutrum|" +
+                    "masc|fem|neut|mann|vrouw|mv|m|v|o|f|n";
+const GESL_STAART = new RegExp("[\\s,;(]+(?:" + GESL_WOORD + ")\\.?" +
+  "(?:\\s*[/&,]?\\s*(?:en\\s+|of\\s+)?(?:" + GESL_WOORD + ")\\.?)*\\s*\\)?\\s*$", "i");
+const GESL_LETTER = {mannelijk:"m", masculinum:"m", masc:"m", mann:"m", m:"m",
+                     vrouwelijk:"v", femininum:"v", fem:"v", vrouw:"v", v:"v", f:"v",
+                     onzijdig:"o", neutrum:"o", neut:"o", o:"o", n:"o"};
+const GESL_NAAM   = {m:"mannelijk", v:"vrouwelijk", o:"onzijdig",
+                     mv:"mannelijk én vrouwelijk"};
+const GESL_ALT    = {m:["v.","o."], v:["m.","o."], o:["m.","v."], mv:["m.","v.","o."]};
+
+function splitsGeslacht(s){
+  const m = GESL_STAART.exec(s);
+  return m ? {vorm: s.slice(0, m.index).trim(), gesl: m[0]}
+           : {vorm: s.trim(), gesl: ""};
+}
+/* Herleidt een geslachtsaanduiding tot de letters die ze noemt: "m." -> "m",
+   "m./v." en "m. en v." -> "mv", "m. mv." -> "m". `mv.` is een meervoudsmerk en geen
+   geslacht, dus het mag wegblijven. Iets anders dan een geslacht geeft null. */
+function geslKern(s){
+  const uit = new Set();
+  for(const t of deMacron(s || "").toLowerCase().split(/[^a-z]+/)){
+    if(!t || t === "mv" || t === "en" || t === "of") continue;
+    const l = GESL_LETTER[t];
+    if(!l) return null;
+    uit.add(l);
+  }
+  return uit.size ? Array.from(uit).sort().join("") : null;
+}
+
+/* De vorm zelf beoordelen (soepele modus). De scheiding tussen de vormen is geen
+   leerstof — "unus una unum" is dezelfde reeks als "unus, una, unum" — maar volgorde en
+   volledigheid tellen wél, want een vorm is één geheel en geen opsomming. */
+function beoordeelVorm(g, w){
+  const lijst = aanvaard(w, "L2V", false);
+  const sp = splitsGeslacht(g);
+  /* Drukt het boek het geslacht niet (avus, rosa, templum), dan vraagt de app er niet
+     naar — maar wie het uit zichzelf meegeeft, hoort daar niet voor gestraft te worden.
+     Zo'n staart wordt dan stil genegeerd: we hebben de gegevens niet om ze na te kijken. */
+  const vorm = sp.vorm || g;
+  const gesl = w.g ? geslKern(sp.gesl) : null;
+  // Een punt is een afkortingsteken, geen leerstof: "geen gen." = "geen gen".
+  const kern = s => s.replace(/[,;.]/g, " ").replace(/\s+/g, " ").trim();
+  const vk = kern(vorm);
+  let res = lijst.some(a => kern(a) === vk) ? {uit:"juist"} : null;
+  if(!res){
+    const k = tikfout(vorm, lijst, "L2V");
+    res = k ? {uit:k.uit, bedoeld:k.bedoeld} : {uit:"fout"};
+  }
+  // Klopt de uitgang niet, dan is dát de misser; het geslacht doet er dan niet meer toe.
+  if(!w.g || res.uit === "fout" || res.uit === "bijna") return res;
+  if(gesl && gesl === geslKern(w.g)) return res;
+  return {uit:"fout", vorm:res.uit, geslacht: gesl ? "fout" : "vergeten"};
+}
+
 /* ======================= TIKFOUTEN (§7.4) ======================= */
 /* Een tikfout is een motorische misser (verwisselde letters, een dubbele letter, een
    letter te veel of te weinig), geen kennisfout. Ze telt daarom als juist, met een
@@ -2237,19 +2308,13 @@ function beoordeel(invoer, w, r){
   const streng = S.settings.strengheid === "streng";
   const g = streng ? normStreng(invoer) : norm(invoer);
   if(!g) return {uit:"fout"};
-  const lijst = aanvaard(w, r, streng);
+  // Streng: alleen exact zoals gedrukt — inclusief het geslacht, dat in `ac` mee staat.
+  if(streng) return aanvaard(w, r, true).includes(g) ? {uit:"juist"} : {uit:"fout"};
+  // Een vormvraag wordt apart beoordeeld, want bij een deel van de zelfstandige
+  // naamwoorden hoort het geslacht bij het antwoord (§7.2a).
+  if(r === "L2V") return beoordeelVorm(g, w);
+  const lijst = aanvaard(w, r, false);
   if(lijst.includes(g)) return {uit:"juist"};
-  if(streng) return {uit:"fout"};
-
-  if(r === "L2V"){                         // een vorm is één geheel, geen opsomming
-    /* Wel is ook hier de scheiding tussen de vormen geen leerstof: "unus una unum"
-       is dezelfde reeks als "unus, una, unum". Volgorde en volledigheid tellen nog. */
-    const kern = s => s.replace(/[,;]/g, " ").replace(/\s+/g, " ").trim();
-    const gk = kern(g);
-    if(lijst.some(a => kern(a) === gk)) return {uit:"juist"};
-    const k = tikfout(g, lijst, r);
-    return k ? {uit:k.uit, bedoeld:k.bedoeld} : {uit:"fout"};
-  }
   /* Betekenissen zijn een verzameling, geen rij: "verzorgen, zorgen voor" is even juist
      als "zorgen voor, verzorgen", en één betekenis volstaat nog altijd. Elk deel dat hij
      geeft moet wel kloppen, anders is een verkeerde betekenis er gratis bij. */
@@ -2362,8 +2427,16 @@ function genAfleiders(w, n){
 
   // hoogstens één afleider op de nominatiefstam: anders verklapt de stamwissel het
   // antwoord, en met vier dezelfde stammen krijgt hij de stamwissel gratis
-  const kandidaten = (opNom.length ? [opNom[0]] : []).concat(opStam, opNom.slice(1));
-  return kiesAfleiders(w, kandidaten.map(v => v + staart), n);
+  const kandidaten = (opNom.length ? [opNom[0]] : []).concat(opStam, opNom.slice(1))
+                     .map(v => v + staart);
+  /* §7.2a: is het geslacht leerstof, dan staat er één afleider met de júíste vorm en het
+     verkeerde geslacht tussen. Zonder die valstrik dragen alle vier de opties hetzelfde
+     ", m." en is het geslacht in een meerkeuzevraag gratis. Ze gaat vooraan, zodat ze de
+     selectie haalt; `kiesAfleiders` schudt daarna toch. */
+  const gk = w.g && geslKern(w.g);
+  const mvStaart = /\bmv\./.test(staart) ? " mv." : "";
+  const valstrik = gk ? shuffle(GESL_ALT[gk] || []).map(x => vorm + ", " + x + mvStaart) : [];
+  return kiesAfleiders(w, valstrik.slice(0, 1).concat(kandidaten), n);
 }
 
 /* --- bijvoeglijke naamwoorden: een ander paradigma op dezelfde stam ---
@@ -2900,8 +2973,7 @@ function volgendeVraag(){
 }
 function vraagKop(w, r){
   const vorm = r === "L2V";
-  const lbl = vorm ? VRAAGZIN[w.soort].replace(VRAAGKERN[w.soort],
-                       `<b>${VRAAGKERN[w.soort]}</b>`)
+  const lbl = vorm ? vraagZin(w).replace(vraagKern(w), `<b>${vraagKern(w)}</b>`)
                    : "Wat <b>betekent</b>";
   return `<div class="vraag" style="--acc:${capKleur(w)}">
     <div class="lbl ${vorm ? "lvorm" : "lbet"}"><span class="em">${vorm ? VRAAGICO.vorm : VRAAGICO.bet}</span>${lbl}</div>
@@ -2959,13 +3031,14 @@ function toonTypen(w, v){
   $("#qBody").innerHTML = vraagKop(w, v.r) + `<div class="typ">
       <input type="text" id="tIn" autocomplete="off" autocapitalize="off"
              autocorrect="off" spellcheck="false"
-             placeholder="${v.r === "L2N" ? "Nederlandse vertaling" : "de vorm"}">
+             placeholder="${v.r === "L2N" ? "Nederlandse vertaling"
+                                : (w.g ? "de vorm + het geslacht" : "de vorm")}">
       <div class="rij">
         <button class="knop prim" id="tOk">Antwoord ✓</button>
         <button class="knop klein" id="tNiet">Ik weet het niet</button>
       </div>
       ${v.r === "L2V" ? `<p class="sub" style="text-align:center;margin:2px 0 0">
-        Streepjes hoef je niet te typen.</p>` : ""}
+        Streepjes hoef je niet te typen.${w.g ? " Zet het geslacht erbij (m., v. of o.)." : ""}</p>` : ""}
     </div>`;
   const inp = $("#tIn");
   setTimeout(()=>inp.focus(), 30);
@@ -2978,7 +3051,7 @@ function toonTypen(w, v){
     if(r.uit === "fout" && !v.herkanst && isAndereRichting(val, w, v.r)){
       v.herkanst = true; toonHerkansing(w, v, val); return;
     }
-    verwerk(r.uit, w, v, {getypt:true, gegeven:val, bedoeld:r.bedoeld});
+    verwerk(r.uit, w, v, {getypt:true, gegeven:val, bedoeld:r.bedoeld, geslacht:r.geslacht});
   };
   $("#tOk").onclick = ga;
   $("#tNiet").onclick = () => { if(!Q.beantwoord) verwerk("fout", w, v, {getypt:true, opgegeven:true}); };
@@ -2996,10 +3069,14 @@ function isAndereRichting(val, w, r){
   const ander = r === "L2N" ? "L2V" : "L2N";
   if(ander === "L2V" && w.soort === "geen") return false;
   if(!val || !val.trim()) return false;
-  return beoordeel(val, w, ander).uit === "juist";
+  const b = beoordeel(val, w, ander);
+  // Wie de genitief typt terwijl de betekenis gevraagd werd, heeft de vraag verkeerd
+  // gelezen — ook als hij het geslacht er niet bij zette (§7.2a). Dat blijft een
+  // leesfout en geen kennisfout.
+  return b.uit === "juist" || (!!b.geslacht && b.vorm === "juist");
 }
 function toonHerkansing(w, v, val){
-  const vormnaam = VRAAGKERN[w.soort] || "vorm";
+  const vormnaam = vraagKern(w) || "vorm";
   const uitleg = v.r === "L2N"
     ? `Dat is de <b>${vormnaam}</b> van dit woord — er wordt naar de <b>betekenis</b> gevraagd.`
     : `Dat is de <b>betekenis</b> van dit woord — er wordt naar de <b>${vormnaam}</b> gevraagd.`;
@@ -3123,9 +3200,19 @@ function toonFeedback(uit, w, v, ctx){
     const t = setTimeout(() => { if(zelfdeRonde(id)) volgendeVraag(); }, 1600);
     Q.enter = () => { clearTimeout(t); if(zelfdeRonde(id)) volgendeVraag(); };
   } else {
+    /* §7.2a: stond de vorm juist maar ontbrak of miste het geslacht, zeg dán dát — een
+       kale "Fout" naast een antwoord dat er bijna hetzelfde uitziet, leert niets. */
+    const gnaam = w.g ? (GESL_NAAM[geslKern(w.g)] || w.g) : "";
+    const gesl = ctx.geslacht === "vergeten"
+      ? `<div class="extra">De vorm klopt — maar het <b>geslacht</b> hoort erbij:
+         <span class="lat">${w.g}</span> (${gnaam}).</div>`
+      : ctx.geslacht === "fout"
+      ? `<div class="extra">De vorm klopt, het <b>geslacht</b> niet:
+         <span class="lat">${w.g}</span> (${gnaam}).</div>` : "";
     fb.innerHTML = `<div class="fb fout">
       <div class="kop">✗ ${ctx.opgegeven ? "Niet geweten" : "Fout"}</div>
       <div class="antw ${v.r === "L2V" ? "lat" : ""}">${goed}</div>
+      ${gesl}
       <div class="extra"><span class="lat">${w.w}</span>${
         w.vol ? ` · <span class="lat">${w.vol}</span>` : ""} — ${w.t}</div>
       <div class="extra" style="margin-top:5px;color:var(--tx3)">${w.c} · woord ${w.nr}</div>
