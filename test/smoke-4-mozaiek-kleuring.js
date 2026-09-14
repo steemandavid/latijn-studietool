@@ -48,6 +48,45 @@ const check = (naam, ok, detail) => {
     r.detail.forEach(d=>console.log(`   ${String(d.nr).padStart(4)} ${d.kop.padEnd(14)} ${d.soort.padEnd(5)} ${d.uitkomst.padEnd(6)} L2N=${d.L2N} L2V=${d.L2V} -> ${d.sterren} ster`));
     check('alle 20 aangeraakte woorden kleuren in het mozaïek', r.gekleurd===20, r.gekleurd);
     check('elk aangeraakt woord heeft >0 sterren', r.metSterren.length===20, r.metSterren);
+    /* --- de caputs van "Jouw woordenlijst" klappen in en uit (§6.1) --- */
+    const inklap = await p.evaluate(async () => {
+      const caput = () => document.querySelector('#moz .mozcap:nth-child(2)');
+      const open  = () => caput().querySelector('.mozsecs').classList.contains('op');
+      const uit = {allesOpen: document.querySelectorAll('#moz .mozsecs.op').length};
+      caput().querySelector('h3').click();
+      uit.naKlik = open();
+      uit.pijl   = caput().querySelector('.pijl').textContent.trim();
+      uit.aria   = caput().querySelector('.pijl').getAttribute('aria-expanded');
+      uit.kopBlijft = caput().querySelector('h3').offsetHeight > 0;
+      uit.rest   = document.querySelectorAll('#moz .mozsecs.op').length;
+      uit.inSave = JSON.parse(localStorage.getItem('verba.save.v1')).settings.mozDicht.length;
+      renderHome();                      // een re-render mag de stand niet omgooien
+      uit.naHertekenen = open();
+      caput().querySelector('h3').click();
+      uit.weerOpen = open();
+      uit.saveLeeg = JSON.parse(localStorage.getItem('verba.save.v1')).settings.mozDicht.length;
+      return uit;
+    });
+    check('bij een verse save staan alle zeven caputs open', inklap.allesOpen===7, inklap.allesOpen);
+    check('een klik op de caputkop klapt hem in', inklap.naKlik===false, inklap);
+    check('het pijltje en aria-expanded volgen',
+          inklap.pijl==='\u25b8' && inklap.aria==='false', inklap);
+    check('de kop met de goudteller blijft staan', inklap.kopBlijft===true, inklap);
+    check('de andere caputs blijven open', inklap.rest===6, inklap.rest);
+    check('de stand staat in de save', inklap.inSave===1, inklap.inSave);
+    check('een re-render behoudt de stand', inklap.naHertekenen===false, inklap);
+    check('nog een klik zet hem weer open', inklap.weerOpen===true, inklap);
+    check('en haalt hem weer uit de save', inklap.saveLeeg===0, inklap.saveLeeg);
+
+    const kapot = await p.evaluate(() => {
+      const d = JSON.parse(localStorage.getItem('verba.save.v1'));
+      d.settings.mozDicht = "stuk";                 // een save van een oudere/kapotte versie
+      localStorage.setItem('verba.save.v1', JSON.stringify(d));
+      laad(); renderHome();
+      return document.querySelectorAll('#moz .mozsecs.op').length;
+    });
+    check('een kapotte mozDicht legt niets plat en zet alles open', kapot===7, kapot);
+
     console.log("FOUTEN", f.length);
     check('nul console/pageerrors', f.length===0, f.slice(0,3));
   }finally{

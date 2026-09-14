@@ -1,5 +1,60 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-14 (b) — "Jouw woordenlijst": de caputs klappen in en uit (§6.1)
+
+### Gevraagd
+Dezelfde inklapbaarheid als in Leerpakket, maar dan voor het mozaïek op het beginscherm:
+zeven caputs onder elkaar is veel scrollen als je er maar één aan het leren bent.
+
+### Wat het geworden is
+In `renderMoz()` en de mozaïek-CSS, gespiegeld aan de pakketselector:
+
+- Elke caputkop krijgt hetzelfde `▾/▸`-pijltje; de sectieblokken zitten nu in een
+  `.mozsecs`-container die `.op` aan- en uitzet, met dezelfde `opkomst`-animatie als `.secs`.
+- **De hele kop is de knop**, niet alleen het pijltje: 18 px is op een tablet net te klein
+  om te raken.
+- De kop blijft altijd staan, **met de goudteller erbij** (`0/165`), zodat een dichtgeklapt
+  caput zijn voortgang nog toont. `aria-expanded` volgt, en Enter op het pijltje werkt.
+
+### Eén afweging: de stand hoort bij de instellingen, niet bij een variabele
+De pakketselector houdt zijn uitgeklapte caputs in een gewone `Set` (`pakOpen`) — die is na
+een herlaadbeurt weg. Voor een lijst die je openslaat om iets op te zoeken is dat prima;
+voor een lijst waarvan je zes van de zeven caputs wegklapt omdat je aan Caput 3 werkt, niet.
+Daarom `S.settings.mozDicht`: een lijst **dichtgeklapte** caputnamen, zodat leeg = alles
+open en het mozaïek er bij een eerste bezoek uitziet zoals het altijd deed. Het loopt via
+`settings` ook mee naar het andere toestel. `zetSave()` filtert de lijst op bestaande
+caputnamen; een kapotte waarde betekent gewoon "alles open".
+
+### Tests
+`smoke-4` van 3 naar 13 checks: inklappen, pijltje en `aria-expanded`, de kop die blijft
+staan, de andere caputs die openblijven, de stand in de save, een re-render die de stand
+niet omgooit, weer openklappen, en een kapotte `mozDicht`. Alle negen offline suites groen,
+**samen 120 checks**.
+
+### Gepubliceerd (beide wijzigingen van vandaag)
+Build `14-09 14:48`, per curl over FTP, en live geverifieerd:
+
+| Bestand | Doel | Grootte |
+| --- | --- | --- |
+| `verba-online/index.html` | `/verba/index.html` | 735 745 B |
+| `verba-online/index.html` | `/verba-test/index.html` (voor smoke-10) | 735 745 B |
+| `verba/index.html` | `/verba/verba-offline.html` | 931 894 B |
+
+Controle in headless Chromium: op `verba-offline.html` gaan de caputs van 7 naar 6 open na
+één klik, nul JS-fouten; op `/verba/` staat het aanmeldscherm met bouwstempel `14-09 14:48`
+en de enige "fout" in de console is de eigen stop `verba: eerst aanmelden`, die het opstarten
+zonder token afbreekt — dat is het ontwerp, niet een defect.
+
+### Openstaand — handmatig te doen
+1. **Het account David is niet automatisch te repareren.** Robbe's cijfers zitten erin en
+   monotoon samenvoegen kan niet terug. Verwijderen via de beheerpagina (`beheer/wissen`) en
+   daarna opnieuw aanmelden.
+2. Laat Robbe's toestellen eerst synchroniseren (gebeurt vanzelf bij elke schermwissel) vóór
+   ze de nieuwe versie openen: de eenmalige wis van de ongestempelde save haalt alles wat
+   gesynct is terug, maar wat nog in de wachtrij stond niet.
+3. `smoke-10` is nog niet gedraaid tegen de nieuwe build: die heeft `VERBA_BEHEER` nodig en
+   die sleutel staat niet op deze machine. `/verba-test/` draagt de nieuwe build al.
+
 ## 2026-09-14 — Een tweede gebruiker op dezelfde computer zag de voortgang van de eerste (§13.5a)
 
 ### Gemeld
@@ -64,15 +119,6 @@ de live server en `VERBA_BEHEER` nodig, en die sleutel staat niet op deze machin
 - **§13.5a** nieuw in de specificatie: "Eén toestel, meerdere gebruikers", met de reden dat
   dit een correctheids- en geen comfortkwestie is.
 - `README.md` en `test/LEESMIJ.txt` bijgewerkt.
-
-### Openstaand — handmatig te doen
-1. Nieuwe build uitrollen naar `/verba/` (en `/verba-test/` voor smoke-10).
-2. **Het account David is niet automatisch te repareren.** Robbe's cijfers zitten erin en
-   monotoon samenvoegen kan niet terug. Verwijderen via de beheerpagina (`beheer/wissen`) en
-   daarna opnieuw aanmelden op de nieuwe build.
-3. Laat Robbe's toestellen eerst synchroniseren (gebeurt vanzelf bij elke schermwissel) vóór
-   ze de nieuwe versie openen: de eenmalige wis van de ongestempelde save haalt alles wat
-   gesynct is terug, maar wat nog in de wachtrij stond niet.
 
 ## 2026-09-13 — Online modus, fase 1: accounts, centrale voortgang, logboek
 

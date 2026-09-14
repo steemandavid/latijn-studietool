@@ -13,7 +13,10 @@ worden, met en zonder macrons, in soepele en in strenge modus. Die test
 ving de "hoog; diep"-bug.
 
 smoke-4 speelt een blitz op een vers pakket na en controleert dat elk aangeraakt
-woord daarna gekleurd is in het mozaïek. smoke-5 legt de sterformule van spec
+woord daarna gekleurd is in het mozaïek. Sinds 2026-09-14 bewaakt hij ook het in- en
+uitklappen van de caputs in "Jouw woordenlijst" (§6.1): de kop met de goudteller blijft
+staan, een re-render gooit de stand niet om, de stand staat in de save, en een kapotte
+`settings.mozDicht` zet gewoon alles open. smoke-5 legt de sterformule van spec
 §5.4 over alle 36 box-combinaties: goud alleen bij alles op 5, 0 alleen bij alles
 op 0, en nooit dalend.
 

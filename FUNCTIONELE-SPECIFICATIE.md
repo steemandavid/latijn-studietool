@@ -465,6 +465,7 @@ Het equivalent van FLUO's periodiek systeem: **1051 kleine cellen**, gegroepeerd
 - Klikken op een cel opent de **woordkaart**: nummer, woord zoals gedrukt, tweede vorm (gedrukt én uitgeschreven), vertaling, caput/sectie, woordsoort, sterren, en de statistiek per richting (juist/fout).
 - Onder het mozaïek: **"312 van 1051 op goud"** met voortgangsbalk, plus dezelfde teller voor het actieve pakket.
 - Op smalle schermen schaalt de celgrootte mee; het mozaïek scrollt **binnen zijn eigen container**, nooit de pagina.
+- Elk caput is **in- en uitklapbaar** via zijn kop, met hetzelfde pijltje als de pakketselector (§4.2). Standaard staat alles open. De kop blijft altijd zichtbaar, met de goudteller erbij, zodat een dichtgeklapt caput zijn voortgang nog toont. Welke caputs dicht staan hoort bij de **instellingen** (`settings.mozDicht`, een lijst caputnamen): het overleeft een herlaadbeurt en loopt online mee naar het andere toestel. Een onbekende of kapotte waarde valt stil weg en betekent "alles open".
 
 > Dit is de emotionele kern: hij ziet zijn hele woordenlijst langzaam goud worden.
 
@@ -757,7 +758,9 @@ dan is dat geen kennisfout maar een leesfout.
     "strengheid": "soepel",           // "soepel" | "streng"
     "typAandeel": "gemiddeld",        // "weinig" | "gemiddeld" | "veel" (§4.6)
     "tempo": "auto",                  // "auto" | "rustig" | "normaal" | "snel" (§4.4)
-    "pakket": ["1.0", "1.1", "1.2"]   // sectiesleutels; leeg = niets geselecteerd
+    "pakket": ["1.0", "1.1", "1.2"],  // sectiesleutels; leeg = niets geselecteerd
+    "mozDicht": ["Caput 2 · Liefde"]  // caputs die in "Jouw woordenlijst" dicht staan (§6.1);
+                                      // leeg = alles open
   },
   "profiel": {
     "xp": 4820, "level": 9, "streak": 5,

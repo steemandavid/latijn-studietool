@@ -172,8 +172,17 @@ input[type=checkbox]{accent-color:var(--goud2);width:17px;height:17px;cursor:poi
   border:1px solid var(--lijn);border-radius:var(--r);padding:16px;
   max-height:440px;overflow:auto;box-shadow:var(--rand)}
 .mozcap{margin-bottom:18px}
+.mozcap.dicht{margin-bottom:6px}
 .mozcap>h3{font-size:.86rem;margin:0 0 8px;color:var(--tx2);font-weight:650;
-  display:flex;align-items:center;gap:8px;letter-spacing:.01em}
+  display:flex;align-items:center;gap:8px;letter-spacing:.01em;
+  cursor:pointer;user-select:none;border-radius:9px;padding:3px 4px;margin-left:-4px;
+  transition:background var(--dur)}
+.mozcap>h3:hover{background:rgba(255,255,255,.035)}
+.mozcap>h3 .pijl{width:18px;margin-left:-2px;text-align:center;color:var(--tx3);
+  transition:color var(--dur)}
+.mozcap>h3:hover .pijl{color:var(--goud)}
+.mozsecs{display:none;padding-left:18px}
+.mozsecs.op{display:block;animation:opkomst 220ms var(--ease) both}
 .mozsec{margin:0 0 9px}
 .mozsec>span{font-size:.7rem;color:var(--tx3);display:block;margin-bottom:4px;letter-spacing:.03em}
 .cellen{display:flex;flex-wrap:wrap;gap:4px}
@@ -879,7 +888,7 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
     <hr style="border:0;border-top:1px solid var(--lijn);margin:4px 0 0">
     <div class="rij" style="justify-content:space-between;align-items:baseline">
       <button class="wissel" id="btnZelftest">Werkt het niet? Klik hier</button>
-      <span class="sub" id="bouwStempel" style="margin:0">bouw 14-09 09:08</span>
+      <span class="sub" id="bouwStempel" style="margin:0">bouw 14-09 14:48</span>
     </div>
     <pre id="zelftestUit" hidden style="white-space:pre-wrap;font-size:12px;margin:0;
       padding:10px;border:1px solid var(--lijn);border-radius:8px;overflow-x:auto"></pre>
@@ -1731,7 +1740,7 @@ function leegProfiel(){
     app:"verba", version:1, createdAt:new Date().toISOString(),
     settings:{toetsdatum:null, geluid:true, animaties:true, rondelengte:15,
               strengheid:"soepel", typAandeel:"gemiddeld", tempo:"auto",
-              pakket:CAPUTS[0].secties.map(s=>s.key)},
+              pakket:CAPUTS[0].secties.map(s=>s.key), mozDicht:[]},
     profiel:{xp:0, level:1, streak:0, laatsteActieveDag:null, streakGeschiedenis:[],
              combo:0, besteCombo:0, blitzRecord:0, totaalJuist:0, totaalFout:0,
              vormJuist:0, vormFout:0, typStreak:0, besteTypStreak:0, tempo:0.5,
@@ -1808,6 +1817,9 @@ function zetSave(d, uitBestand){
   S.examen = Object.assign({gehaald:false,besteScore:0}, alsObject(d.examen) || {});
   // onbekende sectiesleutels stil laten vallen
   S.settings.pakket = (Array.isArray(S.settings.pakket) ? S.settings.pakket : []).filter(k => SECTIES[k]);
+  // Onbekende caputnamen stil laten vallen; een lege lijst betekent "alles open" (§6.2).
+  S.settings.mozDicht = (Array.isArray(S.settings.mozDicht) ? S.settings.mozDicht : [])
+    .filter(n => CAPUTS.some(c => c.naam === n));
 }
 function bewaar(){
   if(!opslagOK) return;
@@ -2690,16 +2702,39 @@ function renderPakket(){
 }
 
 /* --- mozaïek --- */
+/* De caputs klappen in en uit zoals in de pakketselector: zeven caputs onder elkaar is
+ * veel scrollen als je er maar één aan het leren bent. Welke dicht staan hoort bij de
+ * instellingen, niet bij een variabele: dan staat de lijst na een herlaadbeurt — en op
+ * het andere toestel — nog altijd zoals je hem gezet had. */
 function renderMoz(){
   const m = $("#moz"); m.innerHTML = "";
   const aan = new Set(S.settings.pakket);
+  const dicht = new Set(S.settings.mozDicht);
   let teller = 0;
   CAPUTS.forEach(c => {
-    const blok = el("div","mozcap");
+    const blok = el("div","mozcap" + (dicht.has(c.naam) ? " dicht" : ""));
     const g = c.nrs.filter(isGoud).length;
-    blok.appendChild(el("h3", null,
-      `<span class="rom" style="color:${c.kleur}">${romeins(c.nr)}</span>${c.naam}
-       <span style="color:var(--tx3);font-weight:400">${g}/${c.nrs.length}</span>`));
+    const kop = el("h3", null,
+      `<button class="pijl" aria-expanded="${!dicht.has(c.naam)}"
+               aria-label="${c.naam} in- of uitklappen">${dicht.has(c.naam) ? "▸" : "▾"}</button>
+       <span class="rom" style="color:${c.kleur}">${romeins(c.nr)}</span>${c.naam}
+       <span style="color:var(--tx3);font-weight:400">${g}/${c.nrs.length}</span>`);
+    const secs = el("div","mozsecs");
+    if(!dicht.has(c.naam)) secs.classList.add("op");
+    // De hele kop is de knop, niet alleen het pijltje: een pijl van 18 px is op een
+    // tablet net te klein om te raken.
+    kop.onclick = () => {
+      const nuDicht = !secs.classList.toggle("op");
+      const lijst = new Set(S.settings.mozDicht);
+      nuDicht ? lijst.add(c.naam) : lijst.delete(c.naam);
+      S.settings.mozDicht = CAPUTS.filter(x => lijst.has(x.naam)).map(x => x.naam);
+      blok.classList.toggle("dicht", nuDicht);
+      const pijl = kop.querySelector(".pijl");
+      pijl.textContent = nuDicht ? "▸" : "▾";
+      pijl.setAttribute("aria-expanded", String(!nuDicht));
+      bewaar();
+    };
+    blok.appendChild(kop);
     c.secties.forEach(s => {
       const sb = el("div","mozsec");
       sb.appendChild(el("span", null, s.titel));
@@ -2716,8 +2751,9 @@ function renderMoz(){
         b.onclick = () => toonWoord(nr);
         cel.appendChild(b);
       });
-      sb.appendChild(cel); blok.appendChild(sb);
+      sb.appendChild(cel); secs.appendChild(sb);
     });
+    blok.appendChild(secs);
     m.appendChild(blok);
   });
   NIEUW_GOUD.clear();
