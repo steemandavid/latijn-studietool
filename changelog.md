@@ -1,5 +1,79 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-14 — Een tweede gebruiker op dezelfde computer zag de voortgang van de eerste (§13.5a)
+
+### Gemeld
+"Ik heb mezelf aangemeld als een nieuwe gebruiker David op de computer die Robbe ervoor
+heeft gebruikt. Ik zie nu in mijn eigen account David al de voortgang staan die Robbe had
+gemaakt."
+
+### Oorzaak
+De lokale opslagsleutel `verba.save.v1` was **niet aan een account gekoppeld**: één save per
+browser, niet één per gebruiker. Bij het aanmelden werd die save nergens gewist. Gevolg in
+twee trappen:
+
+1. `laad()` las bij het opstarten gewoon de save van de vorige gebruiker in — David zag
+   Robbe's XP, badges en leeritems.
+2. Erger: bij de eerste sync stuurde `bouwWijziging()` die hele staat mee **als die van
+   David**. Het samenvoegen in `server/samenvoegen.php` is monotoon (maximum voor tellers,
+   vereniging voor badges en tesserae), dus wat één keer meegaat staat **voorgoed** in dat
+   account. Terugdraaien kan alleen door het account te verwijderen.
+
+Het was dus geen weergavefout maar een correctheidsfout, met blijvende gevolgen op de
+server. De offline build (USB-stick, één gebruiker, geen server) had het probleem niet.
+
+### De fix: een eigenaarsstempel op de lokale opslag
+In `sjabloon.html`, volledig binnen `/*__ONLINE_BEGIN__*/`-markers — de offline build
+verandert geen letter:
+
+| Plaats | Wat |
+| --- | --- |
+| `eigenaarNu()` | de stempel: klas + `\n` + naam van wie er aangemeld is |
+| `bewaar()` | schrijft die stempel bij elke opslagbeurt mee (`{...S, eigenaar}`) |
+| `laad()` | laadt de save **alleen** als de stempel klopt; anders wissen en leeg beginnen |
+| `zetSave()` | gooit een meegeïmporteerde `eigenaar` weg — de stempel hoort bij de opslag, niet bij de save |
+
+Afwegingen die in de code als commentaar staan:
+
+- **Een ontbrekende stempel telt als "niet van hem".** Anders was precies het gemelde geval
+  niet opgelost: de save op Davids computer dateert van vóór deze wijziging en draagt er
+  geen. Kostprijs: bij het uitrollen wordt op elk toestel de lokale save één keer gewist en
+  meteen weer van de server gehaald. Dat is veilig omdat samenvoegen monotoon is — de server
+  kan door een lege client niets kwijtspelen.
+- **Afmelden laat de lokale save met rust.** Meldt dezelfde leerling zich opnieuw aan, dan is
+  er niets verloren; meldt er iemand anders zich aan, dan vangt de stempel dat op. Wissen bij
+  het afmelden zou ongesynchroniseerd werk weggooien zonder er iets voor terug te geven.
+- **Zonder token blijft de laatst bekende stempel staan** (`eigenaarStempel`). Na een
+  PIN-reset — die overal afmeldt — zou de eigenaar anders bij het opnieuw inloggen zijn
+  eigen save als "van iemand anders" gewist zien worden.
+
+### Test
+`test/smoke-10-online-sync.js` heeft een nieuw blok 5 (23 → 29 checks) dat het gemelde geval
+naspeelt in één browsercontext: afmelden, aanmelden als een tweede gebruiker, en dan
+
+- 0 XP en 0 leeritems voor de nieuwe gebruiker;
+- ook ná een tweede sync nog steeds leeg — dat bewijst dat er niets naar de server is
+  gelekt, want anders kwam het daar weer vandaan;
+- en de eerste gebruiker is op zijn eigen toestel niets kwijt (920 XP staat er nog).
+
+Offline suites opnieuw gedraaid op de nieuwe build: smoke-1 37/37, smoke-2 15/15,
+smoke-6 9/9, beide builds syntactisch schoon. **smoke-10 is hier niet gedraaid**: die heeft
+de live server en `VERBA_BEHEER` nodig, en die sleutel staat niet op deze machine.
+
+### Documentatie
+- **§13.5a** nieuw in de specificatie: "Eén toestel, meerdere gebruikers", met de reden dat
+  dit een correctheids- en geen comfortkwestie is.
+- `README.md` en `test/LEESMIJ.txt` bijgewerkt.
+
+### Openstaand — handmatig te doen
+1. Nieuwe build uitrollen naar `/verba/` (en `/verba-test/` voor smoke-10).
+2. **Het account David is niet automatisch te repareren.** Robbe's cijfers zitten erin en
+   monotoon samenvoegen kan niet terug. Verwijderen via de beheerpagina (`beheer/wissen`) en
+   daarna opnieuw aanmelden op de nieuwe build.
+3. Laat Robbe's toestellen eerst synchroniseren (gebeurt vanzelf bij elke schermwissel) vóór
+   ze de nieuwe versie openen: de eenmalige wis van de ongestempelde save haalt alles wat
+   gesynct is terug, maar wat nog in de wachtrij stond niet.
+
 ## 2026-09-13 — Online modus, fase 1: accounts, centrale voortgang, logboek
 
 ### Doel

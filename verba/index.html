@@ -1377,6 +1377,8 @@ function confetti(aantal){
 const KEY = "verba.save.v1";
 let opslagOK = true;
 
+
+
 function leegProfiel(){
   return {
     app:"verba", version:1, createdAt:new Date().toISOString(),
@@ -1400,6 +1402,7 @@ function laad(){
   try{
     const d = JSON.parse(ruw);
     if(!d || d.version !== 1) throw 0;
+    
     zetSave(d);
   }catch(e){ S = leegProfiel(); }
 }
@@ -1412,6 +1415,7 @@ function zetSave(d, uitBestand){
   if(uitBestand && d.app !== "verba") throw new Error("geen-verba");
   S = Object.assign(leeg, alsObject(d) || {});
   S.app = "verba"; S.version = 1;
+  delete S.eigenaar;                 // de stempel hoort bij de opslag, niet bij de save zelf
   S.settings = Object.assign(leeg.settings, alsObject(d.settings) || {});
   if(!TYPDOEL[S.settings.typAandeel]) S.settings.typAandeel = "gemiddeld";
   if(!(S.settings.tempo in TEMPOVAST) && S.settings.tempo !== "auto") S.settings.tempo = "auto";
@@ -1452,7 +1456,9 @@ function zetSave(d, uitBestand){
 }
 function bewaar(){
   if(!opslagOK) return;
-  try{ localStorage.setItem(KEY, JSON.stringify(S)); }
+  let uit = S;
+  
+  try{ localStorage.setItem(KEY, JSON.stringify(uit)); }
   catch(e){ opslagOK = false; toonOpslagWaarsch(); }
 }
 function toonOpslagWaarsch(){

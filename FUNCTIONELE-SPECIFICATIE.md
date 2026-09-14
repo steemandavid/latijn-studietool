@@ -1134,6 +1134,16 @@ De server verhoogt `rev` en stuurt de samengevoegde staat terug als de client ac
 
 Klokken van toestellen lopen uit elkaar: tijdstempels van de client worden geklemd op "niet in de toekomst" en dienen alleen om twee kanten te ordenen, nooit om iets te berekenen dat ertoe doet.
 
+### 13.5a Eén toestel, meerdere gebruikers
+
+Eén computer wordt door meer dan één leerling gebruikt — de laptop thuis, de pc in de klas. De lokale save mag dan **nooit** bij de volgende gebruiker terechtkomen.
+
+- De lokale opslag draagt een **eigenaarsstempel**: klas + naam van wie de save gemaakt heeft.
+- Bij het opstarten laadt de app de lokale save **alleen** als die stempel overeenkomt met wie er aangemeld is. Komt hij niet overeen — of ontbreekt hij — dan wordt de save gewist en begint deze gebruiker leeg; zijn eigen voortgang komt bij de eerste sync van de server.
+- Dit is geen comfortkwestie maar een correctheidskwestie: het samenvoegen is monotoon (§13.5), dus een save die één keer met het verkeerde account meegaat, staat **voorgoed** in dat account. Terugdraaien kan alleen door het account te verwijderen (§13.8c).
+- Afmelden laat de lokale save met rust: meldt dezelfde leerling zich opnieuw aan, dan is er niets verloren; meldt er iemand anders zich aan, dan vangt de stempel dat op.
+- Zonder geldig token (bijvoorbeeld na een PIN-reset) blijft de bestaande stempel staan, zodat de eigenaar zijn eigen save bij het opnieuw inloggen niet kwijtspeelt.
+
 ### 13.6 Vals spelen en misbruik
 
 De leermotor draait in de browser, dus **elke score is een bewering van de client**. Dat serverzijdig dichttimmeren zou de Leitner-motor, de antwoordbeoordeling en de XP-berekening op de server vragen, met een verzoek per vraag en zonder offline spelen — een ander project. Gekozen houding: **de client blijft baas, de server maakt vals spelen zichtbaar en onschadelijk.**

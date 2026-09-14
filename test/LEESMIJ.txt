@@ -60,7 +60,7 @@ Tegen de echte server (er is geen lokale MySQL). Beide maken hun eigen wegwerpkl
 aan en ruimen die achteraf weer op:
 
     VERBA_BEHEER=<beheersleutel> node test/api-test.js              (49 checks)
-    VERBA_BEHEER=<beheersleutel> node test/smoke-10-online-sync.js  (23 checks)
+    VERBA_BEHEER=<beheersleutel> node test/smoke-10-online-sync.js  (29 checks)
     VERBA_BEHEER=<beheersleutel> node test/smoke-11-beheerpagina.js (17 checks)
     VERBA_BEHEER=<beheersleutel> node test/smoke-12-klasmozaiek.js  (16 checks)
 
@@ -78,6 +78,12 @@ online build op een testpad. Na een wijziging aan sjabloon.html dus eerst:
 
     python3 bouw.py
     curl --netrc -T verba-online/index.html ftp://ftp.steeman.be/verba-test/index.html
+
+Blok 5 van smoke-10 (2026-09-14) bewaakt §13.5a: een tweede gebruiker die zich in
+DEZELFDE browser aanmeldt nadat de vorige zich heeft afgemeld. Die moet op nul beginnen
+en mag niets van zijn voorganger meesyncen — dat laatste is niet terug te draaien, want
+het samenvoegen is monotoon. De test controleert ook dat de eerste gebruiker zijn eigen
+voortgang daarbij niet kwijtspeelt.
 
 LET OP: de hosting heeft een DDoS-bescherming. Draai je smoke-10 een paar keer kort na
 elkaar, dan krijgt de headless browser een 403 met de titel "LWS Protection DDoS" — de

@@ -162,12 +162,37 @@ async function speelRonde(pagina, items, xp) {
     check("4e en komt op het andere toestel aan",
           await tablet.evaluate(() => S.items["4:L2N"].box), 2);
 
-    /* ---- 5. het logboek heeft alles meegekregen (§11.39) ---- */
+    /* ---- 5. tweede gebruiker op DEZELFDE computer (§13.5a) ----
+     * Het gezinslaptop-geval: de vorige gebruiker meldt zich af, de volgende meldt zich
+     * aan in dezelfde browser. Die mag niets van zijn voorganger zien — en, erger nog,
+     * niets van hem meesyncen: samenvoegen is monotoon, dus dat zou voorgoed in het
+     * nieuwe account blijven staan. */
+    await laptop.evaluate(() => afmelden());
+    await laptop.waitForSelector("#aanmeldScherm:not([hidden])", {timeout: 30000});
+    await meldAan(laptop, klas.joincode, "david", "4321", true);
+    const vers = await laptop.evaluate(() => ({
+      naam: ACC.naam, xp: S.profiel.xp, items: Object.keys(S.items).length,
+      oud: S.items["1:L2N"] ? "nog daar" : "weg"}));
+    check("5a de nieuwe gebruiker is aangemeld", vers.naam, "david");
+    check("5b hij begint op nul XP", vers.xp, 0);
+    check("5c en zonder leeritems", vers.items, 0);
+    check("5d de items van de vorige gebruiker zijn weg", vers.oud, "weg");
+    // Na de eerste sync (meldAan wacht daarop) zou de server de vervuiling teruggeven als
+    // ze er toch ingeslopen was — dit bewijst dus ook dat het account server-zijdig leeg is.
+    await laptop.evaluate(() => syncNu());
+    check("5e ook na een tweede sync blijft het account leeg",
+          await laptop.evaluate(() => S.profiel.xp + Object.keys(S.items).length), 0);
+    // En de voortgang van de eerste gebruiker staat nog op de server, niet verdwenen.
+    await tablet.evaluate(() => syncNu());
+    check("5f de vorige gebruiker is zijn voortgang niet kwijt",
+          await tablet.evaluate(() => S.profiel.xp), 920);
+
+    /* ---- 6. het logboek heeft alles meegekregen (§11.39) ---- */
     const log = await beheer(`beheer/logboek&klas=${klas.klas}&aantal=100`);
     const zinnen = (log.logboek || []).map(x => x.zin);
-    check("5a de aanmelding staat erin", zinnen.some(z => z.includes("account aangemaakt")), true);
-    check("5b het tweede toestel staat erin", zinnen.some(z => z.includes("nieuw toestel")), true);
-    check("5c de syncs staan erin", zinnen.filter(z => z.includes("gesynct")).length >= 2, true);
+    check("6a de aanmelding staat erin", zinnen.some(z => z.includes("account aangemaakt")), true);
+    check("6b het tweede toestel staat erin", zinnen.some(z => z.includes("nieuw toestel")), true);
+    check("6c de syncs staan erin", zinnen.filter(z => z.includes("gesynct")).length >= 2, true);
   } catch (e) {
     gefaald++;
     console.error("ONVERWACHTE FOUT:", e);

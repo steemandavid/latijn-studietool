@@ -1706,6 +1706,26 @@ function confetti(aantal){
 const KEY = "verba.save.v1";
 let opslagOK = true;
 
+/*__ONLINE_BEGIN__*/
+/* Eén toestel, meerdere gebruikers (§13.5a). De lokale save draagt de naam van wie hem
+ * gemaakt heeft. Meldt er daarna iemand anders zich aan op hetzelfde toestel, dan is die
+ * save niet van hem: hij mag niet geladen worden, en al helemaal niet meegesyncd. Het
+ * samenvoegen is immers monotoon (§13.5), dus wat één keer meegaat staat voorgoed in het
+ * nieuwe account — de voortgang van de vorige gebruiker valt er niet meer uit te halen.
+ */
+let eigenaarStempel = null;                   // laatst bekende eigenaar van de lokale save
+function eigenaarNu(){
+  // Zonder token (bv. na een PIN-reset, die afmeldt) blijft de bestaande stempel staan:
+  // anders zou de eigenaar van deze save hem bij het opnieuw inloggen kwijtspelen.
+  return ACC.token ? (ACC.klas + "\n" + ACC.naam) : eigenaarStempel;
+}
+function vanIemandAnders(d){
+  const nu = eigenaarNu();
+  if(!nu) return false;                       // niet aangemeld: niets om mee te vergelijken
+  return !d || d.eigenaar !== nu;             // ook een save van vóór deze stempel is "niet van hem"
+}
+/*__ONLINE_EINDE__*/
+
 function leegProfiel(){
   return {
     app:"verba", version:1, createdAt:new Date().toISOString(),
@@ -1729,6 +1749,15 @@ function laad(){
   try{
     const d = JSON.parse(ruw);
     if(!d || d.version !== 1) throw 0;
+    /*__ONLINE_BEGIN__*/
+    if(vanIemandAnders(d)){
+      // De vorige gebruiker van dit toestel. Zijn voortgang staat veilig op de server;
+      // die van deze gebruiker komt bij de eerste sync binnen (§13.5a).
+      try{ localStorage.removeItem(KEY); }catch(e){}
+      return;
+    }
+    eigenaarStempel = typeof d.eigenaar === "string" ? d.eigenaar : null;
+    /*__ONLINE_EINDE__*/
     zetSave(d);
   }catch(e){ S = leegProfiel(); }
 }
@@ -1741,6 +1770,7 @@ function zetSave(d, uitBestand){
   if(uitBestand && d.app !== "verba") throw new Error("geen-verba");
   S = Object.assign(leeg, alsObject(d) || {});
   S.app = "verba"; S.version = 1;
+  delete S.eigenaar;                 // de stempel hoort bij de opslag, niet bij de save zelf
   S.settings = Object.assign(leeg.settings, alsObject(d.settings) || {});
   if(!TYPDOEL[S.settings.typAandeel]) S.settings.typAandeel = "gemiddeld";
   if(!(S.settings.tempo in TEMPOVAST) && S.settings.tempo !== "auto") S.settings.tempo = "auto";
@@ -1781,7 +1811,11 @@ function zetSave(d, uitBestand){
 }
 function bewaar(){
   if(!opslagOK) return;
-  try{ localStorage.setItem(KEY, JSON.stringify(S)); }
+  let uit = S;
+  /*__ONLINE_BEGIN__*/
+  uit = Object.assign({}, S, {eigenaar: eigenaarNu()});   // wie deze save gemaakt heeft (§13.5a)
+  /*__ONLINE_EINDE__*/
+  try{ localStorage.setItem(KEY, JSON.stringify(uit)); }
   catch(e){ opslagOK = false; toonOpslagWaarsch(); }
 }
 function toonOpslagWaarsch(){

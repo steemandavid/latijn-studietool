@@ -50,7 +50,9 @@ builds uit dezelfde bron**:
 - **Online**: aanmelden met een klascode, een naam en een PIN van 4 cijfers — geen
   e-mailadres, geen echte naam. Voortgang van twee toestellen wordt **samengevoegd**, nooit
   overschreven: wie 's avonds op de tablet verder leert, verliest zijn ochtend op de laptop
-  niet. Van elke speler en elke actie houdt de server een leesbaar logboek bij.
+  niet. Deelt een gezin één laptop, dan draagt de lokale opslag de naam van wie hem maakte:
+  wie zich daarna aanmeldt, begint met zijn eigen voortgang en nooit met die van de vorige
+  gebruiker (§13.5a). Van elke speler en elke actie houdt de server een leesbaar logboek bij.
 
 Werkt de online versie ergens niet, begin dan bij het **bouwstempel** onderaan het
 aanmeldscherm (zie je de nieuwe pagina of een oude uit de cache?) en bij de knop
