@@ -1,5 +1,58 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-14 (h) — Uitleg didactische principes in de instellingen (§6.8, spec 1.9)
+
+### Gevraagd
+*"Voeg een sectie toe in de instellingen, gelijkaardig aan 'Wat bewaart VERBA?', waarin
+uitgelegd staat welke didactische methodes en principes VERBA gebruikt."* Eerst de tekst
+laten zien, daarna geïmplementeerd.
+
+### Wat er staat
+Een inklapbaar `<details>`-blok **"Hoe leert VERBA je de woorden?"** in de Instellingen-kaart,
+na de instellingen zelf, vóór de backup-sectie. Acht alinea's met vetgedrukte aanhef, in
+lekentaal en aangesproken op de leerling — dezelfde vorm als "Wat bewaart VERBA?":
+
+| Alinea | Principe | Waar het vandaan komt |
+| --- | --- | --- |
+| Ophalen in plaats van herlezen | actief ophalen (retrieval practice) | §1 "aanleren, niet alleen overhoren" |
+| Eerst zien, dan vragen | introductiekaart vóór de vragen; herkennen → produceren | §7.1, §4.6 |
+| Gespreide herhaling | boxen 0–5 met groeiende wachttijd | §4.3 (bewust zonder het woord "Leitner") |
+| Niet alles tegelijk | adaptief introductietempo | §4.4 |
+| Door elkaar, nooit achter elkaar | herhalingsvenster + rondecap (interleving) | §4.5 |
+| Twee kanten per woord | L2N eerst, L2V pas bij box ≥ 2 | §4.1 |
+| Fouten mogen | geen XP-verlies, tikfout/"bijna" telt niet als echt fout | §5.1, §7.4 |
+| Spelen met een doel | gamification als dagelijkse motivatie, toetsdatum/dagdoel | hoofdstuk 5, §5.6 |
+
+Elke bewering is nageslagen in de spec voordat ze op papier kwam — de tekst claimt niets wat
+de leermotor niet doet.
+
+### Het verschil met "Wat bewaart VERBA?"
+Dat blok zit binnen de `__ONLINE__`-markeringen (het hoort bij het account). Dit blok staat
+erbuiten en zit dus in **beide** builds: het didactische werkingsprincipe is offline en
+online identiek. Het aanmeldscherm verwijst alleen naar het privacyblok en is ongemoeid.
+
+### Documentatie
+Spec **1.8 → 1.9** (nieuwe rij in de wijzigingstabel), en het blok beschreven in §6.8 met
+de eis dat de tekst niets claimt wat de leermotor niet doet.
+
+### Tests
+Onveranderd groen: alle elf offline suites opnieuw gedraaid (162 checks), plus 42/42 en
+25/25 op de servertests. De online suites (10–12, api-test) zijn niet gedraaid — geen
+functionele wijziging aan de online code.
+
+### Gepubliceerd
+Build `14-09 21:36`, per curl over FTP (`~/.netrc`), en live geverifieerd met cache-bust:
+
+| Bestand | Doel | Grootte |
+| --- | --- | --- |
+| `verba-online/index.html` | `/verba/index.html` | 748 625 B |
+| `verba-online/index.html` | `/verba-test/index.html` (voor smoke-10) | 748 625 B |
+| `verba/index.html` | `/verba/verba-offline.html` | 948 659 B |
+
+Colofon zegt `v1.9` op allebei de builds, bouwstempel `14-09 21:36`, en het nieuwe blok
+staat live op zowel de online als de offline build. Server-PHP is niet gewijzigd en dus
+niet geüpload.
+
 ## 2026-09-14 (g) — De 190 afgeleide geslachten getoetst aan externe bronnen
 
 > Correctie achteraf: de sessies (d) t/m (f) noteerden "163 offline checks". Het zijn er
