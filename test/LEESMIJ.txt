@@ -7,6 +7,11 @@ De scripts wijzen naar een chromium die al op deze pc stond:
   /home/john/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome
 Pas executablePath aan als die er niet meer is.
 
+smoke-1 controleert sinds 2026-09-14 ook de colofon: die draagt een versienummer in de
+vorm xx.xx, en dat is hetzelfde nummer als in de tabel bovenaan de specificatie. bouw.py
+leest het daaruit en weigert te bouwen als het nummer of de placeholder ontbreekt — de app
+en de spec kunnen dus niet uit elkaar lopen.
+
 De belangrijkste test is de INVARIANT in smoke-1 en smoke-3: voor alle 1806
 leeritems moet het antwoord dat de app zelf toont ook door de app aanvaard
 worden, met en zonder macrons, in soepele en in strenge modus. Die test

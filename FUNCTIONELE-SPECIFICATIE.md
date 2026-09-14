@@ -4,8 +4,9 @@
 
 | | |
 |---|---|
-| Versie | 1.5 |
-| Datum | 13 september 2026 |
+| Versie | 1.6 |
+| Datum | 14 september 2026 |
+| Wijziging t.o.v. 1.5 | Eigenaarsstempel op de lokale opslag: een tweede gebruiker op hetzelfde toestel begint met een schone lei en sleept de voortgang van zijn voorganger niet zijn account in (nieuw §13.5a). De caputs in "Jouw woordenlijst" klappen in en uit (§6.1), met `settings.mozDicht` in de save (§8.2). Het **versienummer van deze specificatie is het versienummer van de app**: het staat in de colofon (§6.0) en `bouw.py` leest het hiervandaan. |
 | Wijziging t.o.v. 1.4 | **Online modus** toegevoegd (nieuw hoofdstuk 13): centrale voortgang over meerdere toestellen, accounts met klascode + naam + PIN, meerdere klassen, een leesbaar logboek van alle spelers en hun acties. De app wordt vanaf nu in **twee builds** gemaakt uit hetzelfde `sjabloon.html` — offline (ongewijzigd, nul netwerkrequests) en online. Aangepast: §1.1, §2, §2.1, §2.2, §6.8, nieuw §8.5, §10, §11. Verantwoording en de meetresultaten op de echte hosting staan in `ONLINE-PLAN.md`. |
 | Wijziging t.o.v. 1.3 | Codereview-fixes doorgevoerd (zie `Code_Review_Phase1_20260910_2217.md`). Normering §7.4 aangescherpt (haakjes, kommadelen, `?`). Save krijgt een `app`-marker (§8.2/§8.3). Due-criteria in §4.3 eenduidig gemaakt (**én**, niet óf). Levelformule §5.1 verduidelijkt, examen-XP in de tabel opgenomen, tessera-ontgrendeling na een veroveringstoets expliciet toegestaan (§5.7). |
 | Wijziging t.o.v. 1.2 | Sterformule herzien (§5.4) en Blitz zet een ongezien item op box 1 (§6.5). Beide zorgden ervoor dat het mozaïek voortgang niet toonde. |
@@ -443,8 +444,13 @@ Naast badges verzamelt hij **20 pixelfiguren** in Romeinse stijl ("tesserae"), e
   Badges, Collectie en Statistieken. Bedoeld voor wie een knop niet herkent; de app blijft
   ook zonder die tekst te bedienen (geen informatie zit er *alleen* in).
 - **Colofon** (voettekst, onder alle schermen, altijd zichtbaar): één regel in kleine,
-  gedempte letters — `© 2026 Robbe en David Steeman`, de licentie **CC BY-NC-SA 4.0**
-  met link naar de licentietekst, en een link naar de GitHub-repository. De links zijn
+  gedempte letters — `© 2026 Robbe en David Steeman`, het **versienummer** als `v<major>.<minor>`,
+  de licentie **CC BY-NC-SA 4.0** met link naar de licentietekst, en een link naar de
+  GitHub-repository. Het versienummer is dat van deze specificatie (de tabel bovenaan):
+  `bouw.py` leest het daar uit en vult de placeholder `/*__VERSIE__*/` in, en weigert te
+  bouwen als het nummer of de placeholder ontbreekt. Eén ladder dus, geen twee — een release
+  bumpen is de spec bumpen. **Major** gaat omhoog bij een nieuw hoofdstuk of een wijziging
+  die het gedrag van de app merkbaar verlegt, **minor** bij alles daaronder. De links zijn
   gewone `<a href>`-verwijzingen: ze doen niets uit zichzelf en breken de
   nul-netwerkrequests-eis (§2) dus niet. De voettekst mag de inhoud nooit overlappen
   en verdwijnt niet op mobiel.

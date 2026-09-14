@@ -1,5 +1,48 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-14 (c) — Een versienummer in de colofon, en maar één versieladder
+
+### Gevraagd
+Een versienummer bij de `© 2026 Robbe en David Steeman`-regel onderaan, in twee delen:
+major en minor.
+
+### Wat het geworden is
+```
+© 2026 Robbe en David Steeman · v1.6 · CC BY-NC-SA 4.0 · broncode op GitHub
+```
+
+De vraag was alleen "zet er een nummer bij", maar een nummer dat met de hand op twee
+plaatsen bijgehouden moet worden, loopt vroeg of laat uit de pas — en dan liegt het. Daarom
+niet een losse constante in `sjabloon.html`, maar dit:
+
+- **Het versienummer van de app is dat van de specificatie.** Die heeft al een
+  `| Versie | x.y |`-tabel bovenaan, met bij elke bump een regel die zegt wat er veranderd
+  is. Eén ladder dus, geen twee.
+- `bouw.py` leest dat nummer met een regex uit `FUNCTIONELE-SPECIFICATIE.md` en vult de
+  nieuwe placeholder `/*__VERSIE__*/` in — net zoals het al met `/*__STEMPEL__*/` deed. Het
+  **weigert te bouwen** als het nummer of de placeholder ontbreekt, en drukt bij elke bouw
+  `VERBA v1.6 (versienummer uit de specificatie)` af.
+- Gevolg: een spec die gebumpt is en een build die achterblijft, kan niet bestaan.
+
+### Spec naar 1.6
+Met een `Wijziging t.o.v. 1.5`-regel voor het werk van vandaag: het eigenaarsstempel op de
+lokale opslag (§13.5a) en de inklapbare caputs (§6.1). §6.0 beschrijft nu de colofon mét
+versienummer en legt de betekenis vast: **major** omhoog bij een nieuw hoofdstuk of een
+wijziging die het gedrag merkbaar verlegt, **minor** bij alles daaronder.
+
+### Tests
+`smoke-1` van 37 naar 41 checks: de colofon draagt een nummer in de vorm `xx.xx`, dat is
+hetzelfde nummer als in de spec (de test leest die zelf), de auteursregel is intact, en er is
+geen placeholder blijven staan. Alle negen suites groen, **samen 124 checks**. Visueel
+nagekeken op 900 px (één regel) en op 360 px, waar het nummer net als de andere delen zijn
+eigen regel krijgt.
+
+### Gepubliceerd
+Build `14-09 14:54`, per curl over FTP naar `/verba/index.html`, `/verba-test/index.html` en
+`/verba/verba-offline.html`. Live geverifieerd in headless Chromium: de colofon toont `v1.6`
+op beide builds, het bouwstempel klopt, de caputs gaan van 7 naar 6 open na één klik, nul
+JS-fouten.
+
 ## 2026-09-14 (b) — "Jouw woordenlijst": de caputs klappen in en uit (§6.1)
 
 ### Gevraagd

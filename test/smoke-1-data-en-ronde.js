@@ -1,4 +1,6 @@
 const { chromium } = require('playwright');
+const fs = require('fs'), path = require('path');
+const WORTEL = path.join(__dirname, '..');
 const PAD = 'file:///home/john/claudecode/projects/latijn-studietool/verba/index.html';
 const checks = [];
 const check = (naam, ok, detail) => {
@@ -203,6 +205,22 @@ const check = (naam, ok, detail) => {
       clientW: document.documentElement.clientWidth }));
     console.log('RESPONSIVE', JSON.stringify(resp));
     check('geen horizontale scroll op 360 px', resp.scrollW <= resp.clientW, resp);
+
+    // --- colofon met versienummer (§6.0) ---
+    // Het nummer in de app moet dat van de specificatie zijn: bouw.py leest het daaruit,
+    // dus een spec die gebumpt is en een build die dat niet is, valt hier door de mand.
+    const spec = fs.readFileSync(path.join(WORTEL, 'FUNCTIONELE-SPECIFICATIE.md'), 'utf8');
+    const specVersie = (spec.match(/^\|\s*Versie\s*\|\s*(\d+\.\d+)\s*\|/m) || [])[1];
+    const colofon = (await p.textContent('.colofon')).replace(/\s+/g, ' ').trim();
+    console.log('COLOFON', JSON.stringify(colofon), '· spec:', specVersie);
+    // De scheidingstekens dragen hun ruimte in CSS, niet in de tekst: vandaar \s* .
+    check('de colofon draagt een versienummer xx.xx', /·\s*v\d+\.\d+\s*·/.test(colofon), colofon);
+    check('dat nummer is dat van de specificatie',
+          !!specVersie && new RegExp('·\\s*v' + specVersie.replace('.', '\\.') + '\\s*·')
+            .test(colofon), {colofon, specVersie});
+    check('de auteursregel staat er nog',
+          colofon.startsWith('© 2026 Robbe en David Steeman'), colofon);
+    check('geen placeholder blijven staan', !colofon.includes('__VERSIE__'), colofon);
 
     console.log('NETWERK', net.length, JSON.stringify(net.slice(0,5)));
     console.log('FOUTEN', fouten.length);

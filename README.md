@@ -67,7 +67,7 @@ regels op het scherm, zonder devtools (§13.8b).
 | `woordenlijst.md` | de woordenlijst als bron, overgetypt uit scans en gecontroleerd tegen het register |
 | `maak-data.py` | `woordenlijst.md` → `latijn.json` (incl. de aanvaarde antwoordvarianten) |
 | `sjabloon.html` | de app zelf, met een `/*__DATA__*/`-placeholder |
-| `bouw.py` | `sjabloon.html` + `latijn.json` → beide builds + `server/woorden.php` |
+| `bouw.py` | `sjabloon.html` + `latijn.json` → beide builds + `server/woorden.php`; leest ook het versienummer uit de spec |
 | `verba/index.html` | het gebouwde resultaat: dit bestand gaat op de USB-stick |
 | `verba-online/index.html` | de online build — zonder woorddata, die komt na het aanmelden |
 | `server/` | de API (PHP 8.4 + MariaDB): accounts, samenvoegen, grenzen, logboek |
@@ -99,7 +99,7 @@ al op de machine stond — pas `executablePath` aan als die er niet meer is.
 for t in test/smoke-*.js; do node "$t" || break; done
 ```
 
-Negen suites, samen 120 checks; groen = exit 0. Daarnaast voor de online modus
+Negen suites, samen 124 checks; groen = exit 0. Daarnaast voor de online modus
 `php test/samenvoegen-test.php` en `php test/grenzen-test.php` (geen server nodig), en met
 een beheersleutel `node test/api-test.js` en `node test/smoke-10-online-sync.js` tegen de
 echte server — zie `test/LEESMIJ.txt`. De belangrijkste test is de invariant in
