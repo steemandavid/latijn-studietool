@@ -69,6 +69,30 @@ Met een screenshot nagekeken hoe header en level-up-overlay er op level 39 en 40
 Niet aangeraakt: de XP-tabel zelf (een juist antwoord blijft evenveel waard), de badges,
 de tesserae en de veroveringsbonussen. Alleen de ladder is verlengd.
 
+### Uitgerold naar steeman.be
+Beide builds staan live onder `https://www.steeman.be/verba/`, geüpload met curl over FTPS
+(`--netrc`, credentials in `~/.netrc`; `lftp mirror` hangt op deze hosting, file-by-file
+werkt wel):
+
+| lokaal | remote | bytes |
+| --- | --- | --- |
+| `verba-online/index.html` | `/verba/index.html` | 750 481 |
+| `verba/index.html` | `/verba/verba-offline.html` | 950 515 |
+
+Geverifieerd met een cache-bust (`?v=$RANDOM`), niet op de kale URL — de edge-cache van
+steeman.be serveert anders nog minutenlang de vorige HTML. `x-cache-status: MISS`,
+`content-length` gelijk aan lokaal, colofon `v1.10`, en `Iuppiter Optimus Maximus` zit in
+de uitgeleverde broncode. De aanmeldkaart draagt het stempel `bouw 17-09 13:32`.
+
+**Gotcha bij het narekenen van een live deploy:** in de online build is `LEVELS` geen
+globale — een `p.evaluate(() => LEVELS.length)` tegen de live pagina geeft
+`ReferenceError`, en de pagina gooit sowieso `verba: eerst aanmelden` voordat de app-scope
+er staat. Dat is geen kapotte deploy: lokaal `verba-online/index.html` gedraagt zich
+identiek, en de app rendert eronder gewoon (1051 woorden, 7 caputs). Controleer een deploy
+van de online build dus op de **uitgeleverde broncode** plus een screenshot, niet door in
+de pagina-scope te graaien. Een functionele UI-test van de online modus vraagt
+`VERBA_BEHEER` (smoke-10/11/12) en is deze sessie niet gedraaid.
+
 ---
 
 ## 2026-09-14 (h) — Uitleg didactische principes in de instellingen (§6.8, spec 1.9)
