@@ -1,5 +1,76 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-17 — Twee keer zoveel levels, en ze komen veel trager (§5.1, spec 1.10)
+
+### Gevraagd
+*"Robbe speelt dit nu een week en heeft de meeste levels tot Iupiter al. Hij zou het fijn
+vinden als de levels niet zo snel kwamen, en als er meer levels waren."*
+
+### Het probleem, in cijfers
+De ladder telde 20 levels met drempel `100·n·(n+1)/2`, dus level 20 (Iuppiter) lag op
+**19 000 XP**. Een dag stevig oefenen levert ruwweg 2000 XP op — drie rondes van vijftien
+vragen, grotendeels getypt, met een combo rond ×2 — en de veroveringen en eerste
+box-5-bonussen komen daar in de eerste week bovenop. Twintig levels in een week is dus geen
+afwijking maar precies wat de formule voorspelt. De ladder was op een week gesneden en niet
+op een schooljaar.
+
+### De knoop: een steilere curve zou Robbe doen zakken
+`profiel.level` wordt nergens bewaard als gegeven op zich, het wordt uit de XP *afgeleid*.
+Eén vloeiende, steilere curve over 40 levels zou dus ook zijn bestaande 19 000 XP
+hergraderen — en hem van Iuppiter terugzetten naar iets als level 12. Dat is precies de
+verkeerde beloning voor een week werk. Gekozen (na overleg): **de eerste twintig levels
+blijven exact zoals ze waren**, in naam én in drempel, en de uitbreiding zit er volledig
+bovenop.
+
+### De nieuwe ladder
+
+| | drempel voor level n+1 |
+|---|---|
+| n < 20 | `100 × n × (n+1) / 2` — **ongewijzigd** |
+| n ≥ 20 | `20 000 + 1000 × (n−18)²` |
+
+Waar level 20 nog 1900 XP kostte, kosten 21 en 22 er elk 5000, en daarna wordt elke trap
+2000 XP duurder dan de vorige, tot 41 000 XP voor de laatste. Level 30 ligt op 141 000 XP,
+level 40 op **461 000**. Aan ~2000 XP per oefendag is dat ongeveer 230 dagen: een
+schooljaar, zoals bedoeld. De eerstvolgende level die Robbe haalt kost hem 5000 XP in
+plaats van 1900 — vanaf zijn huidige stand is de rem dus meteen voelbaar.
+
+### De namen: boven Iuppiter staat niets
+Dat was de lastigste kant. De bestaande twintig lopen van Discipulus tot Iuppiter, en er is
+geen Romeinse rang die bóven de oppergod staat — elke god of eretitel die je er achter zet,
+leest als een stap terug. Daarom is de tweede ladder geen tweede carrière maar de
+**epitheta van Iuppiter zelf**: je blijft wie je bent en verdient er titels bij, precies
+zoals een Romein titels stapelde. Ze lopen op van beschermheer naar de titel van de tempel
+op het Capitool:
+
+> 21. Iuppiter Custōs · 22. Stator · 23. Cōnservātor · 24. Prōpugnātor · 25. Pluvius ·
+> 26. Tonāns · 27. Fulgurātor · 28. Lapis · 29. Terminus · 30. Feretrius · 31. Ultor ·
+> 32. Victor · 33. Triumphātor · 34. Imperātor · 35. Invictus · 36. Lībertātor ·
+> 37. Caelestis · 38. Aeternus · 39. Omnipotēns · 40. **Optimus Maximus**
+
+Allemaal attesteerde cultusnamen, geen verzinsels.
+
+### Wat er verder mee moest
+- `levelVan()` en de XP-balk waren op `20` vastgeklonken; die lezen nu `LEVELS.length`.
+- `ROMCIJFER` stopte bij `XX` — doorgetrokken tot `XL`, anders toonde de level-up-overlay
+  bij level 21 gewoon "21" in plaats van een Romeins cijfer.
+- "Iuppiter Optimus Maximus" is drie keer zo lang als "Nauta". In de header krijgt de
+  naam een beletselteken zodat het XP-getal blijft staan (getest op 390 px breed), en in
+  de overlay zakt de letter van 1,9 naar 1,35 rem bij namen boven 16 tekens.
+
+### Getest
+Zes nieuwe checks in smoke-1, samen 168 offline checks (was 162), alle elf suites groen.
+De belangrijkste is de belofte hierboven: voor **elke** XP-stand onder 19 000 geeft de
+nieuwe ladder exact dezelfde rang als de oude, en nergens een lagere. Verder: 40 namen,
+Iuppiter nog altijd op 20, monotoon stijgende drempels, elke trap boven level 20 duurder
+dan 1900 XP, de drie ijkpunten (19 000 → 20, 24 000 → 21, 461 000 → 40) en `romeins(40)`.
+Met een screenshot nagekeken hoe header en level-up-overlay er op level 39 en 40 uitzien.
+
+Niet aangeraakt: de XP-tabel zelf (een juist antwoord blijft evenveel waard), de badges,
+de tesserae en de veroveringsbonussen. Alleen de ladder is verlengd.
+
+---
+
 ## 2026-09-14 (h) — Uitleg didactische principes in de instellingen (§6.8, spec 1.9)
 
 ### Gevraagd

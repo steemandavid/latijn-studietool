@@ -4,8 +4,9 @@
 
 | | |
 |---|---|
-| Versie | 1.9 |
-| Datum | 14 september 2026 |
+| Versie | 1.10 |
+| Datum | 17 september 2026 |
+| Wijziging t.o.v. 1.9 | **De levelladder is verdubbeld en vertraagd** (§5.1). In de praktijk bleek ze in ongeveer een week uitgespeeld: twintig levels en 19 000 XP zijn te weinig voor een schooljaar. Er komen **20 levels bij, tot 40**, en de nieuwe twintig worden stelselmatig duurder — level 40 ligt op 461 000 XP. De eerste twintig levels houden **exact** hun oude namen en drempels, zodat niemand een rang verliest die hij al had. De nieuwe rangen zijn geen nieuwe carrière bovenop Iuppiter (daarboven staat niets) maar de **epitheta van Iuppiter zelf**, van *Custōs* tot *Optimus Maximus*. |
 | Wijziging t.o.v. 1.8 | In de instellingen een uitlegsectie **"Hoe leert VERBA je de woorden?"** (§6.8): een inklapbaar blok dat de didactische principes achter de leermotor in lekentaal uitlegt — actief ophalen, introductiekaart vóór de vragen, gespreide herhaling (§4.3), adaptief tempo (§4.4), interleving (§4.5), de twee leerrichtingen (§4.1), foutvriendelijke beoordeling (§7.4) en gamification als dagelijkse motivatie (hoofdstuk 5). Zelfde vorm als "Wat bewaart VERBA?" maar in **beide** builds, want het didactische werkingsprincipe is offline en online identiek. |
 | Wijziging t.o.v. 1.7 | **Het geslacht hoort bij de genitiefvraag** (nieuw §7.2a). Bij élk zelfstandig naamwoord moet hij het meegeven; zonder is het antwoord fout. Het boek drukt er 153 van de 345 — alleen waar het geslacht niet uit de verbuiging volgt — dus de overige **190 zijn afgeleid** uit de verbuiging, met de regel per woord in een aparte, als afgeleid gemarkeerde tabel achterin `woordenlijst.md`. De **notatie is vrij** (`ducis, m.` = `ducis m` = `ducis (m.)` = `ducis mannelijk`), de vraagkop zegt het, de meerkeuze krijgt er een geslachtsvalstrik bij, en vorm en geslacht worden apart nagekeken. Aangepast: §3.1, §3.2, §7.1.1, §7.2, §7.4. |
 | Wijziging t.o.v. 1.6 | Twee correcties op de leermotor. **Antwoordbeoordeling** (§7.4): de leestekens tussen de betekenissen zijn geen leerstof meer — een vertaling wordt *opgedeeld* in aanvaarde betekenissen in plaats van op `, ` gesplitst, en labels (`(z.)`, `(b.)`, `mv.:`) en optionele letters (`sommige(n)`) mogen weg. Daardoor is `wie wat welke` bij `(z.) wie?, wat?; (b.) welke?` gewoon juist. **Beheerste items** (§4.3/§4.5): een item op box 5 dat de laatste beurten foutloos was, verdwijnt uit de onderhoudsvulling tot het echt due is, en onderhoud kiest het langst niet gestelde item in plaats van blind te loten. |
@@ -345,13 +346,37 @@ De instelling **"Hoeveel zelf typen"** (§6.8) zet de drie parameters:
 | Dagstreak-bonus | +10 × streak (max +100), één keer per dag |
 | Fout antwoord | 0 (nooit negatief) |
 
-**Levels** — 20, genoemd naar Romeinse rangen die oplopen in gewicht. Level n+1 wordt
-bereikt bij `100 × n × (n+1) / 2` XP: level 2 op 100 XP, level 3 op 300, level 4 op 600, …
 ("Ronde 100 % juist" betekent: geen fout **én** geen bijna-antwoorden.)
+
+**Levels** — **40**, in twee ladders van 20. De drempel om van level n naar n+1 te gaan:
+
+| | drempel voor level n+1 |
+|---|---|
+| n < 20 | `100 × n × (n+1) / 2` |
+| n ≥ 20 | `20 000 + 1000 × (n−18)²` |
+
+De eerste rij is **ongewijzigd**: level 2 op 100 XP, level 3 op 300, … level 20 op 19 000.
+Dat is bindend en blijft het: een bestaande save mag door deze uitbreiding nooit een rang
+zakken. De tweede rij sluit daarop aan en loopt hard op: waar level 20 nog 1900 XP kostte,
+kosten 21 en 22 er elk 5000, en daarna wordt elke trap 2000 XP duurder dan de vorige, tot
+41 000 XP voor de laatste. Level 30 ligt zo op 141 000 XP en level 40 op **461 000**. Waarom zo streng: bij het tempo waarop de app
+in de praktijk XP uitdeelt (ruwweg 2000 XP op een dag oefenen) was de oude ladder in een
+week uitgespeeld. De nieuwe is op een **schooljaar** gesneden.
+
+**Ladder 1 — cursus honōrum** (level 1–20), van schooljongen tot god:
 
 1. Discipulus · 2. Puer · 3. Scrība · 4. Mercātor · 5. Nauta · 6. Mīles · 7. Eques · 8. Centuriō · 9. Sacerdōs · 10. Magister · 11. Poēta · 12. Rhētor · 13. Senātor · 14. Praetor · 15. Cōnsul · 16. Prīnceps · 17. Imperātor · 18. Caesar · 19. Augustus · 20. Iuppiter
 
-Level-up is een zichtbaar moment: overlay, animatie, geluid.
+**Ladder 2 — cursus aeternitātis** (level 21–40). Boven Iuppiter staat niets, dus dit is
+geen tweede carrière maar de **epitheta van Iuppiter zelf**: je blijft wie je bent en
+verdient er titels bij, zoals een Romein dat deed. Ze lopen op van beschermheer naar de
+titel van de tempel op het Capitool:
+
+21. Iuppiter Custōs · 22. Iuppiter Stator · 23. Iuppiter Cōnservātor · 24. Iuppiter Prōpugnātor · 25. Iuppiter Pluvius · 26. Iuppiter Tonāns · 27. Iuppiter Fulgurātor · 28. Iuppiter Lapis · 29. Iuppiter Terminus · 30. Iuppiter Feretrius · 31. Iuppiter Ultor · 32. Iuppiter Victor · 33. Iuppiter Triumphātor · 34. Iuppiter Imperātor · 35. Iuppiter Invictus · 36. Iuppiter Lībertātor · 37. Iuppiter Caelestis · 38. Iuppiter Aeternus · 39. Iuppiter Omnipotēns · 40. **Iuppiter Optimus Maximus**
+
+Level-up is een zichtbaar moment: overlay, animatie, geluid. Een titel uit ladder 2 is
+langer dan een rang uit ladder 1: in de header wordt hij desnoods met een beletselteken
+afgekapt zodat het XP-getal blijft staan, en in de overlay krijgt hij een kleinere letter.
 
 ### 5.2 Combo
 

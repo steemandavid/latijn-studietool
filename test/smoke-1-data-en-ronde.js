@@ -32,6 +32,41 @@ const check = (naam, ok, detail) => {
     check('20 badges, 20 tesserae', info.badges===20 && info.tess===20);
     check('starterpakket Caput 1 gevuld', info.pak>0, info.pak);
 
+    // --- levelladder (§5.1): 40 levels, en de eerste 20 zijn onaangeroerd ---
+    const lvl = await p.evaluate(() => {
+      // Zakt er bij enige XP-stand iemand een rang t.o.v. de oude ladder van 20?
+      const oudeDrempel = n => 100 * n * (n + 1) / 2;
+      const oudLevel = xp => { let l = 1; while(l < 20 && xp >= oudeDrempel(l)) l++; return l; };
+      let gezakt = 0, ongelijk = 0;
+      for(let xp = 0; xp <= 25000; xp += 7){
+        if(levelVan(xp) < oudLevel(xp)) gezakt++;
+        // Onder de naad moet de ladder identiek zijn; erboven mág hij hoger gaan,
+        // want daar had de oude ladder geen rangen meer.
+        if(xp < 19000 && levelVan(xp) !== oudLevel(xp)) ongelijk++;
+      }
+      // Loopt de ladder monotoon en wordt elke trap duurder dan die van level 20?
+      let stijgt = true, taaier = true, vorige = 0;
+      for(let n = 1; n < LEVELS.length; n++){
+        const d = xpVoorLevel(n);
+        if(d <= vorige) stijgt = false;
+        if(n >= 20 && d - vorige <= 1900) taaier = false;
+        vorige = d;
+      }
+      return {aantal: LEVELS.length, gezakt, ongelijk, stijgt, taaier,
+              top: LEVELS[LEVELS.length-1], twintig: LEVELS[19],
+              l20: levelVan(19000), l21: levelVan(24000), l40: levelVan(461000),
+              nog39: levelVan(460999), rom: romeins(40)};
+    });
+    check('40 levels, Iuppiter Optimus Maximus bovenaan',
+      lvl.aantal===40 && lvl.top==='Iuppiter Optimus Maximus', lvl);
+    check('level 20 heet nog altijd Iuppiter', lvl.twintig==='Iuppiter', lvl.twintig);
+    check('geen enkele bestaande XP-stand zakt een rang, ladder 1 identiek', lvl.gezakt===0 && lvl.ongelijk===0, lvl);
+    check('drempels stijgen en elke trap boven 20 kost meer dan 1900 XP',
+      lvl.stijgt && lvl.taaier, lvl);
+    check('19 000 XP = level 20, 24 000 = level 21, 461 000 = level 40',
+      lvl.l20===20 && lvl.l21===21 && lvl.l40===40 && lvl.nog39===39, lvl);
+    check('Romeins cijfer tot XL', lvl.rom==='XL', lvl.rom);
+
     // --- normalisatie / beoordeling ---
     const beo = await p.evaluate(() => {
       const w = BY_NR[2];          // amīcus / amīcī / de vriend

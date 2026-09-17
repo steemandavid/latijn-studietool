@@ -26,7 +26,7 @@ builds uit dezelfde bron**:
 - **Collectie** — twintig Romeinse mozaïeksteentjes die je één voor één vrijspeelt.
 - **Het mozaïek** op het beginscherm — alle 1051 woorden als één cel per woord, dat
   langzaam goud kleurt naarmate je ze beheerst.
-- XP, levels, combo's, dagstreak, 20 badges en 20 tesserae.
+- XP, 40 levels, combo's, dagstreak, 20 badges en 20 tesserae.
 - **Beheerste woorden komen niet meer terug** zolang ze niet écht aan herhaling toe zijn:
   een item op box 5 waarvan ook de laatste beurten foutloos waren, valt uit de
   onderhoudsvulling en wacht zijn 70 vragen én 7 dagen af. De vulling kiest bovendien het
@@ -114,7 +114,7 @@ al op de machine stond — pas `executablePath` aan als die er niet meer is.
 for t in test/smoke-*.js; do node "$t" || break; done
 ```
 
-Elf offline suites, samen 162 checks; groen = exit 0. Daarnaast voor de online modus
+Elf offline suites, samen 168 checks; groen = exit 0. Daarnaast voor de online modus
 `php test/samenvoegen-test.php` en `php test/grenzen-test.php` (geen server nodig), en met
 een beheersleutel `node test/api-test.js` en `node test/smoke-10-online-sync.js` tegen de
 echte server — zie `test/LEESMIJ.txt`. De belangrijkste test is de invariant in
