@@ -308,6 +308,11 @@ input[type=checkbox]{accent-color:var(--goud2);width:17px;height:17px;cursor:poi
 .wrij:hover{border-color:var(--lijn2);transform:translateX(3px)}
 .wrij .nr{color:var(--tx3);font-size:.76rem;font-variant-numeric:tabular-nums}
 .wrij .st{color:var(--goud);font-size:.78rem;white-space:nowrap;letter-spacing:.08em}
+/* de geheime lade (§6.3a): valt op tussen de gewone rijen, maar zonder toeters */
+.lade{display:block;width:100%;text-align:left;margin:0 0 12px;padding:14px 16px;border-radius:14px;
+  border:1px dashed var(--goud2);background:transparent;color:var(--tx);font:inherit;cursor:pointer}
+.lade:hover{border-style:solid;transform:translateX(3px)}
+.lade b{color:var(--goud)} .lade span{display:block;color:var(--tx2);font-size:.85rem;margin-top:3px}
 .filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
 select,input[type=text],input[type=date],input[type=search]{
   background:linear-gradient(180deg,var(--bg3),var(--bg2));border:1px solid var(--lijn);
@@ -836,7 +841,7 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
 
 
 <footer class="colofon"><div class="wrap">
-  © 2026 Robbe en David Steeman<span class="sep">·</span>v1.10<span class="sep">·</span><a
+  © 2026 Robbe en David Steeman<span class="sep">·</span>v1.11<span class="sep">·</span><a
     href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener"
     >CC BY-NC-SA 4.0</a><span class="sep">·</span><a
     href="https://github.com/steemandavid/latijn-studietool" target="_blank" rel="noopener"
@@ -3227,6 +3232,13 @@ function renderOntdek(){
   const lijst = ontdekLijst();
   $("#oTel").textContent = `${lijst.length} woorden`;
   const box = $("#oLijst"); box.innerHTML = "";
+  if(ladeGevonden($("#oZoek").value)){
+    const l = el("button","lade",
+      `<b>🚽 Geheime lade gevonden: Cloāca Maxima</b>
+       <span>${CLOACA.length} echte Latijnse woorden die níét in je boek staan. Niet voor de toets.</span>`);
+    l.onclick = startCloaca;
+    box.appendChild(l);
+  }
   lijst.slice(0, 400).forEach(w => {
     const st = sterren(w.nr);
     const b = el("button","wrij",
@@ -3252,12 +3264,75 @@ function renderFlash(){
   $("#flBox").innerHTML = `
     <div class="w lat">${w.w}</div>
     ${FL.open ? `${w.vol ? `<div class="v lat">${w.vol}</div>` : ""}
-                 <div class="t">${w.t}</div>` : `<div class="m">tik of spatie om te draaien</div>`}
-    <div class="m">${w.c.split("·")[0].trim()} · woord ${w.nr}</div>`;
+                 <div class="t">${w.t}</div>
+                 ${w.weetje ? `<div class="m" style="font-size:.9rem;color:var(--tx2)">${w.weetje}</div>` : ""}`
+              : `<div class="m">tik of spatie om te draaien</div>`}
+    <div class="m">${w.weetje ? "Cloāca Maxima · niet uit je boek" : `${w.c.split("·")[0].trim()} · woord ${w.nr}`}</div>`;
   $("#flBox").onclick = () => { FL.open = !FL.open; renderFlash(); };
   $("#flTel").textContent = `${FL.i+1} / ${FL.lijst.length}`;
 }
 const flStap = d => { FL.i = (FL.i + d + FL.lijst.length) % FL.lijst.length; FL.open = false; renderFlash(); };
+
+/* ======================= CLOĀCA MAXIMA (§6.3a) =======================
+ * Een easter egg: echte klassieke woorden die een veertienjarige wél onthoudt.
+ * Bewust BUITEN de leermotor — geen nummer, geen Leitner, geen XP, niets in de save,
+ * en ze staan niet in woordenlijst.md (dat blijft het boek). Wie in Ontdek een van de
+ * sleutels intikt (Latijn of Nederlands), vindt de lade; de flashcards doen de rest.
+ * `z` = zoektermen die de lade openen, bovenop het Latijnse kopwoord zelf. */
+const CLOACA = [
+  {w:"cloāca", vol:"cloācae, v.", t:"het riool", z:["riool"],
+   weetje:"De Cloāca Maxima, het grote riool van Rome, is 2500 jaar oud en loost vandaag nog in de Tiber. Er was zelfs een rioolgodin: Cloācīna."},
+  {w:"flātus", vol:"flātūs, m.", t:"het blazen; de wind; de scheet", z:["scheet","wind"],
+   weetje:"Hetzelfde woord als het Engelse medische 'flatulence'."},
+  {w:"crepitus", vol:"crepitūs, m.", t:"het geknetter; (ventris) de scheet", z:["scheet","knetter"],
+   weetje:"Keizer Claudius overwoog een edict dat scheten aan tafel uitdrukkelijk toeliet, nadat hij gehoord had van iemand die bijna bezweken was omdat hij er uit schaamte een ophield (Suetonius, Claudius 32)."},
+  {w:"pēdere, ~ō", vol:"pepēdī, pēditum", t:"een scheet laten", z:["scheet","scheten"],
+   weetje:"Bij Horatius (Satiren 1.8) laat een beeld van de god Priapus, uit vijgenhout, zo'n harde scheet dat zijn bil openbarst — 'pepēdī diffissā nate' — en twee heksen op de vlucht slaan. Niet te verwarren met pēs, pedis (de voet)."},
+  {w:"merda", vol:"merdae, v.", t:"de stront", z:["stront","poep","drol"],
+   weetje:"Leeft verder in het Franse 'merde'."},
+  {w:"stercus", vol:"stercoris, o.", t:"de mest; de drol", z:["mest","drol","poep"],
+   weetje:"Een 3e verbuiging, onzijdig — net als corpus, corporis."},
+  {w:"faex", vol:"faecis, v.", t:"de droesem; het bezinksel; het uitschot", z:["faeces","feces","uitwerpselen","poep"],
+   weetje:"Eigenlijk het drab onderin een wijnvat. Het meervoud faecēs werd later het nette woord voor uitwerpselen, en Cicero noemt het gepeupel 'sordem urbis et faecem', het vuil en het bezinksel van de stad (Ad Atticum 1.16)."},
+  {w:"cacāre, ~ō", vol:"cacāvī, cacātum", t:"kakken", z:["kakken","kak","poepen"],
+   weetje:"Catullus (gedicht 36) noemt de geschiedenisboeken van ene Volusius 'cacāta charta': volgescheten papier — en gooit ze in het vuur."},
+  {w:"mingere, ~ō", vol:"mīnxī, mīnctum / mīctum", t:"plassen", z:["plassen","pissen","plas"],
+   weetje:"Daarvan komt het medische 'mictie'. Op een muur in Rome staat: wie hier plast of kakt, krijgt de twaalf goden, Diana én Iuppiter kwaad op zich — 'quisquis hic mīxerit aut cacārit'."},
+  {w:"ūrīna", vol:"ūrīnae, v.", t:"de urine", z:["urine","pis","plas"],
+   weetje:"Keizer Vespasianus hief belasting op urine uit openbare toiletten (volders gebruikten ze om stof te reinigen). Zijn zoon vond dat vies; Vespasianus hield hem een munt onder de neus: stinkt die? Toen Titus nee zei: 'en toch komt het van urine' (Suetonius, Vespasianus 23). Daar komt het spreekwoord 'Pecūnia nōn olet' vandaan — geld stinkt niet."},
+  {w:"lātrīna", vol:"lātrīnae, v.", t:"het toilet; de wc", z:["toilet","wc","plee"],
+   weetje:"Een openbaar toilet heette forica en had geen hokjes: je zat naast elkaar op een lange stenen bank en babbelde gewoon verder."},
+  {w:"vomere, ~ō", vol:"vomuī, vomitum", t:"overgeven; uitspuwen", z:["overgeven","kotsen","braken"],
+   weetje:"Een vomitōrium was géén kotskamer voor volgevreten Romeinen, maar een doorgang in het theater waarlangs de menigte naar binnen stroomde en zich over de zitplaatsen 'uitspuwde' (Macrobius, Saturnalia 6.4)."},
+  {w:"ructāre, ~ō", vol:"ructāvī, ructātum", t:"boeren; oprispen", z:["boeren","boer","oprispen"],
+   weetje:"Cicero schrijft (Ad familiārēs 9.22) dat sommige filosofen vonden dat een scheet even vrij moest zijn als een boer. Hij was het er niet mee eens."},
+  {w:"mūcus", vol:"mūcī, m.", t:"het snot", z:["snot","slijm"],
+   weetje:"Gewoon overgenomen in het Nederlands: de mucus in je neus."},
+  {w:"pōdex", vol:"pōdicis, m.", t:"het achterwerk; de aars", z:["kont","achterwerk","gat","aars"],
+   weetje:"Een 3e verbuiging, zoals dux, ducis. Horatius en Juvenalis gebruiken het in hun spotdichten — en het komt waarschijnlijk van pēdere."},
+  {w:"natēs", vol:"natium, v. mv.", t:"de billen", z:["billen","bil"],
+   weetje:"Meestal in het meervoud — logisch. Maar in Horatius' Priapus-satire barst er één enkele bil open: 'diffissā nate'."},
+  {w:"pedis", vol:"pedis, m./v.", t:"de luis", z:["luis","luizen"],
+   weetje:"De nominatief van de luis ziet er precies zo uit als de genitief van pēs, pedis (de voet). Of de e kort of lang is, daar zijn de woordenboeken het niet over eens."},
+  {w:"fētor", vol:"fētōris, m.", t:"de stank", z:["stank","stinken"],
+   weetje:"Ook gespeld als foetor. 'Stinken' zelf is olēre — vandaar 'pecūnia nōn olet'."},
+  {w:"caudex", vol:"caudicis, m.", t:"de boomstronk; de stomkop", z:["stomkop","sukkel","domkop"],
+   weetje:"Bij Terentius scheldt een vader zichzelf uit: 'caudex, stīpes, asinus, plumbeus' — stronk, paal, ezel, lood. Hetzelfde woord als cōdex: een boek van houten plankjes."},
+  {w:"furcifer", vol:"furciferī, m.", t:"de galgenbrok; de schurk", z:["schurk","galgenbrok","boef"],
+   weetje:"Letterlijk 'vorkdrager': een slaaf die voor straf een vorkvormig juk om de nek kreeg. In Plautus' Aulularia gaat een kok nog verder: 'fūr, trifurcifer' — dief, drievoudige galgenbrok."},
+  {w:"bāsium", vol:"bāsiī, o.", t:"de kus", z:["kus","kussen","zoen"],
+   weetje:"Catullus vraagt zijn Lesbia: 'Dā mī bāsia mīlle, deinde centum' — geef me duizend kussen, en dan nog honderd."},
+];
+function ladeGevonden(zoek){
+  const z = norm(zoek);
+  if(z.length < 2) return false;
+  return z === "cloaca maxima" || CLOACA.some(b =>
+    b.z.includes(z) || (z.length >= 4 && norm(b.w.split(",")[0]).startsWith(z)));
+}
+function startCloaca(){
+  FL = {lijst:CLOACA, i:0, open:false};
+  toon("flash"); renderFlash();
+}
 
 /* ======================= BADGES / TESSERAE / STATS ======================= */
 function renderBadges(){
@@ -3434,7 +3509,10 @@ $("#bStop").onclick = () => {
   if(B){ clearInterval(B.timer); B = null; }
   combo = 0; updateCombo(); toon("home"); };
 ["#oZoek","#oScope","#oSort","#oFilter"].forEach(q => {
-  $(q).oninput = renderOntdek; $(q).onchange = renderOntdek;
+  $(q).oninput = renderOntdek;
+  /* niet op 'change' van het zoekveld: dat vuurt bij het wegklikken, tekent de lijst
+     opnieuw en haalt zo de rij of de lade onder de muis weg — de klik viel in het niets */
+  if(q !== "#oZoek") $(q).onchange = renderOntdek;
 });
 $("#oFlash").onclick = startFlash;
 $("#flVorig").onclick = () => flStap(-1);

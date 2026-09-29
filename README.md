@@ -123,7 +123,8 @@ door de app aanvaard worden, met en zonder macrons, in soepele en in strenge mod
 Smoke-8 legt het adaptieve tempo vast (grenswaarden, lengtecorrectie bij typen, een echte
 ronde door de UI), smoke-9 de herkansing bij een misgelezen vraag (alle tellers vóór en
 ná vergeleken), smoke-13 het opdelen van een vertaling in betekenissen plus het uit de
-rotatie vallen van beheerste items, en smoke-14 het geslacht bij de genitiefvraag.
+rotatie vallen van beheerste items, smoke-14 het geslacht bij de genitiefvraag, en
+smoke-15 de verborgen lade *Cloāca Maxima* in Ontdek (spec §6.3a — niet verklappen aan de leerling).
 
 ## Herkomst van de woordenlijst
 

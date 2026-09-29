@@ -1,5 +1,77 @@
 # Changelog — latijn-studietool (VERBA)
 
+## 2026-09-29 — Easter egg "Cloāca Maxima": 21 schuttingwoorden, getoetst aan de bronnen (spec 1.11, §6.3a)
+
+### Gevraagd
+*"Voeg een paar woorden toe die voor een 14-jarige grappig zijn om te leren, bvb flatus,
+faeces etc."* — en daarna: *"Controleer de weetjes tegenover echte bronnen zodat ze zeker
+kloppen. Controleer ook de woordjes, de vertalingen, vormen en de geslachten aan de hand van
+externe bronnen."*
+
+### De keuze: een easter egg, buiten de leermotor
+De spec zegt in §3.1 dat er aan `woordenlijst.md` niets wordt toegevoegd dat niet in het boek
+staat, en 1051 / 7 caputs zit hard in de tellingen, badges, mozaïeken, het klasmozaïek en de
+tests. Drie opties voorgelegd (los bonuscaput, volwaardig Caput VIII, easter egg); David koos
+de **easter egg**. Dus: geen nummer, geen Leitner, geen XP, niets in de save, niets in de
+woordenlijst — alleen een lijst `CLOACA` in `sjabloon.html`, in beide builds.
+
+### Hoe het werkt
+- In **Ontdek** een sleutel intikken opent bovenaan de lijst de knop *"🚽 Geheime lade
+  gevonden: Cloāca Maxima"*. Sleutels: het Latijnse kopwoord of een begin van ≥ 4 letters
+  (macron-ongevoelig), een Nederlands trefwoord per woord (`scheet`, `kont`, `poep`, `snot`…)
+  en `cloaca maxima`. `ladeGevonden(zoek)` beslist.
+- De knop hergebruikt de flashcards van §6.3 (`startCloaca()` zet `FL.lijst = CLOACA`).
+  `renderFlash()` toont bij een bonuskaart het **weetje** op de achterkant en als onderregel
+  "Cloāca Maxima · niet uit je boek" i.p.v. caput + woordnummer.
+- De 21 woorden: cloāca, flātus, crepitus, pēdere, merda, stercus, faex, cacāre, mingere,
+  ūrīna, lātrīna, vomere, ructāre, mūcus, pōdex, natēs, pedis (luis), fētor, caudex, furcifer,
+  bāsium.
+
+### Bug die meteen bovenkwam: de verloren klik in Ontdek
+De nieuwe smoke-test kon niet op de lade klikken. Oorzaak: `#oZoek` hertekende de lijst ook op
+`change`, en die vuurt bij het wegklikken — dus mousedown op een rij blurt het zoekveld, de
+lijst wordt opnieuw opgebouwd, en de klik landt op een verdwenen element. Dat gold al voor
+**elke gewone woordrij**: de eerste klik na het typen ging verloren. Fix: het zoekveld
+luistert alleen op `input` (dat dekt elke toetsaanslag al); de selects houden `change`.
+
+### Brontoetsing (tweede ronde)
+Elk woord tegen **Lewis & Short** (Perseus) en **Wiktionary**, elk weetje tegen de Latijnse
+tekst op The Latin Library (plus CIL VI 29848 en de Cloaca Maxima via secundaire bronnen).
+
+| | Was | Nu | Bron |
+|---|---|---|---|
+| vomitōrium | uitgang, publiek naar **buiten** gespuwd | doorgang waarlangs de menigte naar **binnen** stroomde | Macrobius *Sat.* 6.4.3: *ingredientes in sedilia se fundunt* |
+| Claudius | edict "voor de gezondheid" | na iemand die bijna bezweek door het uit schaamte op te houden | Suetonius *Claud.* 32 |
+| mingere | mīnxī, mictum | mīnxī, mīnctum / mīctum | L&S, Wiktionary |
+| forica | forīca | forica (korte klinkers) | L&S *fŏrĭca* |
+| natis | *diffissā nāte* | *diffissā nate* | L&S *nătis* |
+| pedis (luis) | pēdis, m./v. + "één klinkerlengte verschil" | pedis, m./v., zonder macron | L&S *pĕdis, comm.* vs. Wiktionary *pēdis, m.* — bronnen oneens, dat staat nu in het weetje |
+
+Aangescherpt met echte citaten: Cicero *sordem urbis et faecem* (Att. 1.16.11), Vespasianus
+*atqui e lotio est* (Suet. *Vesp.* 23; *pecūnia nōn olet* is later), CIL VI 29848 *quisquis hic
+mīxerit aut cacārit*, Terentius *caudex, stīpes, asinus, plumbeus* (Heaut. 877), Plautus
+*fūr, trifurcifer* (Aul. 326), pōdex "waarschijnlijk van pēdere" (L&S). Bevestigd zonder
+wijziging: Horatius *Sat.* 1.8 (*pepēdī diffissā nate ficus*), Catullus 5 en 36, Cicero
+*Fam.* 9.22 (Stoïcijnen: *crepitus aeque liberos ac ructus*), Cloāca Maxima 6e eeuw v.C. en
+nog in gebruik, Cloācīna. Alle geslachten en verbuigingen klopten.
+
+### Bestanden
+| Bestand | Wijziging |
+|---|---|
+| `sjabloon.html` | `CLOACA`, `ladeGevonden()`, `startCloaca()`, `.lade`-CSS, weetje in `renderFlash()`, `#oZoek` zonder `change` |
+| `FUNCTIONELE-SPECIFICATIE.md` | v1.11; §6.3 (klik-fix), nieuw §6.3a incl. bronverantwoording, criterium 49 |
+| `test/smoke-15-cloaca.js` | nieuw, 13 checks (sleutels, geen lade bij gewone termen, flashcards, save onaangeroerd, gewone flashcards ongewijzigd) |
+| `test/LEESMIJ.txt`, `README.md` | smoke-15 vermeld |
+| `verba/index.html`, `verba-online/index.html` | herbouwd (v1.11) |
+
+### Tests
+smoke-1 t/m 9, 13, 14 en 15 allemaal groen (smoke-15: 13/13). Servertests niet gedraaid —
+de server is niet gewijzigd.
+
+### Nog te doen
+- **Niet gedeployed** naar steeman.be/verba/ — zie de deploy-memory (twee bestanden via FTPS).
+- Niet aan Robbe verklappen dat de lade bestaat; README en spec zeggen het wel.
+
 ## 2026-09-17 — Twee keer zoveel levels, en ze komen veel trager (§5.1, spec 1.10)
 
 ### Gevraagd

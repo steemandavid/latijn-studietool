@@ -133,3 +133,8 @@ zonder zijn vīs (208, geen genitief) en rēs pūblica (552, twee woorden).
 Let op bij smoke-1 en smoke-7: checks die `amīcī` zonder geslacht als juist verwachtten,
 verwachten sinds spec 1.8 `fout` of typen het geslacht erbij. Dat is geen regressie maar
 de nieuwe regel.
+
+smoke-15 (sinds 2026-09-29) bewaakt de easter egg Cloāca Maxima (§6.3a): de lade
+opent op een sleutel en niet op een gewone zoekterm, de flashcards tonen een weetje
+i.p.v. een woordnummer, en de save en de 1051 boekwoorden blijven onaangeroerd. Hij
+ving meteen de verloren klik in Ontdek (lijst hertekende bij 'change' van het zoekveld).
