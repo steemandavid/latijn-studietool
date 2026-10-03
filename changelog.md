@@ -72,8 +72,22 @@ Nieuw **smoke-16** (30 checks, aangepast op zeven figuren), waarvan het grootste
 komen. Alle offline suites groen: 13 suites, 211 checks. De online smokes (10–12) niet
 gedraaid; ze vragen `VERBA_BEHEER`, en de online build deelt de code met de offline build.
 
-### Niet gedaan
-- Niet uitgerold naar steeman.be/verba/.
+### Uitgerold naar steeman.be/verba/
+Volgens het vaste recept, twee bestanden over FTPS (`curl --netrc --ftp-ssl`):
+
+| lokaal | remote | bytes |
+|---|---|---|
+| `verba-online/index.html` | `/verba/index.html` | 778 485 |
+| `verba/index.html` | `/verba/verba-offline.html` | 978 519 |
+
+Geverifieerd op de opgehaalde broncode (met `?v=$RANDOM`): de bytegrootte klopt, de colofon
+draagt `v1.12`, `id:"vestalis"` en `inComites` zitten erin, de GitHub-link wijst naar
+`steemandavid/verba`, en de bouwstempel is `bouw 03-10 09:50`.
+
+### Openstaand
+- `website-steeman.be`: het nieuwe bronpad in `CLAUDE.md` en de GitHub-link in de Verba-blogpost
+  zijn aangepast maar niet gecommit of uitgerold (de oude link werkt dankzij GitHubs doorverwijzing).
+- De online smokes 10–12 zijn deze sessie niet gedraaid (vragen `VERBA_BEHEER`).
 
 ## 2026-09-29 — Easter egg "Cloāca Maxima": 21 schuttingwoorden, getoetst aan de bronnen (spec 1.11, §6.3a)
 
