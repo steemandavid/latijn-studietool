@@ -1109,7 +1109,7 @@ Zichtbare focus-indicator op alles wat focusbaar is.
 ## 10. Op te leveren
 
 ```
-latijn-studietool/
+verba/
 ├── woordenlijst.md              ← bron van waarheid (1051 woorden)
 ├── latijn.json                  ← afgeleide data
 ├── maak-data.py                 ← woordenlijst.md  → latijn.json

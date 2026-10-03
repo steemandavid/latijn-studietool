@@ -1,7 +1,7 @@
 // Cloāca Maxima (§6.3a): de easter egg is vindbaar, draait op de flashcards en
 // laat de leermotor en de save volledig met rust.
 const { chromium } = require('playwright');
-const PAD = 'file:///home/john/claudecode/projects/latijn-studietool/verba/index.html';
+const PAD = 'file://' + require('path').join(__dirname, '..', 'verba', 'index.html');
 const checks = [];
 const check = (naam, ok, detail) => {
   checks.push({naam, ok});

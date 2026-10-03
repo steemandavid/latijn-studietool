@@ -1,4 +1,4 @@
-# Code-Review — latijn-studietool (VERBA) — 2026-09-11
+# Code-Review — verba (VERBA) — 2026-09-11
 
 **Object:** fixronde 2026-09-11 (claim: alle bevindingen uit `Code_Review_Phase1_20260910_2217.md` gefixt, spec v1.4).
 **Methode:** vier parallelle verifications-tracks (spec v1.4 · data/buildpijplijn · app/sjabloon.html · tests/artifact), elkeen read-only, met exacte bewijslocaties. Onafhankelijke herhaling: alle 5 smoke-suites uitgevoerd, artifact herbouwd en `cmp`'d, `maak-data.py` volledig gerepliceerd tegen `latijn.json`.

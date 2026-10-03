@@ -1,7 +1,7 @@
 const { chromium } = require('playwright');
 const fs = require('fs'), path = require('path');
 const WORTEL = path.join(__dirname, '..');
-const PAD = 'file:///home/john/claudecode/projects/latijn-studietool/verba/index.html';
+const PAD = 'file://' + require('path').join(__dirname, '..', 'verba', 'index.html');
 const checks = [];
 const check = (naam, ok, detail) => {
   checks.push({naam, ok});

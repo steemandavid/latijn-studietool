@@ -1,4 +1,4 @@
-# Changelog — latijn-studietool (VERBA)
+# Changelog — verba (VERBA)
 
 ## 2026-09-29 — Easter egg "Cloāca Maxima": 21 schuttingwoorden, getoetst aan de bronnen (spec 1.11, §6.3a)
 
