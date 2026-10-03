@@ -6,7 +6,7 @@
 |---|---|
 | Versie | 1.12 |
 | Datum | 3 oktober 2026 |
-| Wijziging t.o.v. 1.11 | **Comites** (nieuw §9.6): zes kleine figuurtjes uit de Romeinse wereld — het uiltje van Minerva, een gans van het Capitool, een legionair, de wolvin, een dolfijn uit de vloermozaïeken en een heilige kip — die op **dipmomenten** even linksonder opduiken met één droge zin: na drie fouten op rij, als een lange combo breekt, bij een woord dat blijft terugvechten, halverwege een moeizame ronde, na een zware ronde en bij een terugkeer na een paar dagen. Uitdrukkelijk **geen beloning**: geen XP, geen goud, geen geluid. Ze blokkeren niets, komen hoogstens één keer per ronde, nooit in Blitz of een toets, en hebben een eigen uitknop (§6.8, §8.2). Getekend op **32×32** in plaats van de 16×16 van de tesserae, zodat een uil ook echt een uil is. Het project heet voortaan `verba` (repo en map). |
+| Wijziging t.o.v. 1.11 | **Comites** (nieuw §9.6): zeven kleine figuurtjes uit de Romeinse wereld — het uiltje van Minerva, een legionair, een gladiator, een augur, een Vestaalse maagd, Iuppiter en Mercurius — die op **dipmomenten** even linksonder opduiken met één droge zin: na drie fouten op rij, als een lange combo breekt, bij een woord dat blijft terugvechten, halverwege een moeizame ronde, na een zware ronde en bij een terugkeer na een paar dagen. Uitdrukkelijk **geen beloning**: geen XP, geen goud, geen geluid. Ze blokkeren niets, komen hoogstens één keer per ronde, nooit in Blitz of een toets, en hebben een eigen uitknop (§6.8, §8.2). Getekend op **32×32** in plaats van de 16×16 van de tesserae, zodat een uil ook echt een uil is. Het project heet voortaan `verba` (repo en map). |
 | Wijziging t.o.v. 1.10 | **Easter egg "Cloāca Maxima"** (nieuw §6.3a): wie in Ontdek een schuttingwoord intikt (`flatus`, `scheet`, `kont`…), vindt een geheime lade met 21 echte klassieke woorden die níét in het boek staan — van *crepitus* tot *furcifer* — elk met een weetje uit de bronnen. Bewust **buiten** de leermotor: geen nummer, geen Leitner, geen XP, niets in de save, en `woordenlijst.md` blijft het boek. Meteen gefixt: een klik op een rij in Ontdek vlak na het typen ging verloren (§6.3). |
 | Wijziging t.o.v. 1.9 | **De levelladder is verdubbeld en vertraagd** (§5.1). In de praktijk bleek ze in ongeveer een week uitgespeeld: twintig levels en 19 000 XP zijn te weinig voor een schooljaar. Er komen **20 levels bij, tot 40**, en de nieuwe twintig worden stelselmatig duurder — level 40 ligt op 461 000 XP. De eerste twintig levels houden **exact** hun oude namen en drempels, zodat niemand een rang verliest die hij al had. De nieuwe rangen zijn geen nieuwe carrière bovenop Iuppiter (daarboven staat niets) maar de **epitheta van Iuppiter zelf**, van *Custōs* tot *Optimus Maximus*. |
 | Wijziging t.o.v. 1.8 | In de instellingen een uitlegsectie **"Hoe leert VERBA je de woorden?"** (§6.8): een inklapbaar blok dat de didactische principes achter de leermotor in lekentaal uitlegt — actief ophalen, introductiekaart vóór de vragen, gespreide herhaling (§4.3), adaptief tempo (§4.4), interleving (§4.5), de twee leerrichtingen (§4.1), foutvriendelijke beoordeling (§7.4) en gamification als dagelijkse motivatie (hoofdstuk 5). Zelfde vorm als "Wat bewaart VERBA?" maar in **beide** builds, want het didactische werkingsprincipe is offline en online identiek. |
@@ -1086,7 +1086,7 @@ zwevende XP en schudden mogen — die kijkt naar **beide**.
 
 ### 9.6 Comites — aanmoediging op dipmomenten
 
-*Comes* (mv. *comites*) is een reisgezel. De comites zijn zes kleine figuurtjes die op het
+*Comes* (mv. *comites*) is een reisgezel. De comites zijn zeven kleine figuurtjes die op het
 moment dat de motivatie kan wegzakken even opduiken met één zin. Ze zijn **geen beloning**:
 daar zijn XP, badges en tesserae al voor. Ze verschijnen dus niet na iets goeds, maar na iets
 moeilijks — en ze zeggen dan iets wat **waar** is.
@@ -1103,13 +1103,15 @@ worden getekend uit eenvoudige vormen, de omtrek komt er automatisch omheen, en
 | id | Naam | Wie | Waarom Romeins |
 |---|---|---|---|
 | `noctua` | Noctua | het uiltje van Minerva | de uil is het dier van Minerva, godin van de wijsheid |
-| `anser` | Ānser | een gans van het Capitool | de ganzen sloegen alarm toen de Galliërs in 390 v.C. 's nachts het Capitool beklommen |
 | `miles` | Mīles | een legionair | ijzeren *galea* met dwarse rode kam, *scūtum* in de hand |
-| `lupa` | Lupa | de wolvin van Romulus en Remus | het beeld van de stichting van Rome |
-| `delphinus` | Delphīnus | de dolfijn uit de vloermozaïeken | het meest getekende dier op Romeinse vloeren |
-| `pullus` | Pullus | een heilige kip van de augurs | vóór een veldslag keken de Romeinen of de heilige kippen gretig aten |
+| `gladiator` | Gladiātor | een murmillo uit de arena | bronzen helm met brede rand, traliewerk voor het gezicht en een hoge kam; *manica* om de arm, *gladius* omhoog |
+| `augur` | Augur | de priester die de vogels las | de toga over het hoofd (*capite vēlātō*) en de *lituus*, de gekrulde staf waarmee hij de hemel in vakken verdeelde |
+| `vestalis` | Vestālis | een priesteres van Vesta | witte sluier (*suffībulum*), rood-witte wollen band (*īnfula*) en het heilige vuur dat nooit mocht doven |
+| `iuppiter` | Iuppiter | de oppergod, heer van de bliksem | witte baard en krullen, purperen mantel, de bliksem in de vuist |
+| `mercurius` | Mercurius | de bode van de goden | de gevleugelde hoed (*petasus*) en de *cādūceus* met twee slangen |
 
 - Het uiltje is de gastheer: het komt **twee keer zo vaak** als elk ander figuur.
+- Mensen en goden, geen dieren: het uiltje is de enige uitzondering, omdat het bij Minerva hoort.
 - **Nooit twee keer na elkaar** hetzelfde figuur, en nooit twee keer na elkaar dezelfde zin.
 - De ogen zijn getekend met de letters `w` (oogwit) en `e` (pupil). Het knipperbeeld vervangt
   die door `k` (ooglid); zo heeft elk figuur zonder extra tekenwerk een tweede beeld.
@@ -1227,7 +1229,7 @@ verba/
 │   ├── rasters.py               ← bron van waarheid voor de sprites
 │   ├── contactblad.py           ← rendert ze naast elkaar naar PNG — kijk ernaar
 │   └── injecteer.py             ← schrijft ze in sjabloon.html
-├── comites/                     ← de zes figuurtjes van §9.6, op 32×32
+├── comites/                     ← de zeven figuurtjes van §9.6, op 32×32
 │   ├── figuren.py               ← bron van waarheid: getekend uit vormen, omtrek automatisch
 │   ├── contactblad.py           ← open én knipperend naast elkaar — kijk ernaar
 │   └── injecteer.py             ← schrijft ze in sjabloon.html
@@ -1330,7 +1332,7 @@ verba/
 47. Een beheerst item (§4.3) komt niet terug als onderhoudsvulling: zolang er nog due of niet-beheerste onderhoudsitems buiten het herhalingsvenster liggen, wordt er geen enkel beheerst item gesteld, en de vulling rouleert — twintig vragen op rij leveren twintig verschillende items op in plaats van dezelfde handvol. Onderhoud kiest telkens het item dat het langst niet gesteld is. Alleen als er echt niets anders over is (stap 6 van §4.5) mag een beheerst item er weer bij, zodat een volledig beheerst pakket niet stilvalt. Smoke-13 meet dit.
 48. Het geslacht hoort bij de genitiefvraag (§7.2a). 343 van de 345 zelfstandige naamwoorden dragen er een — 153 gedrukt, 190 afgeleid en gemarkeerd met `ga`; alleen `alter` (174) en `plērīque` (247) niet. Een afgeleid geslacht staat in `vol` maar nooit in `v`. Bij alle 343 is de vorm zonder geslacht **fout** met "vergeten" als reden, is **elk ander geslacht fout**, is elk van de notatievarianten (`m`, `m.`, `mannelijk`, `masc.`, `m/v`, `m. en v.`, met of zonder `mv.`) juist, en blijft de volledige vorm juist — met en zonder macrons en scheidingstekens, en in strenge modus inclusief het geslacht. De vraagkop noemt het geslacht bij elk van die woorden, en 341 van de 343 meerkeuzevragen dragen een geslachtsvalstrik. `maak-data.py` weigert te bouwen als een `znw` zonder geslacht opduikt. Smoke-14 meet dit.
 49. De easter egg Cloāca Maxima (§6.3a) opent bij een sleutel in Ontdek en niet bij een gewone zoekterm, toont 21 flashcards met weetje en zonder woordnummer, en laat de save en de 1051 boekwoorden ongemoeid. Smoke-15 meet dit.
-50. De comites van §9.6 verschijnen op elk van de zes signalen en op geen ander moment: drie fouten op rij geven er één, ook met een "bijna" ertussen, maar fout–juist–fout–fout niet; in Blitz en een veroveringstoets nooit; hoogstens één per ronde en nooit binnen `COMES_PAUZE` van de vorige; nooit met *Aanmoedigingen* uit. Een comes verandert geen enkele teller (box, combo, XP, tempo-index), vangt geen klik af (`pointer-events: none`), staat in een `aria-live`-regio en is na 4,5 s weg. Hetzelfde figuur en dezelfde zin komen nooit twee keer na elkaar. Alle zes figuren zijn 32×32 en hebben ogen om mee te knipperen. Smoke-16 meet dit.
+50. De comites van §9.6 verschijnen op elk van de zes signalen en op geen ander moment: drie fouten op rij geven er één, ook met een "bijna" ertussen, maar fout–juist–fout–fout niet; in Blitz en een veroveringstoets nooit; hoogstens één per ronde en nooit binnen `COMES_PAUZE` van de vorige; nooit met *Aanmoedigingen* uit. Een comes verandert geen enkele teller (box, combo, XP, tempo-index), vangt geen klik af (`pointer-events: none`), staat in een `aria-live`-regio en is na 4,5 s weg. Hetzelfde figuur en dezelfde zin komen nooit twee keer na elkaar. Alle zeven figuren zijn 32×32 en hebben ogen om mee te knipperen. Smoke-16 meet dit.
 
 ---
 

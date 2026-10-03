@@ -45,8 +45,8 @@ const wacht = ms => new Promise(r => setTimeout(r, ms));
       ogen: f.px.join("").includes("w") && !!f.pal.k,
       palet: f.px.join("").split("").every(c => c === "." || f.pal[c])
     })));
-    check('zes figuren met de ids uit §9.6',
-          fig.map(f => f.id).join() === "noctua,anser,miles,lupa,delphinus,pullus", fig.map(f => f.id));
+    check('zeven figuren met de ids uit §9.6',
+          fig.map(f => f.id).join() === "noctua,miles,gladiator,augur,vestalis,iuppiter,mercurius", fig.map(f => f.id));
     check('elk figuur is 32×32, met ogen om te knipperen en een volledig palet',
           fig.every(f => f.maat === 32 && f.rijen === 32 && f.breed && f.ogen && f.palet), fig);
 
@@ -197,8 +197,8 @@ const wacht = ms => new Promise(r => setTimeout(r, ms));
     });
     check('nooit twee keer na elkaar hetzelfde figuur of dezelfde zin',
           afw.dubbelFig === 0 && afw.dubbelZin === 0, afw);
-    check('alle zes komen voor, het uiltje het vaakst',
-          Object.keys(afw.tel).length === 6 && Object.entries(afw.tel).every(([k, n]) => k === "noctua" || n < afw.tel.noctua), afw.tel);
+    check('alle zeven komen voor, het uiltje het vaakst',
+          Object.keys(afw.tel).length === 7 && Object.entries(afw.tel).every(([k, n]) => k === "noctua" || n < afw.tel.noctua), afw.tel);
 
     const motto = await p.evaluate(() => {
       vers(); let m = 0, lat = true;

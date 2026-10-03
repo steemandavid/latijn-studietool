@@ -51,8 +51,24 @@ contactblad: de legionair leek eerst iemand met een baret (nu een ijzeren helm m
 kam), de dolfijn eerst een sikkel en daarna een haai (nu een ronde meloenkop, korte snuit en
 een kleine gebogen rugvin).
 
+### Tweede ronde: mensen en goden in plaats van dieren
+Daarna gevraagd: *"Kunnen we de figuurtjes veranderen naar figuurtjes die meer aansluiten bij
+het Latijnse thema? Bvb een gladiator, een priester, een godheid, ..."* Het uiltje (al
+goedgekeurd, en het hoort bij Minerva) en de legionair blijven. Gans, wolvin, dolfijn en kip
+maken plaats voor vijf mensen en goden, zodat het er **zeven** worden:
+- **gladiator**: een murmillo met bronzen traliehelm, manica en gladius;
+- **augur**: toga over het hoofd en de gekrulde lituus;
+- **vestalis**: sluier, rood-witte īnfula en het heilige vuur;
+- **iuppiter**: witte baard, purperen mantel, bliksem;
+- **mercurius**: gevleugelde petasus en cādūceus.
+
+Voor de mensen kwam er een hulpfunctie `gezicht()` bij (ogen in `w`/`e`, neus, mond, licht van
+linksboven), zodat elk gezicht automatisch kan knipperen. Eén iteratie op het contactblad: de
+ogen van de gladiator vielen precies op de tralies en verdwenen. Nu zitten ze elk in een
+donker vak van het vizier. Mercurius kreeg haar onder zijn hoed.
+
 ### Tests
-Nieuw **smoke-16** (30 checks), waarvan het grootste deel bewaakt wanneer een comes níét mag
+Nieuw **smoke-16** (30 checks, aangepast op zeven figuren), waarvan het grootste deel bewaakt wanneer een comes níét mag
 komen. Alle offline suites groen: 13 suites, 211 checks. De online smokes (10–12) niet
 gedraaid; ze vragen `VERBA_BEHEER`, en de online build deelt de code met de offline build.
 

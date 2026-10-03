@@ -27,8 +27,8 @@ builds uit dezelfde bron**:
 - **Het mozaïek** op het beginscherm — alle 1051 woorden als één cel per woord, dat
   langzaam goud kleurt naarmate je ze beheerst.
 - XP, 40 levels, combo's, dagstreak, 20 badges en 20 tesserae.
-- **Comites** — zes kleine figuurtjes uit de Romeinse wereld (het uiltje van Minerva, een
-  gans van het Capitool, een legionair, de wolvin, een dolfijn, een heilige kip) die op een
+- **Comites** — zeven kleine figuurtjes uit de Romeinse wereld (het uiltje van Minerva, een
+  legionair, een gladiator, een augur, een Vestaalse maagd, Iuppiter, Mercurius) die op een
   dipmoment even linksonder opduiken met één droge zin: na drie fouten op rij, als een lange
   combo breekt, halverwege een moeizame ronde. Geen beloning en geen gezeur: hoogstens één
   per ronde, nooit in Blitz of een toets, en uit te zetten.
@@ -96,7 +96,7 @@ regels op het scherm, zonder devtools (§13.8b).
 | `ONLINE-PLAN.md` | waarom de online modus is zoals ze is, en het meetrapport van de hosting |
 | `test/` | smoketests (headless Chromium via Playwright) + de servertests |
 | `tesserae/` | de pixelrasters van de verzamelsteentjes |
-| `comites/` | de zes aanmoedigingsfiguurtjes op 32×32: tekenscript, contactblad, injectie |
+| `comites/` | de zeven aanmoedigingsfiguurtjes op 32×32: tekenscript, contactblad, injectie |
 | `mozaieken/` | de acht klasmozaïeken: rasters, schetsgereedschap, foto-import, contactblad, injectie |
 | `changelog.md` | wat er wanneer veranderd is, en waarom |
 
