@@ -138,3 +138,14 @@ smoke-15 (sinds 2026-09-29) bewaakt de easter egg Cloāca Maxima (§6.3a): de la
 opent op een sleutel en niet op een gewone zoekterm, de flashcards tonen een weetje
 i.p.v. een woordnummer, en de save en de 1051 boekwoorden blijven onaangeroerd. Hij
 ving meteen de verloren klik in Ontdek (lijst hertekende bij 'change' van het zoekveld).
+
+smoke-16 (sinds 2026-10-03) bewaakt de comites van §9.6. Het grootste deel gaat over
+wanneer ze NIET mogen komen: twee fouten op rij, fout-juist-fout-fout, een combo van 5,
+een tweede keer in dezelfde ronde, binnen de pauze van 3 minuten, met Aanmoedigingen uit,
+terwijl er een modal openstaat, in Blitz en in een veroveringstoets. Daarnaast: elk van de
+zes signalen valt op zijn moment, een comes verandert geen enkele teller (box, combo, XP,
+tempo), vangt geen klik af, staat in een aria-live-regio, knippert één keer, is na 4,5 s
+weg, en met animaties uit verschijnt hij zonder beweging. Over 300 verschijningen komt
+nooit twee keer na elkaar hetzelfde figuur of dezelfde zin. Screenshots: shots/comes-*.png.
+Let op bij `zwaar`: een vers profiel krijgt na zijn eerste ronde een badge of steentje, en
+die modal laat de comes (terecht) vervallen — de test zet daarom eerst alles op verzameld.

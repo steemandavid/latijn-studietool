@@ -281,6 +281,29 @@ input[type=checkbox]{accent-color:var(--goud2);width:17px;height:17px;cursor:poi
   animation:stijg 950ms var(--ease) forwards}
 @keyframes stijg{to{opacity:0;transform:translate(-50%,-70px) scale(1.16)}}
 .flits{position:fixed;inset:0;pointer-events:none;z-index:35;opacity:0}
+
+/* Comites (§9.6): linksonder, vangt nooit een klik af, staat onder de modal. */
+.comes{position:fixed;left:14px;bottom:14px;z-index:45;pointer-events:none;
+  display:none;align-items:flex-end;gap:10px;max-width:min(380px, calc(100vw - 28px))}
+.comes.on{display:flex}
+.comes img{width:96px;height:96px;flex:none;image-rendering:pixelated;
+  filter:drop-shadow(0 6px 12px rgba(0,0,0,.55))}
+.comes .ballon{position:relative;margin-bottom:30px;padding:10px 13px 11px;border-radius:var(--r);
+  background:linear-gradient(180deg,var(--bg4),var(--bg3));border:1px solid var(--lijn2);
+  box-shadow:var(--schaduw),var(--rand);font-size:.92rem;line-height:1.42}
+.comes .ballon::before{content:"";position:absolute;left:-7px;bottom:14px;width:12px;height:12px;
+  background:var(--bg3);border-left:1px solid var(--lijn2);border-bottom:1px solid var(--lijn2);
+  transform:rotate(45deg)}
+.comes .wie{font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3);margin-bottom:3px}
+.comes .wie b{color:var(--tx2);font-weight:650}
+.comes .motto{margin-top:6px;padding-top:6px;border-top:1px solid var(--lijn);font-size:.84rem;color:var(--tx2)}
+.comes .motto .lat{color:var(--c4);font-style:italic}
+.comes.beweeg{animation:comesIn 420ms var(--ease) both}
+.comes.beweeg img{animation:comesWieg 1.5s ease-in-out 420ms 2}
+.comes.beweeg.weg{animation:comesUit 300ms ease-in both}
+@keyframes comesIn{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes comesUit{to{opacity:0;transform:translateY(20px)}}
+@keyframes comesWieg{0%,100%{transform:rotate(0)}30%{transform:rotate(-4deg)}70%{transform:rotate(3deg)}}
 .flits.aan{animation:fl 400ms ease-out}
 @keyframes fl{0%{opacity:.26}100%{opacity:0}}
 
@@ -559,6 +582,10 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
     transition-duration:1ms!important; scroll-behavior:auto!important}
 }
 
+@media (max-width:520px){
+  .comes img{width:64px;height:64px}
+  .comes .ballon{margin-bottom:18px;font-size:.86rem}
+}
 @media (max-width:700px){
   .opties{grid-template-columns:1fr}
   .vraag{margin:26px 0 22px}
@@ -806,6 +833,8 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
       <input type="checkbox" id="inGeluid"></label>
     <label class="rij" style="justify-content:space-between"><span>Animaties</span>
       <input type="checkbox" id="inAnim"></label>
+    <label class="rij" style="justify-content:space-between"><span>Aanmoedigingen</span>
+      <input type="checkbox" id="inComites"></label>
     <label class="rij" style="justify-content:space-between"><span>Rondelengte</span>
       <select id="inRonde"><option>10</option><option>15</option><option>20</option></select></label>
     <label class="rij" style="justify-content:space-between">
@@ -947,6 +976,7 @@ html.geenanim .combo .vlam,html.geenanim .vangst .spr{animation:none!important}
 </div></footer>
 
 <div class="combo" id="combo"></div>
+<div class="comes" id="comes" role="status" aria-live="polite"></div>
 <div class="flits" id="flits"></div>
 <div class="modal" id="modal"><div class="mbox" id="mbox"></div></div>
 
@@ -1719,6 +1749,217 @@ const TESSERAE = [
        "................"]}
 ];
 
+/* ======================= COMITES (§9.6) ======================= */
+/*__COMITES_BEGIN__*/
+const COMES_W = 32;
+const COMITES = [
+  {id:"noctua", naam:"Noctua", wie:"het uiltje van Minerva",
+   pal:{o:"#2a1a10",s:"#6e4a2c",b:"#9a6b40",h:"#e3c79a",a:"#e0aa46",c:"#c07f3c",w:"#fff6dc",e:"#14141c",k:"#6e4a2c"},
+   px:["................................",
+       "................................",
+       "................................",
+       "................................",
+       ".......o....oooooooo....o.......",
+       "......obo.oobbbbbbbboo.obo......",
+       "......obbobbbbbbbbbbbbobbo......",
+       "......obbbbbbbbbbbbbbbbbbo......",
+       "......obbbbabbbbbbbbabbbbo......",
+       "......obbaaaaabbbbaaaaabbo......",
+       "......obaawwwaabbaawwwaabo......",
+       "......obawwwwwabbawwwwwabo......",
+       "......oaawweewaaaawweewaao......",
+       "......obawweewabbawweewabo......",
+       ".......oaawwwaabbaawwwaao.......",
+       "......obbaaaaahcchaaaaasso......",
+       "......obbbbahhhchhhhabssso......",
+       "......obbbbhhhhhhhhhhbssso......",
+       "......obbbbhhshhshhhhbssso......",
+       ".....obbbbhhhhshhshhhhsssso.....",
+       "......obbbhhhhhhhhhhhhssso......",
+       "......obbbhhshhshhshhhssso......",
+       "......obbbhhhshhshhshhssso......",
+       "......obbbhhhhhhhhhhhhssso......",
+       ".......obbhhhshhshhhhhsso.......",
+       ".......obbbhhhshhshhhbsso.......",
+       "...oo...obbhhhhhhhhhhbso........",
+       "..oaao...obbhhhhhhhhbbo.........",
+       ".oaaaao...obbbhhhhbbbo..........",
+       ".ooaaooooooooccbbbccooooooooooo.",
+       "osssssssssssssssssssssssssssssso",
+       "osssssssssssssssssssssssssssssso"]},
+  {id:"anser", naam:"Ānser", wie:"een gans van het Capitool",
+   pal:{o:"#2f2f38",s:"#b9bccb",b:"#eef0f6",h:"#ffffff",a:"#e2664a",c:"#c04a5c",w:"#ffffff",e:"#14141c",k:"#b9bccb"},
+   px:["................................",
+       "................................",
+       "..........o.....................",
+       "........ooboo...................",
+       ".......obbbbbo..................",
+       ".....oobbbbbbbo.................",
+       "...ooabbbwwbbbbo................",
+       "..oaaabbbewbbbbo................",
+       ".oaaoabbbbbbbbbo................",
+       ".oaaooobbbbbbbo.................",
+       "..oo...obbbbbo..................",
+       ".......obbbbo...................",
+       ".......obbbbo...................",
+       ".......obbbbo...................",
+       ".......obbbbooooooooo.........o.",
+       ".......obbbbobbbbbbbbooo....oobo",
+       ".......obbbbbbbbbbbbbbbbo..obbbo",
+       ".......obbbbbbbhhhhhhbbbboobbbbo",
+       "......obbbbbbhhhhhhhhhhbbbbbbbo.",
+       "......obbbbbhhhhhhhhhhhhbbbbbbo.",
+       ".....obbbbbhhhhhhhhhhhhhhbbbbbo.",
+       ".....obbbbbhhhhhhhhhhhsssbbbbo..",
+       ".....obbbbbbhhhhsssssshsssbbo...",
+       ".....obbbbbbbssshhsssssbbbbbo...",
+       "......obbbbbbbbssshhhbbbbbbo....",
+       "......obbbbbbbbbbbbbbbbbbbbo....",
+       ".......oossssssssssssssssoo.....",
+       ".........osssssssssssssso.......",
+       "..........ooossssssssooo........",
+       "............oaooooooao..........",
+       "...........ooaoo..ooaoo.........",
+       "..........oaaaaaooaaaaao........"]},
+  {id:"miles", naam:"Mīles", wie:"een legionair",
+   pal:{o:"#1e1a1c",s:"#5c6276",b:"#9aa0b5",h:"#d7dbe6",a:"#c04a5c",c:"#8a2e3e",f:"#e8c39e",g:"#9a5a3c",t:"#8a4526",y:"#e0aa46",w:"#ffffff",e:"#14141c",k:"#c99a78"},
+   px:["........oooooooooooooooo........",
+       ".......oaaaaaaaaaaaaaaaaoo......",
+       "......oaaaaaaaaaaaaaaaaaaao.....",
+       "......oacacacacacacacacacao.....",
+       "......oacacacacacacacacacao.....",
+       "......oacacacacacacacacacao.....",
+       "......oacacacasssssacacacao.....",
+       ".......oooooobbbbbbooooooo......",
+       ".........ohhhbbbbbbbbbo.........",
+       "........ohhhhbbbbbbbbbbo........",
+       ".......ohhhhhbbbbbbbbbbbo.......",
+       ".......ohhhhhbbbbbbbbbbbo.......",
+       ".......obbbbbbbbbbbbbbbbo.......",
+       "......oobbbbbbbbbbbbbbbbooo.....",
+       ".....ossssssssssssssssssssso....",
+       ".....ossssssssffffssssssssso....",
+       "....obbbbbbbffffffffbbbbbbbbo...",
+       "....osssbbbbfffffffffbbbbssso...",
+       "....osssobbbfwwfffwwfbbbossso...",
+       "....osssobbbfwefffewfbbbosssooo.",
+       ".....oooobbbfffffffffaaaaaaaaaao",
+       "........obbbfffffffffaaaaayaaaao",
+       "........osssfffgggfffaaaaayaaaao",
+       "........osssffffffffoaaaaayaaaao",
+       "........osssooffffoooaaaayyyaaao",
+       ".......obbbbbbbbbbbbbaaaayyyaaao",
+       ".......obbbbbbbbbbbbbaaaayyyaaao",
+       ".......obbbbbbbbbbbbbaaaayyyaaao",
+       ".......otttttttttttttaaaaayaaaao",
+       ".......osssssssssssssaaaaayaaaao",
+       ".......otttttttttttttaaaaayaaaao",
+       ".......otttttttttttttttttoooooo."]},
+  {id:"lupa", naam:"Lupa", wie:"de wolvin van Romulus en Remus",
+   pal:{o:"#1e1d26",s:"#5c5f72",b:"#8b8fa3",h:"#d7d9e3",a:"#c07f3c",c:"#9aa0b5",w:"#e0aa46",e:"#14141c",k:"#5c5f72"},
+   px:["................................",
+       "..........................o.....",
+       ".....o...................obo....",
+       "....obo.................obbo....",
+       "....obbo...............obbbo....",
+       "....obbao...oooooooo..obabbo....",
+       "....obbabooobbbbbbbboobbabbo....",
+       "....obbaabbbbbbbbbbbbbbaabo.....",
+       ".....obabbbbbbbbbbbbbbbbabo.....",
+       ".....obbbbbbbbbbbbbbbbbbbbo.....",
+       ".....obbbbbbbbbbbbbbbbbbbbo.....",
+       ".....obbbbbbbbbbbbbbbbbbbbo.....",
+       "....obbbbbbbbbbbbbbbbbbbbbbo....",
+       "....obbbbwwwwwbbbbwwwwwbbbbo....",
+       "....obbbbwweebbbbbwweewbbbbo....",
+       "....obbbbbbeebbbbbbweebbbbbo....",
+       "....obbbbbbbbbbbbbbbbbbbbbbo....",
+       "...obbbbbbbbbbbbbbbbbbbbbbbbo...",
+       "...obbbbbbbbhhhhhhhhbbbbbbbbo...",
+       "....obbbbbbbhhhhhhhhbbbbbbbo....",
+       ".....osssssshhhhhhhhbssssso.....",
+       "......ossssshhhhhhhhbsssso......",
+       ".......osssshhhhhhhbbssso.......",
+       "........osssbheceeebbsso........",
+       ".........ossbheeeeebbso.........",
+       "..........osbheeeeebbo..........",
+       "...........obhhhhhhbo...........",
+       "............oooosooo............",
+       "...............oso..............",
+       "................o...............",
+       "................................",
+       "................................"]},
+  {id:"delphinus", naam:"Delphīnus", wie:"de dolfijn uit de vloermozaïeken",
+   pal:{o:"#14223a",s:"#2e5a80",b:"#5b89ae",h:"#bcd6ea",a:"#5b89ae",c:"#2e5a80",w:"#ffffff",e:"#14141c",k:"#2e5a80"},
+   px:["................................",
+       "................................",
+       "................................",
+       "................................",
+       "..................oo............",
+       ".................osso...........",
+       "................osso............",
+       "...............ossso............",
+       "...............osssso...........",
+       ".........o..ooosssssso..........",
+       "......oooboobbbbbbbbbboo........",
+       ".....obbbbbbbbbbbbbbbbbbo.......",
+       "....obbbbbbbbbbbbbbbbbbbbo......",
+       "...obbbbbbbbbbbbbbbbbbbbbbo.....",
+       "...obbbbwwbbbbbbbbbbbbbbbbbo..o.",
+       "...obbbbwebbbbbbbbbbbbbbbbbbooso",
+       "...obbbbbbbbbbbbbbbbbbbbbbbbosso",
+       "..oohhhhhhhhhbbbbbbbbbbbbbbbsso.",
+       ".ohhhhhhhhhhhssssoooooooooohsso.",
+       "ohhhhsshhhhhhssso.........ossso.",
+       "ohssshhhhhooosso..........osso..",
+       ".ooooooooo..oso............osso.",
+       ".............o..............ooso",
+       "..............................o.",
+       "................................",
+       "................................",
+       "........aaaa........aaaaa.......",
+       "aa....aa....aa....aa.....aa....a",
+       "..aaaa........aaaa.........aaaa.",
+       ".....cccc........ccccc........cc",
+       "...cc....cc....cc.....cc....cc..",
+       "ccc........cccc.........cccc...."]},
+  {id:"pullus", naam:"Pullus", wie:"een heilige kip van de augurs",
+   pal:{o:"#2a1a10",s:"#a87a28",b:"#d9a441",h:"#f6dfa0",a:"#c04a5c",c:"#e0aa46",w:"#ffffff",e:"#14141c",k:"#a87a28"},
+   px:["................................",
+       "................................",
+       ".........o..o...................",
+       "........oaooao..................",
+       ".......oaaaaaao.................",
+       "......oaaaaaaaao................",
+       ".......oaaaaaao..............o..",
+       "......obbbbbbbbo............oso.",
+       ".....obbbbbbbbbbo..........osso.",
+       ".....obbwwbbbbbbo.........ossso.",
+       "...ooobbewbbbbbbo........osssso.",
+       "..occobbbbbbbbbbo.......ossassso",
+       "...ocobbbbbbbbbboo.....ossaassso",
+       "....ooabbbbbbbbbbbooo.ossaaassso",
+       "....oaaabbbbbbbbbbbbbossaaaassso",
+       "....oaaabbbbbbbbbbbbbbsaaaaasso.",
+       "....oaaabbbbbbbbbbbbbbbssaaaso..",
+       ".....oabbbbbhhhhhhhhbbbssssso...",
+       ".....obbbbbhhhhhhhhhhbbsssso....",
+       "....obbbbbhhhhhhhhhhhhbssso.....",
+       "....obbbbbhhhhhhhhhhhhbbso......",
+       "....obbbbbhhhhhhhsssshbbbo......",
+       "....obbbbbhhssssshhhhhbbbo......",
+       ".....obbbbbhhhhhhssssbbbo.......",
+       ".....obbbbbbhsssshhhbbbbo.......",
+       "......obbbbbbbbbbbbbbbbo........",
+       ".......obbbbbbbbbbbbbbo.........",
+       "........obbbbbbbbbbbbo..........",
+       ".........ooocbbbbbcoo...........",
+       "...........ocoooooco............",
+       "..........oocoo.oocoo...........",
+       "...c..c..occcccoccccco..c..c...."]}
+];
+/*__COMITES_EINDE__*/
+
 /* ======================= ORNAMENT ======================= */
 const ROMCIJFER = ["","I","II","III","IV","V","VI","VII","VIII","IX","X",
                    "XI","XII","XIII","XIV","XV","XVI","XVII","XVIII","XIX","XX",
@@ -1808,7 +2049,7 @@ function vanIemandAnders(d){
 function leegProfiel(){
   return {
     app:"verba", version:1, createdAt:new Date().toISOString(),
-    settings:{toetsdatum:null, geluid:true, animaties:true, rondelengte:15,
+    settings:{toetsdatum:null, geluid:true, animaties:true, comites:true, rondelengte:15,
               strengheid:"soepel", typAandeel:"gemiddeld", tempo:"auto",
               pakket:CAPUTS[0].secties.map(s=>s.key), mozDicht:[]},
     profiel:{xp:0, level:1, streak:0, laatsteActieveDag:null, streakGeschiedenis:[],
@@ -1852,6 +2093,7 @@ function zetSave(d, uitBestand){
   delete S.eigenaar;                 // de stempel hoort bij de opslag, niet bij de save zelf
   S.settings = Object.assign(leeg.settings, alsObject(d.settings) || {});
   if(!TYPDOEL[S.settings.typAandeel]) S.settings.typAandeel = "gemiddeld";
+  S.settings.comites = S.settings.comites !== false;
   if(!(S.settings.tempo in TEMPOVAST) && S.settings.tempo !== "auto") S.settings.tempo = "auto";
   S.profiel  = Object.assign(leeg.profiel,  alsObject(d.profiel)  || {});
   S.profiel.combo = Math.max(0, S.profiel.combo|0);
@@ -2718,6 +2960,107 @@ function toonVangst(t){
   if(t.zeldz === "episch" || t.zeldz === "legendarisch") confetti(t.zeldz === "legendarisch" ? 130 : 80);
 }
 
+/* ======================= COMITES (§9.6) ======================= */
+/* Aanmoediging op dipmomenten — geen beloning. Alles hier leeft alleen zolang de app
+   openstaat; in de save staat enkel settings.comites. */
+const COMES_PAUZE = 3 * 60e3, COMES_DUUR = 4500, COMES_KNIP = 1600;
+const COMES_ZINNEN = {
+  terug: [v => v.goud ? `Welkom terug. Je woorden zijn er nog — ${v.goud} ervan staan in goud.` : null,
+          () => "Even weg geweest. De herhaling pikt op waar je gestopt bent.",
+          () => "Terug van weggeweest. Eén ronde vandaag telt al voor je streak."],
+  reeks: [() => "Drie op rij mis. Dat zijn precies de woorden waarvoor je hier bent.",
+          () => "Fouten kosten hier niets. Ze vertellen de app alleen wat er nog moet komen.",
+          () => "Even ademhalen. Lees het juiste antwoord rustig — dan blijft het beter hangen."],
+  combo: [v => `${v.n} op rij. Dat was geen toeval: die woorden zitten erin.`,
+          v => `Een reeks van ${v.n} breekt, de woorden blijven.`,
+          v => `${v.n} juist op rij. De volgende reeks begint nu.`],
+  taai:  [v => `<span class="lat">${v.woord}</span> vecht terug. Daarom komt het vaker terug, tot het blijft.`,
+          v => `<span class="lat">${v.woord}</span>, alweer. Kijk nog eens goed naar het juiste antwoord.`,
+          v => `Taai woord, al ${v.k} keer mis. Elke keer dat je het juiste antwoord leest, telt.`],
+  dip:   [() => "Over de helft. Wat nu moeilijk gaat, komt straks in de herhaling terug.",
+          v => v.rest ? `Nog ${v.rest} vragen. Neem je tijd: de app past het tempo aan.` : null,
+          () => "Halverwege. Zwaar rondje — en je zit er nog in."],
+  zwaar: [v => v.omhoog ? `Zware ronde, en toch gingen er ${v.omhoog} woorden vooruit.` : null,
+          v => v.stevig ? `Geen vlotte ronde. Toch staan er nu ${v.stevig} woorden stevig, op box 3 of hoger.` : null,
+          () => "Deze woorden komen de volgende ronde terug. Dan ken je ze al een beetje."]
+};
+const COMES_MOTTO = {
+  terug: [["Nūlla diēs sine līneā.", "Geen dag zonder een lijn. — Plinius, over de schilder Apelles"]],
+  reeks: [["Errāre hūmānum est.", "Vergissen is menselijk."]],
+  combo: [["Dum spīrō, spērō.", "Zolang ik adem, hoop ik."]],
+  taai:  [["Gutta cavat lapidem.", "De druppel holt de steen uit. — Ovidius"],
+          ["Repetītiō māter studiōrum.", "Herhaling is de moeder van het leren."]],
+  dip:   [["Festīnā lentē.", "Haast je langzaam. — lijfspreuk van Augustus"]],
+  zwaar: [["Per aspera ad astra.", "Langs ruwe wegen naar de sterren."]]
+};
+let comesLaatst = -Infinity, comesVorigeFig = null, comesVorigeZin = null, comesTimers = [];
+const comesBeelden = {};
+function comesBeeld(f, dicht){
+  const sl = f.id + (dicht ? ":k" : "");
+  if(comesBeelden[sl]) return comesBeelden[sl];
+  const c = document.createElement("canvas");
+  c.width = c.height = COMES_W;
+  const g = c.getContext("2d");
+  for(let y=0;y<COMES_W;y++) for(let x=0;x<COMES_W;x++){
+    let ch = f.px[y][x];
+    if(ch === ".") continue;
+    if(dicht && (ch === "w" || ch === "e")) ch = "k";
+    g.fillStyle = f.pal[ch]; g.fillRect(x, y, 1, 1);
+  }
+  return comesBeelden[sl] = c.toDataURL();
+}
+function kiesComes(){
+  // Het uiltje is de gastheer en weegt dubbel; nooit twee keer na elkaar hetzelfde figuur.
+  const pool = [];
+  for(const f of COMITES){
+    if(f.id === comesVorigeFig) continue;
+    pool.push(f); if(f.id === "noctua") pool.push(f);
+  }
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+/* Toont een comes als het mag; geeft true terug als hij verscheen. */
+function comes(signaal, v){
+  if(S.settings.comites === false) return false;
+  if(!Q || Q.modus !== "leer" || Q.comes) return false;        // alleen leerrondes, één per ronde
+  if(Date.now() - comesLaatst < COMES_PAUZE) return false;
+  if(modalOpen) return false;                                  // vervalt, geen wachtrij
+  v = v || {};
+  const kandidaten = COMES_ZINNEN[signaal].map((z, i) => ({i, t: z(v)}))
+    .filter(z => z.t && signaal + z.i !== comesVorigeZin);
+  if(!kandidaten.length) return false;
+  const zin = kandidaten[Math.floor(Math.random() * kandidaten.length)];
+  const f = kiesComes();
+  Q.comes = signaal;
+  comesLaatst = Date.now(); comesVorigeFig = f.id; comesVorigeZin = signaal + zin.i;
+
+  const mottos = COMES_MOTTO[signaal] || [];
+  const motto = mottos.length && Math.random() < 1/3 ? mottos[Math.floor(Math.random() * mottos.length)] : null;
+  const box = $("#comes");
+  comesTimers.forEach(clearTimeout); comesTimers = [];
+  box.className = "comes";
+  box.dataset.fig = f.id; box.dataset.signaal = signaal;
+  box.innerHTML = `<img alt="" src="${comesBeeld(f, false)}">
+    <div class="ballon"><div class="wie"><b class="lat">${f.naam}</b> · ${f.wie}</div>
+      <div class="zin">${zin.t}</div>${motto ? `<div class="motto"><span class="lat">${motto[0]}</span> ${motto[1]}</div>` : ""}</div>`;
+  void box.offsetWidth;
+  box.classList.add("on");
+  if(magBewegen()){
+    box.classList.add("beweeg");
+    const img = box.querySelector("img");
+    comesTimers.push(setTimeout(() => { img.src = comesBeeld(f, true); }, COMES_KNIP));
+    comesTimers.push(setTimeout(() => { img.src = comesBeeld(f, false); }, COMES_KNIP + 150));
+    comesTimers.push(setTimeout(() => box.classList.add("weg"), COMES_DUUR - 300));
+  }
+  comesTimers.push(setTimeout(() => { box.className = "comes"; box.innerHTML = ""; }, COMES_DUUR));
+  return true;
+}
+function dagenGeleden(dag){
+  if(!dag) return 0;
+  const [j, m, d] = dag.split("-").map(Number);
+  const t = new Date(); t.setHours(0,0,0,0);
+  return Math.round((t - new Date(j, m-1, d)) / 864e5);
+}
+
 /* ======================= GELUID ======================= */
 let AC = null;
 function sfx(soort){
@@ -3009,13 +3352,20 @@ function startRonde(opties){
   }
   Q = {id:++rondeId, modus:o.modus, lengte:o.lengte, i:0, goed:0, fout:0, bijna:0, xp:0, besteCombo:0,
        start:Date.now(), telWoord:new Map(), foutRonde:new Set(), typ:0, mc:0, tik:0,
-       lijst:o.lijst, omhoog:[], missers:[], sectie:o.sectie || null, titel:o.titel || null};
+       lijst:o.lijst, omhoog:[], missers:[], sectie:o.sectie || null, titel:o.titel || null,
+       foutOpRij:0, comes:null};
   recenteNrs = [];
   /* §5.2: de combo hoort bij de leerling, niet bij de ronde. Hij loopt door van de
      ene ronde naar de volgende en breekt alleen op een fout antwoord. Blitz en de
      veroveringstoets tellen apart en laten de leercombo met rust. */
   rondeCtx = Q; combo = o.modus === "leer" ? (S.profiel.combo|0) : 0; updateCombo();
   toon("quiz"); volgendeVraag();
+  /* §9.6: wie na minstens twee overgeslagen dagen terugkomt, krijgt een welkom. De
+     streak wordt pas aan het eind van de ronde bijgewerkt, dus hier staat nog de oude dag. */
+  if(o.modus === "leer" && S.profiel.laatsteActieveDag && dagenGeleden(S.profiel.laatsteActieveDag) >= 3){
+    const id = Q.id;
+    setTimeout(() => { if(zelfdeRonde(id)) comes("terug", {goud: goudAantal()}); }, 700);
+  }
 }
 function volgendeVraag(){
   $("#qFb").innerHTML = "";
@@ -3033,6 +3383,9 @@ function volgendeVraag(){
   noteerGesteld(v.nr);
   Q.telWoord.set(v.nr, (Q.telWoord.get(v.nr) || 0) + 1);
   $("#qTel").textContent = `${Q.i+1} / ${Q.lengte}`;
+  const beantw = Q.goed + Q.fout + Q.bijna;      // §9.6: de dip halverwege een moeizame ronde
+  if(Q.lengte >= 10 && Q.i === Math.floor(Q.lengte / 2) && beantw && Q.goed / beantw <= 0.6)
+    comes("dip", {rest: Q.lengte - Q.i});
   $("#qBar").style.width = (Q.i / Q.lengte * 100) + "%";
 
   const w = BY_NR[v.nr];
@@ -3184,6 +3537,7 @@ function verwerk(uit, w, v, ctx){
   /* §7.4: een tikfout telt als juist — box, combo, typ-streak en accuraatheid lopen
      gewoon door. Alleen de XP is iets lager, zodat spelling nog iets betekent. */
   const goed = uit === "juist" || uit === "tikfout";
+  const comboVoor = combo;
   if(goed){
     it.juist++; p.totaalJuist++; it.opRij = (it.opRij|0) + 1;
     if(v.r === "L2V") p.vormJuist++;
@@ -3227,6 +3581,14 @@ function verwerk(uit, w, v, ctx){
     Q.fout++; Q.missers.push({nr:w.nr, r:v.r});
     if(Q.foutRonde) Q.foutRonde.add(iKey(w.nr, v.r));
     if(!stil){ sfx("fout"); flits("var(--fout)"); }
+  }
+  /* §9.6: een "bijna" telt niet als fout en breekt de reeks ook niet. */
+  if(goed) Q.foutOpRij = 0;
+  else if(uit !== "bijna"){
+    Q.foutOpRij = (Q.foutOpRij|0) + 1;            // Blitz kent de teller niet
+    if(Q.foutOpRij === 3) comes("reeks");
+    else if(comboVoor >= 6) comes("combo", {n: comboVoor});
+    else if(it.fout >= 3) comes("taai", {woord: w.kop, k: it.fout});
   }
   if(!goudVoor && isGoud(w.nr)) NIEUW_GOUD.add(w.nr);
   if(xp){ geefXP(xp); if(!stil) zweefXP(xp); }
@@ -3352,6 +3714,14 @@ function eindRonde(){
   $("#resHome").onclick = () => toon("home");
   toon("res");
   if(res.tessera) setTimeout(()=>toonVangst(res.tessera), 500);
+  /* §9.6: na een zware ronde, wat er wél vooruitging. Ná de tessera, zodat een open
+     modal hem gewoon laat vervallen. */
+  if(beantwoord >= 5 && Q.goed / beantwoord < 0.6){
+    const stevig = Object.values(S.items).filter(it => it.box >= 3).length;
+    const id = Q.id;                         // niet meer als hij al aan een nieuwe ronde zit
+    setTimeout(() => { if(Q && Q.id === id && $("#scr-res").classList.contains("on"))
+      comes("zwaar", {omhoog: omhoog.length, stevig}); }, 900);
+  }
 }
 
 /* ======================= ZWAKKE PLEKKEN ======================= */
@@ -3797,6 +4167,7 @@ function vulInstellingen(){
   $("#inToets").value  = S.settings.toetsdatum || "";
   $("#inGeluid").checked = S.settings.geluid;
   $("#inAnim").checked   = S.settings.animaties;
+  $("#inComites").checked = S.settings.comites !== false;
   $("#inRonde").value    = String(S.settings.rondelengte);
   $("#inStreng").value   = S.settings.strengheid;
   $("#inTyp").value      = S.settings.typAandeel;
@@ -3884,6 +4255,7 @@ $("#modal").onclick = e => { if(e.target.id === "modal") sluitModal(); };
 $("#inToets").onchange  = e => { S.settings.toetsdatum = e.target.value || null; bewaar(); updateHeader(); };
 $("#inGeluid").onchange = e => { S.settings.geluid = e.target.checked; bewaar(); };
 $("#inAnim").onchange   = e => { S.settings.animaties = e.target.checked; pasAnimToe(); bewaar(); };
+$("#inComites").onchange = e => { S.settings.comites = e.target.checked; bewaar(); };
 $("#inRonde").onchange  = e => { S.settings.rondelengte = +e.target.value; bewaar(); };
 $("#inStreng").onchange = e => { S.settings.strengheid = e.target.value; bewaar(); };
 $("#inTyp").onchange    = e => { S.settings.typAandeel = e.target.value; bewaar(); };

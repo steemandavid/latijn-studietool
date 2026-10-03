@@ -4,8 +4,9 @@
 
 | | |
 |---|---|
-| Versie | 1.11 |
-| Datum | 29 september 2026 |
+| Versie | 1.12 |
+| Datum | 3 oktober 2026 |
+| Wijziging t.o.v. 1.11 | **Comites** (nieuw §9.6): zes kleine figuurtjes uit de Romeinse wereld — het uiltje van Minerva, een gans van het Capitool, een legionair, de wolvin, een dolfijn uit de vloermozaïeken en een heilige kip — die op **dipmomenten** even linksonder opduiken met één droge zin: na drie fouten op rij, als een lange combo breekt, bij een woord dat blijft terugvechten, halverwege een moeizame ronde, na een zware ronde en bij een terugkeer na een paar dagen. Uitdrukkelijk **geen beloning**: geen XP, geen goud, geen geluid. Ze blokkeren niets, komen hoogstens één keer per ronde, nooit in Blitz of een toets, en hebben een eigen uitknop (§6.8, §8.2). Getekend op **32×32** in plaats van de 16×16 van de tesserae, zodat een uil ook echt een uil is. Het project heet voortaan `verba` (repo en map). |
 | Wijziging t.o.v. 1.10 | **Easter egg "Cloāca Maxima"** (nieuw §6.3a): wie in Ontdek een schuttingwoord intikt (`flatus`, `scheet`, `kont`…), vindt een geheime lade met 21 echte klassieke woorden die níét in het boek staan — van *crepitus* tot *furcifer* — elk met een weetje uit de bronnen. Bewust **buiten** de leermotor: geen nummer, geen Leitner, geen XP, niets in de save, en `woordenlijst.md` blijft het boek. Meteen gefixt: een klik op een rij in Ontdek vlak na het typen ging verloren (§6.3). |
 | Wijziging t.o.v. 1.9 | **De levelladder is verdubbeld en vertraagd** (§5.1). In de praktijk bleek ze in ongeveer een week uitgespeeld: twintig levels en 19 000 XP zijn te weinig voor een schooljaar. Er komen **20 levels bij, tot 40**, en de nieuwe twintig worden stelselmatig duurder — level 40 ligt op 461 000 XP. De eerste twintig levels houden **exact** hun oude namen en drempels, zodat niemand een rang verliest die hij al had. De nieuwe rangen zijn geen nieuwe carrière bovenop Iuppiter (daarboven staat niets) maar de **epitheta van Iuppiter zelf**, van *Custōs* tot *Optimus Maximus*. |
 | Wijziging t.o.v. 1.8 | In de instellingen een uitlegsectie **"Hoe leert VERBA je de woorden?"** (§6.8): een inklapbaar blok dat de didactische principes achter de leermotor in lekentaal uitlegt — actief ophalen, introductiekaart vóór de vragen, gespreide herhaling (§4.3), adaptief tempo (§4.4), interleving (§4.5), de twee leerrichtingen (§4.1), foutvriendelijke beoordeling (§7.4) en gamification als dagelijkse motivatie (hoofdstuk 5). Zelfde vorm als "Wat bewaart VERBA?" maar in **beide** builds, want het didactische werkingsprincipe is offline en online identiek. |
@@ -612,6 +613,7 @@ Het overzichtsscherm toont de 7 caputs, elk uitklapbaar naar hun secties, met pe
 - Toetsdatum (leegmaakbaar).
 - Geluid aan/uit (standaard aan).
 - Animaties aan/uit (standaard aan; respecteert ook `prefers-reduced-motion`).
+- **Aanmoedigingen** aan/uit (standaard aan): de comites van §9.6. Los van *Animaties*: met animaties uit komen ze nog, zonder beweging.
 - Rondelengte: 10 / 15 / 20 (standaard 15).
 - Strengheid bij typen: "soepel" (standaard) of "streng" (§7.4).
 - Hoeveel zelf typen: "weinig" / "gemiddeld" (standaard) / "veel" (§4.6).
@@ -956,6 +958,7 @@ dan is dat geen kennisfout maar een leesfout.
     "toetsdatum": "2026-09-24",       // of null
     "geluid": true,
     "animaties": true,
+    "comites": true,                  // aanmoedigingen op dipmomenten (§9.6)
     "rondelengte": 15,
     "strengheid": "soepel",           // "soepel" | "streng"
     "typAandeel": "gemiddeld",        // "weinig" | "gemiddeld" | "veel" (§4.6)
@@ -1074,11 +1077,116 @@ niets mag de leerling laten wachten.
 | Level-up | lauwerkrans schaalt in met het Romeinse cijfer, stralenkrans draait, confetti |
 | Nieuwe tessera | het steentje komt draaiend op en zweeft; confetti bij episch en legendarisch |
 | Primaire knop | trage glansveeg elke 4,5 s, zodat het scherm nooit helemaal stilstaat |
+| Comes (§9.6) | glijdt linksonder binnen, wiegt, knippert één keer met de ogen, glijdt weer weg |
 
 **Twee uitknoppen, en de systeemvoorkeur wint.** De instelling *Animaties* zet `html.geenanim`
 en daarmee alles stil. Los daarvan zet `@media (prefers-reduced-motion: reduce)` élke animatie-
 en overgangsduur op 1 ms. In JS beslist één functie, `magBewegen()`, of confetti, flitsen,
 zwevende XP en schudden mogen — die kijkt naar **beide**.
+
+### 9.6 Comites — aanmoediging op dipmomenten
+
+*Comes* (mv. *comites*) is een reisgezel. De comites zijn zes kleine figuurtjes die op het
+moment dat de motivatie kan wegzakken even opduiken met één zin. Ze zijn **geen beloning**:
+daar zijn XP, badges en tesserae al voor. Ze verschijnen dus niet na iets goeds, maar na iets
+moeilijks — en ze zeggen dan iets wat **waar** is.
+
+#### De figuren
+
+Elk figuur is een pixelfiguur van **32×32** (de tesserae zijn 16×16; dat is te grof voor een
+gezicht of een uil die je als uil herkent). Bron van waarheid is `comites/figuren.py`; ze
+worden getekend uit eenvoudige vormen, de omtrek komt er automatisch omheen, en
+`comites/contactblad.py` rendert ze naast elkaar — open én knipperend — om naar te kijken.
+`comites/injecteer.py` schrijft ze in `sjabloon.html` (tussen `/*__COMITES_BEGIN__*/` en
+`/*__COMITES_EINDE__*/`).
+
+| id | Naam | Wie | Waarom Romeins |
+|---|---|---|---|
+| `noctua` | Noctua | het uiltje van Minerva | de uil is het dier van Minerva, godin van de wijsheid |
+| `anser` | Ānser | een gans van het Capitool | de ganzen sloegen alarm toen de Galliërs in 390 v.C. 's nachts het Capitool beklommen |
+| `miles` | Mīles | een legionair | ijzeren *galea* met dwarse rode kam, *scūtum* in de hand |
+| `lupa` | Lupa | de wolvin van Romulus en Remus | het beeld van de stichting van Rome |
+| `delphinus` | Delphīnus | de dolfijn uit de vloermozaïeken | het meest getekende dier op Romeinse vloeren |
+| `pullus` | Pullus | een heilige kip van de augurs | vóór een veldslag keken de Romeinen of de heilige kippen gretig aten |
+
+- Het uiltje is de gastheer: het komt **twee keer zo vaak** als elk ander figuur.
+- **Nooit twee keer na elkaar** hetzelfde figuur, en nooit twee keer na elkaar dezelfde zin.
+- De ogen zijn getekend met de letters `w` (oogwit) en `e` (pupil). Het knipperbeeld vervangt
+  die door `k` (ooglid); zo heeft elk figuur zonder extra tekenwerk een tweede beeld.
+
+#### Wanneer — de zes signalen
+
+Alleen in een **leerronde** (`modus = "leer"`: Verder leren, Zwakke plekken, de herhaling van
+missers). Nooit in Blitz, een veroveringstoets, het examen, Ontdek of de flashcards: daar
+telt de tijd of is het een toets, en dan leidt alles af.
+
+| Signaal | Wanneer precies | Waar de zin over gaat |
+|---|---|---|
+| `terug` | bij de start van een leerronde, als `laatsteActieveDag` bestaat en **≥ 3 kalenderdagen** geleden is (dus minstens twee dagen overgeslagen) | welkom terug; de woorden zijn er nog, met het aantal gouden woorden als dat > 0 |
+| `reeks` | na het **derde foute antwoord op rij** binnen de ronde. Een "bijna" telt niet als fout en breekt de reeks niet; een juist antwoord wel | fouten kosten niets, ze vertellen de app wat er nog moet komen |
+| `combo` | een fout breekt een leercombo van **≥ 6** | de reeks breekt, de woorden blijven — met het getal erbij |
+| `taai` | een fout op een item dat daarmee **≥ 3 keer** fout ging | dit woord vecht terug, en komt daarom vaker terug — met het woord erbij |
+| `dip` | bij de vraag die de **tweede helft** van een ronde van ≥ 10 vragen opent, als hoogstens **60 %** van de beantwoorde vragen juist was | over de helft; neem je tijd, de app past zich aan (§4.4) |
+| `zwaar` | op het resultaatscherm van een ronde met **minder dan 60 %** juist (≥ 5 beantwoord) | wat er wél vooruitging: woorden omhoog in deze ronde, of anders het aantal woorden op box ≥ 3 |
+
+Vallen er bij één antwoord meerdere signalen samen, dan wint `reeks`, dan `combo`, dan `taai`.
+
+**Doseren — dit is wat het geen gezeur maakt:**
+- **Hoogstens één comes per ronde**, en tussen twee comites minstens **3 minuten**
+  (`COMES_PAUZE`), ook over rondes heen.
+- Niet terwijl er een modal openstaat (level-up, nieuw steentje); dan vervalt het, het wordt
+  niet uitgesteld.
+- Een signaal dat de ene keer valt, valt de volgende keer niet "dubbel": er is geen wachtrij.
+
+#### De zinnen
+
+Kort, droog, op de leerling gericht (§9.1). **Elke zin die iets beweert, berekent dat uit de
+save**; geen "je bent beter dan gisteren" zonder grond. Getallen en woorden worden ingevuld;
+een zin die een getal nodig heeft dat 0 is, valt uit de keuze.
+
+| Signaal | Zinnen |
+|---|---|
+| `terug` | *Welkom terug. Je woorden zijn er nog — {goud} ervan staan in goud.* · *Even weg geweest. De herhaling pikt op waar je gestopt bent.* · *Terug van weggeweest. Eén ronde vandaag telt al voor je streak.* |
+| `reeks` | *Drie op rij mis. Dat zijn precies de woorden waarvoor je hier bent.* · *Fouten kosten hier niets. Ze vertellen de app alleen wat er nog moet komen.* · *Even ademhalen. Lees het juiste antwoord rustig — dan blijft het beter hangen.* |
+| `combo` | *{n} op rij. Dat was geen toeval: die woorden zitten erin.* · *Een reeks van {n} breekt, de woorden blijven.* · *{n} juist op rij. De volgende reeks begint nu.* |
+| `taai` | *{woord} vecht terug. Daarom komt het vaker terug, tot het blijft.* · *{woord}, alweer. Kijk nog eens goed naar het juiste antwoord.* · *Taai woord, al {k} keer mis. Elke keer dat je het juiste antwoord leest, telt.* |
+| `dip` | *Over de helft. Wat nu moeilijk gaat, komt straks in de herhaling terug.* · *Nog {rest} vragen. Neem je tijd: de app past het tempo aan.* · *Halverwege. Zwaar rondje — en je zit er nog in.* |
+| `zwaar` | *Zware ronde, en toch gingen er {omhoog} woorden vooruit.* · *Geen vlotte ronde. Toch staan er nu {stevig} woorden stevig, op box 3 of hoger.* · *Deze woorden komen de volgende ronde terug. Dan ken je ze al een beetje.* |
+
+**Een motto.** In één op de drie verschijningen staat onder de zin een Latijns motto dat bij
+het signaal past, in de serif van het Latijn (§9.2), met de vertaling erbij:
+
+| Signaal | Motto | Vertaling |
+|---|---|---|
+| `terug` | *Nūlla diēs sine līneā.* | Geen dag zonder een lijn. — Plinius, over de schilder Apelles |
+| `reeks` | *Errāre hūmānum est.* | Vergissen is menselijk. |
+| `combo` | *Dum spīrō, spērō.* | Zolang ik adem, hoop ik. |
+| `taai` | *Gutta cavat lapidem.* | De druppel holt de steen uit. — Ovidius |
+| `taai` | *Repetītiō māter studiōrum.* | Herhaling is de moeder van het leren. |
+| `dip` | *Festīnā lentē.* | Haast je langzaam. — lijfspreuk van Augustus |
+| `zwaar` | *Per aspera ad astra.* | Langs ruwe wegen naar de sterren. |
+
+#### Hoe het eruitziet
+
+- **Linksonder**, vast in beeld (de combochip staat rechtsonder): het figuur en rechts ervan
+  een tekstballon. Boven in de ballon klein de naam en wie het is (*Noctua · het uiltje van
+  Minerva*), daaronder de zin, eventueel het motto.
+- Het figuur staat op **3×** (96 px), onder 520 px breed op **2×** (64 px), altijd met
+  `image-rendering: pixelated`.
+- **4,5 s** in beeld — lang genoeg om één zin te lezen — en dan weg. Een nieuwe vraag of een
+  ander scherm haalt hem niet eerder weg; hij staat toch nergens in de weg.
+- **Beweging** (alleen als `magBewegen()`): binnenglijden van onderen (420 ms), twee keer
+  zacht wiegen, één keer knipperen met de ogen na ± 1,6 s (150 ms), wegglijden (300 ms).
+  Zonder beweging verschijnt en verdwijnt hij gewoon, met de zin en zonder knipperen.
+- **Blokkeert nooit**: `pointer-events: none`, neemt de focus niet, houdt geen vraag tegen,
+  laat de leerling op niets wachten.
+- **Geen geluid, geen XP, geen goud**: goud is voor wat verdiend is (§9.2).
+- **Toegankelijk**: de ballon zit in een `role="status"`-regio met `aria-live="polite"`, zodat
+  een schermlezer de zin voorleest zonder te onderbreken; het figuur zelf heeft `alt=""`.
+- **Eigen uitknop**: instelling *Aanmoedigingen* (standaard aan, §6.8). Uit = nooit een comes.
+
+Niets van de comites komt in de save behalve die ene instelling: welk figuur en welke zin het
+laatst kwamen, en wanneer, leeft alleen zolang de app openstaat.
 - Groot, strak, veel witruimte. De vraag is het duidelijkste element op het scherm.
 - Het **Latijnse woord** wordt altijd in een serif-stack gezet (`Georgia, 'Times New Roman', serif`) en de Nederlandse tekst in de systeem-sans. Dat scheidt de twee talen visueel — belangrijk bij een vertaaltoets. Geen webfonts.
 - Macrons moeten leesbaar groot zijn; het woord staat in de vraag op minstens 2 rem.
@@ -1118,6 +1226,10 @@ verba/
 ├── tesserae/                    ← de 20 pixelfiguren
 │   ├── rasters.py               ← bron van waarheid voor de sprites
 │   ├── contactblad.py           ← rendert ze naast elkaar naar PNG — kijk ernaar
+│   └── injecteer.py             ← schrijft ze in sjabloon.html
+├── comites/                     ← de zes figuurtjes van §9.6, op 32×32
+│   ├── figuren.py               ← bron van waarheid: getekend uit vormen, omtrek automatisch
+│   ├── contactblad.py           ← open én knipperend naast elkaar — kijk ernaar
 │   └── injecteer.py             ← schrijft ze in sjabloon.html
 ├── FUNCTIONELE-SPECIFICATIE.md  ← dit document
 ├── changelog.md
@@ -1218,6 +1330,7 @@ verba/
 47. Een beheerst item (§4.3) komt niet terug als onderhoudsvulling: zolang er nog due of niet-beheerste onderhoudsitems buiten het herhalingsvenster liggen, wordt er geen enkel beheerst item gesteld, en de vulling rouleert — twintig vragen op rij leveren twintig verschillende items op in plaats van dezelfde handvol. Onderhoud kiest telkens het item dat het langst niet gesteld is. Alleen als er echt niets anders over is (stap 6 van §4.5) mag een beheerst item er weer bij, zodat een volledig beheerst pakket niet stilvalt. Smoke-13 meet dit.
 48. Het geslacht hoort bij de genitiefvraag (§7.2a). 343 van de 345 zelfstandige naamwoorden dragen er een — 153 gedrukt, 190 afgeleid en gemarkeerd met `ga`; alleen `alter` (174) en `plērīque` (247) niet. Een afgeleid geslacht staat in `vol` maar nooit in `v`. Bij alle 343 is de vorm zonder geslacht **fout** met "vergeten" als reden, is **elk ander geslacht fout**, is elk van de notatievarianten (`m`, `m.`, `mannelijk`, `masc.`, `m/v`, `m. en v.`, met of zonder `mv.`) juist, en blijft de volledige vorm juist — met en zonder macrons en scheidingstekens, en in strenge modus inclusief het geslacht. De vraagkop noemt het geslacht bij elk van die woorden, en 341 van de 343 meerkeuzevragen dragen een geslachtsvalstrik. `maak-data.py` weigert te bouwen als een `znw` zonder geslacht opduikt. Smoke-14 meet dit.
 49. De easter egg Cloāca Maxima (§6.3a) opent bij een sleutel in Ontdek en niet bij een gewone zoekterm, toont 21 flashcards met weetje en zonder woordnummer, en laat de save en de 1051 boekwoorden ongemoeid. Smoke-15 meet dit.
+50. De comites van §9.6 verschijnen op elk van de zes signalen en op geen ander moment: drie fouten op rij geven er één, ook met een "bijna" ertussen, maar fout–juist–fout–fout niet; in Blitz en een veroveringstoets nooit; hoogstens één per ronde en nooit binnen `COMES_PAUZE` van de vorige; nooit met *Aanmoedigingen* uit. Een comes verandert geen enkele teller (box, combo, XP, tempo-index), vangt geen klik af (`pointer-events: none`), staat in een `aria-live`-regio en is na 4,5 s weg. Hetzelfde figuur en dezelfde zin komen nooit twee keer na elkaar. Alle zes figuren zijn 32×32 en hebben ogen om mee te knipperen. Smoke-16 meet dit.
 
 ---
 

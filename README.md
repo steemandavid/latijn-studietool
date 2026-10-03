@@ -27,6 +27,11 @@ builds uit dezelfde bron**:
 - **Het mozaïek** op het beginscherm — alle 1051 woorden als één cel per woord, dat
   langzaam goud kleurt naarmate je ze beheerst.
 - XP, 40 levels, combo's, dagstreak, 20 badges en 20 tesserae.
+- **Comites** — zes kleine figuurtjes uit de Romeinse wereld (het uiltje van Minerva, een
+  gans van het Capitool, een legionair, de wolvin, een dolfijn, een heilige kip) die op een
+  dipmoment even linksonder opduiken met één droge zin: na drie fouten op rij, als een lange
+  combo breekt, halverwege een moeizame ronde. Geen beloning en geen gezeur: hoogstens één
+  per ronde, nooit in Blitz of een toets, en uit te zetten.
 - **Beheerste woorden komen niet meer terug** zolang ze niet écht aan herhaling toe zijn:
   een item op box 5 waarvan ook de laatste beurten foutloos waren, valt uit de
   onderhoudsvulling en wacht zijn 70 vragen én 7 dagen af. De vulling kiest bovendien het
@@ -91,6 +96,7 @@ regels op het scherm, zonder devtools (§13.8b).
 | `ONLINE-PLAN.md` | waarom de online modus is zoals ze is, en het meetrapport van de hosting |
 | `test/` | smoketests (headless Chromium via Playwright) + de servertests |
 | `tesserae/` | de pixelrasters van de verzamelsteentjes |
+| `comites/` | de zes aanmoedigingsfiguurtjes op 32×32: tekenscript, contactblad, injectie |
 | `mozaieken/` | de acht klasmozaïeken: rasters, schetsgereedschap, foto-import, contactblad, injectie |
 | `changelog.md` | wat er wanneer veranderd is, en waarom |
 
@@ -114,7 +120,7 @@ al op de machine stond — pas `executablePath` aan als die er niet meer is.
 for t in test/smoke-*.js; do node "$t" || break; done
 ```
 
-Elf offline suites, samen 168 checks; groen = exit 0. Daarnaast voor de online modus
+Dertien offline suites, samen 211 checks; groen = exit 0. Daarnaast voor de online modus
 `php test/samenvoegen-test.php` en `php test/grenzen-test.php` (geen server nodig), en met
 een beheersleutel `node test/api-test.js` en `node test/smoke-10-online-sync.js` tegen de
 echte server — zie `test/LEESMIJ.txt`. De belangrijkste test is de invariant in
@@ -123,8 +129,9 @@ door de app aanvaard worden, met en zonder macrons, in soepele en in strenge mod
 Smoke-8 legt het adaptieve tempo vast (grenswaarden, lengtecorrectie bij typen, een echte
 ronde door de UI), smoke-9 de herkansing bij een misgelezen vraag (alle tellers vóór en
 ná vergeleken), smoke-13 het opdelen van een vertaling in betekenissen plus het uit de
-rotatie vallen van beheerste items, smoke-14 het geslacht bij de genitiefvraag, en
-smoke-15 de verborgen lade *Cloāca Maxima* in Ontdek (spec §6.3a — niet verklappen aan de leerling).
+rotatie vallen van beheerste items, smoke-14 het geslacht bij de genitiefvraag,
+smoke-15 de verborgen lade *Cloāca Maxima* in Ontdek (spec §6.3a — niet verklappen aan de leerling),
+en smoke-16 de comites: elk signaal, en vooral wanneer ze níét mogen verschijnen.
 
 ## Herkomst van de woordenlijst
 

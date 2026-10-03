@@ -1,5 +1,64 @@
 # Changelog — verba (VERBA)
 
+## 2026-10-03 — Project hernoemd naar verba; comites: aanmoediging op dipmomenten (spec 1.12, §9.6)
+
+### Gevraagd
+*"Pas de naam van dit project aan naar verba. Update alle documentatie, github repo en de naam
+van deze projectfolder."* En daarna: *"kunnen we korte en kleine animaties maken die te gepasten
+tijde tevoorschijn komen in beeld, en die de gebruiker aanmoedigen? Niet zozeer als beloning,
+maar vooral op momenten waarop de motivatie zou kunnen verminderen."* Na het voorstel: het
+uiltje mag, maar *"12x12 is niet genoeg resolutie om herkenbaar te zijn, dus trek dat gevoelig
+op"*, en graag *"andere figuurtjes uit de Latijnse cultuur, zodat het figuurtje afwisseling
+heeft"*.
+
+### Hernoeming
+- GitHub-repo `steemandavid/latijn-studietool` → `steemandavid/verba` (`gh repo rename`;
+  GitHub stuurt de oude URL door), `origin` bijgewerkt.
+- Map `~/claudecode/projects/latijn-studietool` → `~/claudecode/projects/verba`. Het
+  Claude-geheugen hangt aan het mappad en is meegekopieerd.
+- De colofonlink, de mappenboom in §10 en de koppen van changelog en code-review aangepast.
+  Oudere changelog-items blijven zoals ze waren: dat is historiek.
+- De smoketests hadden het absolute pad naar de oude map hard ingebakken; ze bouwen het nu op
+  uit `__dirname`, zodat een volgende hernoeming niets breekt.
+- In `website-steeman.be` het bronpad in `CLAUDE.md` en de GitHub-link in de Verba-blogpost
+  aangepast — nog niet gecommit of uitgerold daar.
+
+### Comites (§9.6)
+Zes figuurtjes — **noctua** (uiltje van Minerva, de gastheer, komt dubbel zo vaak), **anser**
+(gans van het Capitool), **miles** (legionair met galea en scūtum), **lupa** (de wolvin),
+**delphinus** (dolfijn uit de vloermozaïeken), **pullus** (heilige kip van de augurs) — die
+linksonder opduiken met één zin en soms een Latijns motto (*festīnā lentē*, *gutta cavat
+lapidem*, …).
+
+**Zes signalen**, allemaal uit gegevens die de app al had: `terug` (≥ 3 dagen weg), `reeks`
+(3 fouten op rij; een "bijna" telt niet en breekt niet), `combo` (een combo ≥ 6 breekt),
+`taai` (een item voor de 3e keer fout), `dip` (halverwege een ronde met ≤ 60 % juist),
+`zwaar` (resultaatscherm na < 60 % juist, met wat er wél vooruitging). Elke zin die iets
+beweert, rekent het uit de save; een zin die een getal 0 nodig heeft, valt uit de keuze.
+
+**Doseren** was de eigenlijke ontwerpvraag: hoogstens één per ronde, minstens 3 minuten
+ertussen, alleen in leerrondes (nooit Blitz of toets), niet als er een modal openstaat (dan
+vervalt hij, geen wachtrij), nooit twee keer na elkaar hetzelfde figuur of dezelfde zin. Geen
+geluid, geen XP, geen goud. `pointer-events: none`, `aria-live="polite"`, 4,5 s in beeld.
+Eigen instelling *Aanmoedigingen* (`settings.comites`, standaard aan); verder komt er niets
+in de save. De server neemt `settings` als geheel over, dus daar hoefde niets te veranderen.
+
+**Resolutie.** De figuren zijn **32×32** (de tesserae zijn 16×16). Ze worden niet letter per
+letter getekend maar opgebouwd uit vormen (ellipsen, veelhoeken) in `comites/figuren.py`; de
+omtrek komt er automatisch omheen. Elk figuur heeft ogen in `w`/`e`, en het knipperbeeld
+vervangt die door `k` — zo knippert elk figuur zonder extra tekenwerk. Iteraties op het
+contactblad: de legionair leek eerst iemand met een baret (nu een ijzeren helm met dwarse rode
+kam), de dolfijn eerst een sikkel en daarna een haai (nu een ronde meloenkop, korte snuit en
+een kleine gebogen rugvin).
+
+### Tests
+Nieuw **smoke-16** (30 checks), waarvan het grootste deel bewaakt wanneer een comes níét mag
+komen. Alle offline suites groen: 13 suites, 211 checks. De online smokes (10–12) niet
+gedraaid; ze vragen `VERBA_BEHEER`, en de online build deelt de code met de offline build.
+
+### Niet gedaan
+- Niet uitgerold naar steeman.be/verba/.
+
 ## 2026-09-29 — Easter egg "Cloāca Maxima": 21 schuttingwoorden, getoetst aan de bronnen (spec 1.11, §6.3a)
 
 ### Gevraagd
